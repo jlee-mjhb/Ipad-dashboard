@@ -1,275 +1,745 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-
-  <!-- iOS Web App -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Dashboard">
-
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+  <meta charset="utf-8">
   <title>Dashboard</title>
 
-  <!-- ✅ Fonts (CORRECTLY DECLARED) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <!-- iOS Home Screen Web App -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple?family=Share+Tech+Mono">  <meta name="apple-mobile-web-app-title" content="Dashboard">
 
-<style>
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  background: #0d0d0d;
-  color: #ffffff;
-  font-family: Inter, Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 32px 24px;
-}
-
-/* CLOCK */
-.clock {
-  display: flex;
-  margin-bottom: 14px;
-}
-
-.flip {
-  width: 72px;
-  height: 110px;
-  margin: 0 4px;
-  background: #111;
-  border-radius: 8px;
-  border: 1px solid #2a2a2a;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 76px;
-  text-align: center;
-  line-height: 110px;
-  position: relative;
-}
-
-.flip span { position: absolute; inset: 0; }
-
-.flip:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: #333;
-}
-
-.date {
-  color: #999;
-  font-size: 0.9rem;
-  letter-spacing: 0.14em;
-  margin-bottom: 28px;
-}
-
-/* CARDS */
-.cards {
-  max-width: 900px;
-  width: 100%;
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.card {
-  flex: 1 1 300px;
-  background: #161616;
-  border: 1px solid #2a2a2a;
-  border-radius: 20px;
-  padding: 24px;
-}
-
-.card-title {
-  font-size: 0.65rem;
-  letter-spacing: 0.18em;
-  color: #888;
-  margin-bottom: 18px;
-}
-
-/* WEATHER */
-.temp {
-  font-size: 3.2rem;
-  font-family: 'Share Tech Mono', monospace;
-}
-
-.week {
-  margin-top: 18px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.day {
-  text-align: center;
-  font-size: 0.75rem;
-  color: #aaa;
-}
-
-.day strong {
-  display: block;
-  color: #fff;
-}
-
-/* CALENDAR */
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-  font-size: 0.75rem;
-}
-
-.calendar .dow {
-  color: #666;
-  font-weight: bold;
-}
-
-.today {
-  background: #4a9eff;
-  border-radius: 6px;
-}
-
-/* MOBILE */
-@media (max-width: 500px) {
-  .flip {
-    width: 52px;
-    height: 80px;
-    line-height: 80px;
-    font-size: 52px;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="clock" id="clock"></div>
-<div class="date" id="date"></div>
-
-<div class="cards">
-  <div class="card">
-    <div class="card-title">JOHANNESBURG</div>
-    <div class="temp" id="temp">--°</div>
-    <div id="desc">Loading</div>
-    <div class="week" id="week"></div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">CALENDAR</div>
-    <div class="calendar" id="calendar"></div>
-  </div>
-</div>
-
-<script>
-var DAYS_SHORT = ['Su','Mo','Tu','We','Th','Fr','Sa'];
-var DAYS_FULL  = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-var MONTHS = ['January','February','March','April','May','June',
-              'July','August','September','October','November','December'];
-
-/* CLOCK */
-function buildClock() {
-  var c = document.getElementById('clock');
-  c.innerHTML = '';
-  for (var i = 0; i < 8; i++) {
-    var d = document.createElement('div');
-    d.className = 'flip';
-    d.innerHTML = '<span>0</span>';
-    c.appendChild(d);
-  }
-}
-
-function updateClock() {
-  var now = new Date();
-  var t = now.toTimeString().slice(0, 8);
-  var spans = document.querySelectorAll('.flip span');
-  for (var i = 0; i < spans.length; i++) {
-    spans[i].textContent = t[i] || '';
-  }
-  document.getElementById('date').textContent =
-    DAYS_FULL[now.getDay()] + ', ' +
-    now.getDate() + ' ' +
-    MONTHS[now.getMonth()] + ' ' +
-    now.getFullYear();
-}
-
-buildClock();
-updateClock();
-setInterval(updateClock, 1000);
-
-/* WEATHER – XHR */
-function getJSON(url, callback) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', url, true);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      callback(JSON.parse(xhr.responseText));
+  <style>
+    * {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
     }
-  };
-  xhr.send();
-}
 
-function loadWeather() {
-  getJSON(
-    'https://api.open-meteo.com/v1/forecast?' +
-    'latitude=-26.2041&longitude=28.0473' +
-    '&current=temperature_2m' +
-    '&daily=temperature_2m_max' +
-    '&timezone=Africa/Johannesburg',
-    function (data) {
-      document.getElementById('temp').textContent =
-        Math.round(data.current.temperature_2m) + '°C';
-      document.getElementById('desc').textContent = 'Today';
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #0d0d0d;
+      color: #ffffff;
+      font-family: -apple-system, Helvetica, Arial, sans-serif;
+    }
 
-      var w = document.getElementById('week');
-      w.innerHTML = '';
-      for (var i = 1; i < 7; i++) {
-        var d = document.createElement('div');
-        d.className = 'day';
-        d.innerHTML =
-          DAYS_SHORT[new Date(data.daily.time[i]).getDay()] +
-          '<strong>' + Math.round(data.daily.temperature_2m_max[i]) + '°</strong>';
-        w.appendChild(d);
+    body {
+      padding: 22px 14px 26px 14px;
+      text-align: center;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    /* ───────────────── CLOCK ───────────────── */
+    .clock-wrap {
+      margin: 2px 0 26px 0;
+    }
+
+    .clock {
+      white-space: nowrap;
+      margin: 0 auto 16px auto;
+      font-size: 0;
+    }
+
+    .flip-digit,
+    .flip-colon {
+      display: inline-block;
+      vertical-align: top;
+      margin: 0 3px;
+    }
+
+    .flip-digit {
+      position: relative;
+      width: 78px;
+      height: 116px;
+      -webkit-perspective: 500px;
+      perspective: 500px;
+    }
+
+    .flip-colon {
+      width: 30px;
+      height: 116px;
+      position: relative;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 74px;
+      line-height: 110px;
+      color: #f2f2f2;
+      text-align: center;
+    }
+
+    .flip-colon .colon-char {
+      display: block;
+      width: 100%;
+      height: 100%;
+      line-height: 110px;
+    }
+
+    .flip-card {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 50%;
+      overflow: hidden;
+      background: #111111;
+      border-left: 1px solid #2a2a2a;
+      border-right: 1px solid #2a2a2a;
+      color: #f4f4f4;
+      font-family: 'Share Tech Mono', monospace;
+      text-align: center;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+
+    .flip-card span {
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 100%;
+      font-size: 82px;
+      color: #f4f4f4;
+    }
+
+    .flip-top,
+    .flip-top-next {
+      top: 0;
+      border-top: 1px solid #2a2a2a;
+      border-bottom: 1px solid #1b1b1b;
+      border-radius: 8px 8px 0 0;
+      -webkit-transform-origin: center bottom;
+      transform-origin: center bottom;
+    }
+
+    .flip-bottom,
+    .flip-bottom-next {
+      bottom: 0;
+      border-top: 1px solid #090909;
+      border-bottom: 1px solid #2a2a2a;
+      border-radius: 0 0 8px 8px;
+      -webkit-transform-origin: center top;
+      transform-origin: center top;
+    }
+
+    .flip-top span,
+    .flip-top-next span {
+      top: 0;
+      line-height: 116px;
+    }
+
+    .flip-bottom span,
+    .flip-bottom-next span {
+      bottom: 0;
+      line-height: 116px;
+    }
+
+    .flip-top,
+    .flip-bottom {
+      z-index: 2;
+    }
+
+    .flip-top-next,
+    .flip-bottom-next {
+      z-index: 3;
+      display: none;
+    }
+
+    .flip-digit.animating .flip-top-next,
+    .flip-digit.animating .flip-bottom-next {
+      display: block;
+    }
+
+    .flip-digit.animating .flip-top-next {
+      z-index: 5;
+      -webkit-animation: flipTop 0.28s ease-in forwards;
+      animation: flipTop 0.28s ease-in forwards;
+    }
+
+    .flip-digit.animating .flip-bottom-next {
+      z-index: 4;
+      -webkit-transform: rotateX(90deg);
+      transform: rotateX(90deg);
+      -webkit-animation: flipBottom 0.28s ease-out 0.28s forwards;
+      animation: flipBottom 0.28s ease-out 0.28s forwards;
+    }
+
+    @-webkit-keyframes flipTop {
+      0%   { -webkit-transform: rotateX(0deg); transform: rotateX(0deg); }
+      100% { -webkit-transform: rotateX(-90deg); transform: rotateX(-90deg); }
+    }
+
+    @keyframes flipTop {
+      0%   { -webkit-transform: rotateX(0deg); transform: rotateX(0deg); }
+      100% { -webkit-transform: rotateX(-90deg); transform: rotateX(-90deg); }
+    }
+
+    @-webkit-keyframes flipBottom {
+      0%   { -webkit-transform: rotateX(90deg); transform: rotateX(90deg); }
+      100% { -webkit-transform: rotateX(0deg); transform: rotateX(0deg); }
+    }
+
+    @keyframes flipBottom {
+      0%   { -webkit-transform: rotateX(90deg); transform: rotateX(90deg); }
+      100% { -webkit-transform: rotateX(0deg); transform: rotateX(0deg); }
+    }
+
+    .date {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      color: #9a9a9a;
+    }
+
+    /* ───────────────── CARDS ───────────────── */
+    .cards {
+      margin: 0 -10px;
+      font-size: 0;
+    }
+
+    .card {
+      display: inline-block;
+      vertical-align: top;
+      width: 50%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .card-inner {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 18px;
+      padding: 22px 20px;
+      min-height: 320px;
+      text-align: left;
+    }
+
+    .card-title {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      color: #888888;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    /* ───────────────── WEATHER ───────────────── */
+    .weather-now {
+      margin-bottom: 18px;
+    }
+
+    .weather-temp {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 58px;
+      line-height: 1;
+      color: #ffffff;
+    }
+
+    .weather-desc {
+      margin-top: 8px;
+      font-size: 18px;
+      color: #9b9b9b;
+    }
+
+    .weather-week {
+      font-size: 0;
+      margin-top: 10px;
+    }
+
+    .weather-day {
+      display: inline-block;
+      vertical-align: top;
+      width: 14.285%;
+      text-align: center;
+      font-size: 13px;
+      color: #aaaaaa;
+    }
+
+    .weather-day-name {
+      margin-bottom: 6px;
+    }
+
+    .weather-day-icon {
+      font-size: 18px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      color: #ffffff;
+      height: 22px;
+    }
+
+    .weather-day-temp {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      color: #ffffff;
+      line-height: 1.35;
+    }
+
+    /* ───────────────── CALENDAR ───────────────── */
+    .cal-header {
+      margin-bottom: 12px;
+      font-size: 18px;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .calendar {
+      font-size: 0;
+    }
+
+    .cal-cell {
+      display: inline-block;
+      vertical-align: top;
+      width: 14.285%;
+      text-align: center;
+      padding: 7px 0;
+      font-size: 14px;
+      color: #ffffff;
+    }
+
+    .cal-cell.dow {
+      color: #777777;
+      font-weight: bold;
+      padding-bottom: 10px;
+    }
+
+    .cal-cell.empty {
+      visibility: hidden;
+    }
+
+    .cal-cell.today {
+      background: #4a9eff;
+      border-radius: 6px;
+    }
+
+    /* ───────────────── SMALL SCREENS ───────────────── */
+    @media screen and (max-width: 760px) {
+      .card {
+        width: 100%;
+      }
+
+      .card-inner {
+        min-height: 0;
       }
     }
-  );
-}
 
-loadWeather();
+    @media screen and (max-width: 520px) {
+      body {
+        padding: 14px 8px 20px 8px;
+      }
 
-/* CALENDAR */
-function buildCalendar() {
-  var cal = document.getElementById('calendar');
-  cal.innerHTML = '';
-  var now = new Date();
-  var first = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
-  var days = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+      .flip-digit {
+        width: 56px;
+        height: 84px;
+        margin: 0 2px;
+      }
 
-  for (var i = 0; i < 7; i++) {
-    var h = document.createElement('div');
-    h.className = 'dow';
-    h.textContent = DAYS_SHORT[i];
-    cal.appendChild(h);
-  }
+      .flip-colon {
+        width: 20px;
+        height: 84px;
+        font-size: 50px;
+        line-height: 80px;
+      }
 
-  for (i = 0; i < first; i++) cal.appendChild(document.createElement('div'));
+      .flip-colon .colon-char {
+        line-height: 80px;
+      }
 
-  for (i = 1; i <= days; i++) {
-    var d = document.createElement('div');
-    d.textContent = i;
-    if (i === now.getDate()) d.className = 'today';
-    cal.appendChild(d);
-  }
-}
+      .flip-card span {
+        font-size: 58px;
+      }
 
-buildCalendar();
-</script>
+      .flip-top span,
+      .flip-top-next span,
+      .flip-bottom span,
+      .flip-bottom-next span {
+        line-height: 84px;
+      }
 
+      .date {
+        font-size: 14px;
+      }
+
+      .weather-temp {
+        font-size: 44px;
+      }
+
+      .weather-desc,
+      .cal-header {
+        font-size: 16px;
+      }
+
+      .weather-day {
+        font-size: 11px;
+      }
+
+      .weather-day-temp {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="clock-wrap">
+      <div class="clock" id="clock"></div>
+      <div class="date" id="date">Loading date…</div>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-title">Johannesburg Weather</div>
+          <div class="weather-now">
+            <div class="weather-temp" id="weather-temp">--°C</div>
+            <div class="weather-desc" id="weather-desc">Loading weather…</div>
+          </div>
+          <div class="weather-week" id="weather-week"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-title">Calendar</div>
+          <div class="cal-header" id="cal-month-year">Loading…</div>
+          <div class="calendar" id="calendar"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    var DAYS_FULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var DAYS_SHORT = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+    var DAYS_MED = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+                  'July', 'August', 'September', 'October', 'November', 'December'];
+
+    var WMO = {
+      0:  { label: 'Clear',            icon: '☀' },
+      1:  { label: 'Mainly clear',     icon: '⛅' },
+      2:  { label: 'Partly cloudy',    icon: '⛅' },
+      3:  { label: 'Overcast',         icon: '☁' },
+      45: { label: 'Fog',              icon: '〰' },
+      48: { label: 'Fog',              icon: '〰' },
+      51: { label: 'Light drizzle',    icon: '☂' },
+      53: { label: 'Drizzle',          icon: '☂' },
+      55: { label: 'Heavy drizzle',    icon: '☂' },
+      56: { label: 'Freezing drizzle', icon: '☂' },
+      57: { label: 'Freezing drizzle', icon: '☂' },
+      61: { label: 'Light rain',       icon: '☂' },
+      63: { label: 'Rain',             icon: '☂' },
+      65: { label: 'Heavy rain',       icon: '☂' },
+      66: { label: 'Freezing rain',    icon: '☂' },
+      67: { label: 'Freezing rain',    icon: '☂' },
+      71: { label: 'Light snow',       icon: '❄' },
+      73: { label: 'Snow',             icon: '❄' },
+      75: { label: 'Heavy snow',       icon: '❄' },
+      77: { label: 'Snow grains',      icon: '❄' },
+      80: { label: 'Rain showers',     icon: '☂' },
+      81: { label: 'Rain showers',     icon: '☂' },
+      82: { label: 'Heavy showers',    icon: '☂' },
+      85: { label: 'Snow showers',     icon: '❄' },
+      86: { label: 'Snow showers',     icon: '❄' },
+      95: { label: 'Thunderstorm',     icon: '⚡' },
+      96: { label: 'Thunderstorm',     icon: '⚡' },
+      99: { label: 'Thunderstorm',     icon: '⚡' }
+    };
+
+    function pad2(n) {
+      return n < 10 ? '0' + n : '' + n;
+    }
+
+    function weatherInfo(code) {
+      if (WMO.hasOwnProperty(code)) {
+        return WMO[code];
+      }
+      return { label: 'Weather', icon: '•' };
+    }
+
+    /* ───────────────── FLIP CLOCK ───────────────── */
+
+    function createSpan(text) {
+      var span = document.createElement('span');
+      span.appendChild(document.createTextNode(text));
+      return span;
+    }
+
+    function createHalf(className, text) {
+      var div = document.createElement('div');
+      div.className = 'flip-card ' + className;
+      div.appendChild(createSpan(text));
+      return div;
+    }
+
+    function createDigitElement(ch) {
+      var el = document.createElement('div');
+      el.className = 'flip-digit';
+      el.setAttribute('data-value', ch);
+
+      el.topCurrent = createHalf('flip-top', ch);
+      el.bottomCurrent = createHalf('flip-bottom', ch);
+      el.topNext = createHalf('flip-top-next', ch);
+      el.bottomNext = createHalf('flip-bottom-next', ch);
+
+      el.appendChild(el.topCurrent);
+      el.appendChild(el.bottomCurrent);
+      el.appendChild(el.topNext);
+      el.appendChild(el.bottomNext);
+
+      return el;
+    }
+
+    function createColonElement() {
+      var el = document.createElement('div');
+      el.className = 'flip-colon';
+      el.appendChild((function () {
+        var c = document.createElement('div');
+        c.className = 'colon-char';
+        c.appendChild(document.createTextNode(':'));
+        return c;
+      })());
+      return el;
+    }
+
+    function setHalfText(half, text) {
+      if (half && half.getElementsByTagName('span')[0]) {
+        half.getElementsByTagName('span')[0].textContent = text;
+      }
+    }
+
+    function finalizeDigit(el, value) {
+      setHalfText(el.topCurrent, value);
+      setHalfText(el.bottomCurrent, value);
+      setHalfText(el.topNext, value);
+      setHalfText(el.bottomNext, value);
+      el.setAttribute('data-value', value);
+      el.className = 'flip-digit';
+    }
+
+    function animateDigitTo(el, newValue) {
+      var oldValue = el.getAttribute('data-value');
+
+      if (oldValue === newValue) {
+        return;
+      }
+
+      if (el._busy) {
+        finalizeDigit(el, newValue);
+        el._busy = false;
+      }
+
+      el._busy = true;
+
+      setHalfText(el.topCurrent, oldValue);
+      setHalfText(el.bottomCurrent, newValue);
+
+      setHalfText(el.topNext, oldValue);
+      setHalfText(el.bottomNext, newValue);
+
+      el.className = 'flip-digit animating';
+
+      setTimeout(function () {
+        finalizeDigit(el, newValue);
+        el._busy = false;
+      }, 620);
+    }
+
+    function buildClock() {
+      var clock = document.getElementById('clock');
+      clock.innerHTML = '';
+
+      clock.appendChild(createDigitElement('0'));
+      clock.appendChild(createDigitElement('0'));
+      clock.appendChild(createColonElement());
+      clock.appendChild(createDigitElement('0'));
+      clock.appendChild(createDigitElement('0'));
+      clock.appendChild(createColonElement());
+      clock.appendChild(createDigitElement('0'));
+      clock.appendChild(createDigitElement('0'));
+    }
+
+    function updateClock() {
+      var now = new Date();
+      var text = pad2(now.getHours()) + ':' + pad2(now.getMinutes()) + ':' + pad2(now.getSeconds());
+      var clock = document.getElementById('clock');
+      var children = clock.childNodes;
+      var i, index = 0;
+
+      for (i = 0; i < children.length; i++) {
+        if (children[i].className && children[i].className.indexOf('flip-digit') !== -1) {
+          while (text.charAt(index) === ':') {
+            index++;
+          }
+          animateDigitTo(children[i], text.charAt(index));
+          index++;
+        }
+      }
+
+      document.getElementById('date').textContent =
+        DAYS_FULL[now.getDay()] + ', ' +
+        now.getDate() + ' ' +
+        MONTHS[now.getMonth()] + ' ' +
+        now.getFullYear();
+    }
+
+    /* ───────────────── WEATHER ───────────────── */
+
+    function showWeatherError() {
+      document.getElementById('weather-temp').textContent = '--°C';
+      document.getElementById('weather-desc').textContent = 'Weather unavailable';
+      document.getElementById('weather-week').innerHTML = '';
+    }
+
+    function loadWeather() {
+      var url = 'https://api.open-meteo.com/v1/forecast' +
+        '?latitude=-26.2041&longitude=28.0473' +
+        '&current=temperature_2m,weather_code' +
+        '&daily=weather_code,temperature_2m_max,temperature_2m_min' +
+        '&forecast_days=7' +
+        '&timezone=Africa%2FJohannesburg';
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.timeout = 12000;
+
+      xhr.onreadystatechange = function () {
+        var data, currentInfo, week, i, item, info, dateObj, name, html;
+
+        if (xhr.readyState !== 4) {
+          return;
+        }
+
+        if (xhr.status !== 200) {
+          showWeatherError();
+          return;
+        }
+
+        try {
+          data = JSON.parse(xhr.responseText);
+        } catch (e) {
+          showWeatherError();
+          return;
+        }
+
+        if (!data || !data.current || !data.daily || !data.daily.time) {
+          showWeatherError();
+          return;
+        }
+
+        currentInfo = weatherInfo(data.current.weather_code);
+        document.getElementById('weather-temp').textContent =
+          Math.round(data.current.temperature_2m) + '°C';
+        document.getElementById('weather-desc').textContent = currentInfo.label;
+
+        week = document.getElementById('weather-week');
+        week.innerHTML = '';
+
+        for (i = 0; i < data.daily.time.length && i < 7; i++) {
+          item = document.createElement('div');
+          item.className = 'weather-day';
+
+          info = weatherInfo(data.daily.weather_code[i]);
+          dateObj = new Date(data.daily.time[i]);
+          name = DAYS_MED[dateObj.getDay()];
+
+          html = '';
+          html += '<div class="weather-day-name">' + name + '</div>';
+          html += '<div class="weather-day-icon">' + info.icon + '</div>';
+          html += '<div class="weather-day-temp">';
+          html += Math.round(data.daily.temperature_2m_max[i]) + '°';
+          html += '<br>';
+          html += Math.round(data.daily.temperature_2m_min[i]) + '°';
+          html += '</div>';
+
+          item.innerHTML = html;
+          week.appendChild(item);
+        }
+      };
+
+      xhr.onerror = showWeatherError;
+      xhr.ontimeout = showWeatherError;
+      xhr.send(null);
+    }
+
+    /* ───────────────── CALENDAR ───────────────── */
+
+    function buildCalendar() {
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = now.getMonth();
+      var today = now.getDate();
+      var firstDow = new Date(year, month, 1).getDay();
+      var daysInMonth = new Date(year, month + 1, 0).getDate();
+      var cal = document.getElementById('calendar');
+      var header = document.getElementById('cal-month-year');
+      var i, d, cell;
+
+      cal.innerHTML = '';
+      header.textContent = MONTHS[month] + ' ' + year;
+
+      for (i = 0; i < 7; i++) {
+        cell = document.createElement('div');
+        cell.className = 'cal-cell dow';
+        cell.appendChild(document.createTextNode(DAYS_SHORT[i]));
+        cal.appendChild(cell);
+      }
+
+      for (i = 0; i < firstDow; i++) {
+        cell = document.createElement('div');
+        cell.className = 'cal-cell empty';
+        cell.appendChild(document.createTextNode('.'));
+        cal.appendChild(cell);
+      }
+
+      for (d = 1; d <= daysInMonth; d++) {
+        cell = document.createElement('div');
+        cell.className = 'cal-cell' + (d === today ? ' today' : '');
+        cell.appendChild(document.createTextNode(d));
+        cal.appendChild(cell);
+      }
+    }
+
+    /* ───────────────── INIT ───────────────── */
+
+    buildClock();
+    buildCalendar();
+    loadWeather();
+
+    /* Set the initial clock state immediately without waiting for the first full animation cycle */
+    (function initClockNow() {
+      var now = new Date();
+      var text = pad2(now.getHours()) + pad2(now.getMinutes()) + pad2(now.getSeconds());
+      var clock = document.getElementById('clock');
+      var children = clock.childNodes;
+      var i, t = 0;
+
+      for (i = 0; i < children.length; i++) {
+        if (children[i].className && children[i].className.indexOf('flip-digit') !== -1) {
+          finalizeDigit(children[i], text.charAt(t));
+          t++;
+        }
+      }
+
+      document.getElementById('date').textContent =
+        DAYS_FULL[now.getDay()] + ', ' +
+        now.getDate() + ' ' +
+        MONTHS[now.getMonth()] + ' ' +
+        now.getFullYear();
+    })();
+
+    setInterval(updateClock, 1000);
+    setInterval(loadWeather, 15 * 60 * 1000);
+  </script>
 </body>
 </html>
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+  <!-- Put an icon with this filename next to the HTML file -->
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- One simple font for best old-Safari compatibility -->
