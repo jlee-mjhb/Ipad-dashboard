@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Dashboard</title>
+  <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono|Inter:300,400,600" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { -webkit-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d0d0d;
+      color: #ffffff;
+      font-family: 'Inter', -apple-system, sans-serif;
+      min-height: 100vh;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    /* ── CLOCK ────────────────────────────────── */
+    .clock-card {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    #clock {
+      font-family: 'Share Tech Mono', 'Courier New', monospace;
+      font-size: 80px;
+      color: #ffffff;
+      text-shadow:
+        0 0 4px rgba(255,255,255,0.9),
+        0 0 12px rgba(255,255,255,0.6),
+        0 0 30px rgba(255,255,255,0.25),
+        2px 2px 0px rgba(0,0,0,0.8);
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    #date-display {
+      font-size: 1.1rem;
+      color: #888888;
+      margin-top: 8px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── CARDS ────────────────────────────────── */
+    .cards {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 -10px;
+    }
+
+    .card {
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 16px;
+      padding: 20px 24px;
+      width: calc(50% - 20px);
+      margin: 10px;
+    }
+
+    .card-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #888888;
+      margin-bottom: 14px;
+    }
+
+    /* ── WEATHER ──────────────────────────────── */
+    .weather-icon {
+      font-size: 2.8rem;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .weather-temp {
+      font-family: 'Share Tech Mono', 'Courier New', monospace;
+      font-size: 3rem;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .weather-desc {
+      font-size: 0.95rem;
+      color: #888888;
+      margin-top: 4px;
+    }
+
+    .weather-meta {
+      margin-top: 14px;
+      display: -webkit-flex;
+      display: flex;
+    }
+
+    .weather-meta span {
+      font-size: 0.8rem;
+      color: #888888;
+      margin-right: 16px;
+    }
+
+    .weather-meta strong { color: #ffffff; }
+
+    /* ── CALENDAR ─────────────────────────────── */
+    #cal-month-year {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .cal-grid {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      flex-wrap: wrap;
+    }
+
+    .cal-cell {
+      width: 14.285%;
+      text-align: center;
+      padding: 5px 2px;
+      font-size: 0.78rem;
+      color: #ffffff;
+    }
+
+    .cal-cell.dow {
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: #888888;
+      text-transform: uppercase;
+      padding-bottom: 4px;
+    }
+
+    .cal-cell.today {
+      background: #4a9eff;
+      color: #ffffff;
+      font-weight: 700;
+      border-radius: 4px;
+    }
+
+    .cal-cell.empty { visibility: hidden; }
+
+    @media (max-width: 480px) {
+      .card { width: calc(100% - 20px); }
+      #clock { font-size: 52px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="clock-card">
+    <div id="clock">00:00:00</div>
+    <div id="date-display">Loading...</div>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-title">Johannesburg Weather</div>
+      <div id="weather-icon" class="weather-icon">&#8987;</div>
+      <div id="weather-temp" class="weather-temp">--&#176;C</div>
+      <div id="weather-desc" class="weather-desc">Fetching...</div>
+      <div class="weather-meta">
+        <span>Humidity: <strong id="weather-humidity">--</strong>%</span>
+        <span>Wind: <strong id="weather-wind">--</strong> km/h</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Calendar</div>
+      <div id="cal-month-year"></div>
+      <div class="cal-grid" id="cal-grid"></div>
+    </div>
+  </div>
+
+  <script>
+    var DAYS   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var MONTHS = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+
+    var WMO_CODES = {
+      0:  ['Clear Sky', '&#9728;'],
+      1:  ['Mainly Clear', '&#127780;'],
+      2:  ['Partly Cloudy', '&#9925;'],
+      3:  ['Overcast', '&#9729;'],
+      45: ['Foggy', '&#127787;'],
+      48: ['Icy Fog', '&#127787;'],
+      51: ['Light Drizzle', '&#127782;'],
+      53: ['Drizzle', '&#127782;'],
+      55: ['Heavy Drizzle', '&#127783;'],
+      61: ['Light Rain', '&#127783;'],
+      63: ['Rain', '&#127783;'],
+      65: ['Heavy Rain', '&#127783;'],
+      71: ['Light Snow', '&#127784;'],
+      73: ['Snow', '&#10052;'],
+      75: ['Heavy Snow', '&#10052;'],
+      80: ['Rain Showers', '&#127782;'],
+      81: ['Rain Showers', '&#127782;'],
+      82: ['Violent Showers', '&#9928;'],
+      95: ['Thunderstorm', '&#9928;'],
+      96: ['Thunderstorm', '&#9928;'],
+      99: ['Thunderstorm', '&#9928;']
+    };
+
+    function padTwo(n) {
+      return n < 10 ? '0' + n : '' + n;
+    }
+
+    // ── Clock ──────────────────────────────────
+    function updateClock() {
+      var now = new Date();
+      document.getElementById('clock').textContent =
+        padTwo(now.getHours()) + ':' + padTwo(now.getMinutes()) + ':' + padTwo(now.getSeconds());
+      document.getElementById('date-display').textContent =
+        DAYS[now.getDay()] + ', ' + now.getDate() + ' ' + MONTHS[now.getMonth()] + ' ' + now.getFullYear();
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // ── XHR helper ─────────────────────────────
+    function getJSON(url, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4) return;
+        if (xhr.status === 200) {
+          try { callback(null, JSON.parse(xhr.responseText)); }
+          catch(e) { callback(e, null); }
+        } else {
+          callback(new Error('HTTP ' + xhr.status), null);
+        }
+      };
+      xhr.send();
+    }
+
+    // ── Weather (direct to Open-Meteo) ─────────
+    function loadWeather() {
+      var url = 'https://api.open-meteo.com/v1/forecast' +
+        '?latitude=-26.2041&longitude=28.0473' +
+        '&current=temperature_2m,weathercode,windspeed_10m,relative_humidity_2m' +
+        '&timezone=Africa%2FJohannesburg';
+
+      getJSON(url, function(err, data) {
+        if (err || !data || !data.current) {
+          document.getElementById('weather-desc').textContent = 'Unavailable';
+          return;
+        }
+        var c = data.current;
+        var code = c.weathercode;
+        var info = WMO_CODES[code] || ['Unknown', '&#127777;'];
+        document.getElementById('weather-icon').innerHTML = info[1];
+        document.getElementById('weather-temp').textContent = Math.round(c.temperature_2m) + '°C';
+        document.getElementById('weather-desc').textContent = info[0];
+        document.getElementById('weather-humidity').textContent = c.relative_humidity_2m;
+        document.getElementById('weather-wind').textContent = Math.round(c.windspeed_10m);
+      });
+    }
+    loadWeather();
+    setInterval(loadWeather, 10 * 60 * 1000);
+
+    // ── Calendar ───────────────────────────────
+    function buildCalendar() {
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = now.getMonth();
+      var today = now.getDate();
+      var DOWS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+      var grid = document.getElementById('cal-grid');
+      var header = document.getElementById('cal-month-year');
+      var i, el;
+
+      grid.innerHTML = '';
+      header.textContent = MONTHS[month] + ' ' + year;
+
+      for (i = 0; i < DOWS.length; i++) {
+        el = document.createElement('div');
+        el.className = 'cal-cell dow';
+        el.textContent = DOWS[i];
+        grid.appendChild(el);
+      }
+
+      var firstDow = new Date(year, month, 1).getDay();
+      var daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      for (i = 0; i < firstDow; i++) {
+        el = document.createElement('div');
+        el.className = 'cal-cell empty';
+        el.textContent = ' ';
+        grid.appendChild(el);
+      }
+
+      for (var d = 1; d <= daysInMonth; d++) {
+        el = document.createElement('div');
+        el.className = 'cal-cell' + (d === today ? ' today' : '');
+        el.textContent = d;
+        grid.appendChild(el);
+      }
+    }
+    buildCalendar();
+  </script>
+</body>
+</html>
