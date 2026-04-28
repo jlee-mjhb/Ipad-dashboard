@@ -4,114 +4,83 @@
 <meta charset="utf-8">
 <title>Dashboard</title>
 
-<!-- iOS Web App -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Dashboard">
-<meta name="format-detection" content="telephone=no">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 * { box-sizing: border-box; }
 
 html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #0d0d0d;
-  color: #fff;
-  font-family: -apple-system, Arial, sans-serif;
+  margin:0;
+  padding:0;
+  height:100%;
+  overflow:hidden;
+  background:#0d0d0d;
+  color:#fff;
+  font-family:Arial, sans-serif;
 }
 
 /* LAYOUT */
 .app {
-  position: absolute;
-  inset: 8px;
+  position:absolute;
+  /* FIXED: Removed 'inset: 8px;' which is unsupported in iOS 9 */
+  top: 8px;
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
 }
 
 /* CLOCK */
 .clock-wrap {
-  height: 120px;
-  text-align: center;
+  text-align:center;
+  margin-bottom:8px;
 }
 
 .clock {
-  font-size: 0;
-}
-
-.digit {
-  display: inline-block;
-  width: 52px;
-  height: 80px;
-  margin: 0 2px;
-  background: #111;
-  border: 1px solid #2a2a2a;
-  border-radius: 6px;
-  font-family: monospace;
-  font-size: 48px;
-  line-height: 80px;
-}
-
-.colon {
-  display: inline-block;
-  width: 16px;
-  font-size: 40px;
-  line-height: 80px;
+  font-size:64px;
+  font-family:monospace;
 }
 
 .date {
-  font-size: 14px;
-  color: #999;
+  font-size:14px;
+  color:#888;
 }
 
 /* CARDS */
 .cards {
-  position: absolute;
-  top: 120px;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position:absolute;
+  top:110px;
+  bottom:0;
+  left:0;
+  right:0;
 }
 
 .card {
-  display: inline-block;
-  width: 50%;
-  height: 100%;
-  padding: 6px;
+  display:inline-block;
+  width:50%;
+  height:100%;
+  padding:6px;
 }
 
 .card-inner {
-  height: 100%;
-  background: #161616;
-  border: 1px solid #2a2a2a;
-  border-radius: 14px;
-  padding: 12px;
+  height:100%;
+  background:#161616;
+  border:1px solid #2a2a2a;
+  border-radius:10px;
+  padding:10px;
 }
 
 .title {
-  font-size: 11px;
-  color: #888;
-  margin-bottom: 8px;
-  letter-spacing: .15em;
-  text-transform: uppercase;
+  font-size:11px;
+  color:#888;
+  margin-bottom:10px;
 }
 
 /* WEATHER */
 .temp {
-  font-size: 36px;
-  font-family: monospace;
+  font-size:36px;
 }
 
-.desc {
-  color: #aaa;
-  margin-bottom: 8px;
-}
-
-.week { font-size: 0; }
+.week { font-size:0; }
 
 .day {
   display:inline-block;
@@ -124,45 +93,39 @@ html, body {
 .cal { font-size:0; }
 
 .cal div {
-  width:14.285%;
   display:inline-block;
+  width:14.285%;
   text-align:center;
   font-size:12px;
   padding:4px 0;
 }
 
-.dow { color:#666; }
-
 .today {
   background:#4a9eff;
-  border-radius:4px;
 }
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
-<!-- CLOCK -->
 <div class="clock-wrap">
   <div id="clock" class="clock"></div>
   <div id="date" class="date"></div>
 </div>
 
-<!-- CARDS -->
 <div class="cards">
 
-  <!-- WEATHER -->
   <div class="card">
     <div class="card-inner">
       <div class="title">Johannesburg</div>
-      <div id="weather-temp" class="temp">--°</div>
-      <div id="weather-desc" class="desc">Loading...</div>
+      <div id="temp" class="temp">--°</div>
+      <div id="desc">Loading...</div>
       <div id="week" class="week"></div>
     </div>
   </div>
 
-  <!-- CALENDAR -->
   <div class="card">
     <div class="card-inner">
       <div id="month" class="title"></div>
@@ -171,46 +134,22 @@ html, body {
   </div>
 
 </div>
+
 </div>
 
 <script>
-
 /* CLOCK */
 function pad(n){return n<10?'0'+n:n;}
 
-function buildClock(){
-  var c=document.getElementById('clock');
-  c.innerHTML='';
-  for(var i=0;i<8;i++){
-    if(i===2||i===5){
-      var s=document.createElement('div');
-      s.className='colon';
-      s.innerHTML=':';
-      c.appendChild(s);
-    } else {
-      var d=document.createElement('div');
-      d.className='digit';
-      d.innerHTML='0';
-      c.appendChild(d);
-    }
-  }
-}
-
 function updateClock(){
   var n=new Date();
-  var t=pad(n.getHours())+pad(n.getMinutes())+pad(n.getSeconds());
-  var kids=document.getElementById('clock').children;
-  var j=0;
+  var time=pad(n.getHours())+':'+pad(n.getMinutes())+':'+pad(n.getSeconds());
 
-  for(var i=0;i<kids.length;i++){
-    if(kids[i].className==='digit'){
-      kids[i].innerHTML=t[j++];
-    }
-  }
+  document.getElementById('clock').innerHTML=time;
 
   document.getElementById('date').innerHTML =
-    ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][n.getDay()] +
-    ', ' + n.getDate() + ' ' +
+    ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][n.getDay()]
+    + ', ' + n.getDate() + ' ' +
     ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][n.getMonth()];
 }
 
@@ -220,12 +159,12 @@ function buildCalendar(){
   var cal=document.getElementById('calendar');
 
   document.getElementById('month').innerHTML =
-    ['January','February','March','April','May','June','July','August','September','October','November','December'][m] + ' ' + y;
+    ['January','February','March','April','May','June','July','August','September','October','November','December'][m]+' '+y;
 
   cal.innerHTML='';
-  var dow=['Su','Mo','Tu','We','Th','Fr','Sa'];
 
-  for(var i=0;i<7;i++) cal.innerHTML += '<div class="dow">'+dow[i]+'</div>';
+  var dow=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  for(var i=0;i<7;i++) cal.innerHTML+='<div>'+dow[i]+'</div>';
 
   for(i=0;i<new Date(y,m,1).getDay();i++) cal.innerHTML+='<div></div>';
 
@@ -234,74 +173,53 @@ function buildCalendar(){
   }
 }
 
-/* WEATHER (LIVE API SAFE) */
-
-function showWeatherError(msg){
-  document.getElementById('weather-temp').innerHTML='--°';
-  document.getElementById('weather-desc').innerHTML=msg;
-}
-
-function renderWeek(data){
-  var w=document.getElementById('week');
-  w.innerHTML='';
-  var d=['Su','Mo','Tu','We','Th','Fr','Sa'];
-
-  for(var i=0;i<7;i++){
-    var date=new Date(data.daily.time[i]);
-    w.innerHTML +=
-      '<div class="day">'+d[date.getDay()]+'<br>'+
-      Math.round(data.daily.temperature_2m_max[i])+'°</div>';
-  }
-}
-
+/* WEATHER */
 function loadWeather(){
-  var url = 'https://api.open-meteo.com/v1/forecast?' +
-    'latitude=-26.2041&longitude=28.0473' +
-    '&current=temperature_2m' +
-    '&daily=temperature_2m_max,temperature_2m_min' +
-    '&forecast_days=7';
+  var url='https://api.open-meteo.com/v1/forecast?latitude=-26.2041&longitude=28.0473&current=temperature_2m&daily=temperature_2m_max&forecast_days=7';
 
   var xhr=new XMLHttpRequest();
   xhr.open('GET',url,true);
-  xhr.timeout=10000;
 
   xhr.onreadystatechange=function(){
-    if(xhr.readyState!==4) return;
+    if(xhr.readyState!==4)return;
 
     if(xhr.status===200){
       try{
         var data=JSON.parse(xhr.responseText);
 
-        document.getElementById('weather-temp').innerHTML =
+        document.getElementById('temp').innerHTML =
           Math.round(data.current.temperature_2m)+'°C';
 
-        document.getElementById('weather-desc').innerHTML='Live';
+        document.getElementById('desc').innerHTML='Live';
 
-        renderWeek(data);
+        var w=document.getElementById('week');
+        w.innerHTML='';
 
-      }catch(e){
-        showWeatherError('Error');
-      }
-    } else {
-      showWeatherError('Offline');
+        var days=['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+        for(var i=0;i<7;i++){
+          // FIXED: Manual date splitting for Safari 9 compatibility
+          var dateString = data.daily.time[i]; // "YYYY-MM-DD"
+          var dateParts = dateString.split('-');
+          var d = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+          
+          w.innerHTML+='<div class="day">'+days[d.getDay()]+'<br>'+data.daily.temperature_2m_max[i]+'°</div>';
+        }
+
+      }catch(e){}
     }
   };
-
-  xhr.onerror=function(){showWeatherError('Offline');};
-  xhr.ontimeout=function(){showWeatherError('Timeout');};
 
   xhr.send(null);
 }
 
 /* INIT */
-buildClock();
-buildCalendar();
 updateClock();
+buildCalendar();
 loadWeather();
 
 setInterval(updateClock,1000);
-setInterval(loadWeather,600000);
-
 </script>
+
 </body>
 </html>
