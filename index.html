@@ -1,159 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Dashboard</title>
+ ="Dashboard">  <meta charset="utf-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
 
-<style>
-* { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #0d0d0d;
+      color: #ffffff;
+      font-family: Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-align: center;
+    }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-  background: #0d0d0d;
-  color: #fff;
-  font-family: Helvetica, Arial, sans-serif;
-}
+    /* MAIN LAYOUT */
+    .app {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      bottom: 15px;
+      left: 15px;
+    }
 
-/* MAIN LAYOUT */
-.app {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  bottom: 15px;
-  left: 15px;
-}
+    /* FLIP-STYLE CLOCK */
+    .clock-container {
+      height: 210px;
+      padding-top: 10px;
+    }
 
-/* FLIP-STYLE CLOCK */
-.clock-container {
-  text-align: center;
-  height: 220px;
-  padding-top: 20px;
-}
+    .time-part {
+      display: inline-block;
+      background: #1c1c1e;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 0 8px;
+      min-width: 120px;
+      font-size: 96px;
+      font-family: monospace;
+      font-weight: bold;
+      color: #e0e0e0;
+      position: relative;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.8);
+      line-height: 1;
+    }
 
-.time-part {
-  display: inline-block;
-  background: #1c1c1e;
-  border: 1px solid #333;
-  border-radius: 12px;
-  padding: 20px;
-  margin: 0 8px;
-  font-size: 100px;
-  font-family: monospace;
-  font-weight: bold;
-  color: #e0e0e0;
-  position: relative;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.8);
-}
+    /* Horizontal split line for flip-board look */
+    .time-part::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #0d0d0d;
+      margin-top: -1px;
+    }
 
-/* The horizontal line that makes it look like a flip clock */
-.time-part::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: #0d0d0d;
-  margin-top: -1px;
-}
+    .clock-separator {
+      display: inline-block;
+      font-size: 56px;
+      vertical-align: top;
+      margin-top: 22px;
+      color: #555;
+      line-height: 1;
+    }
 
-.date {
-  font-size: 20px;
-  color: #888;
-  margin-top: 20px;
-  letter-spacing: 1px;
-}
+    .date {
+      font-size: 20px;
+      color: #888;
+      margin-top: 18px;
+      letter-spacing: 1px;
+    }
 
-/* CARDS LAYOUT */
-.cards {
-  position: absolute;
-  top: 250px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
+    /* SINGLE CARD LAYOUT */
+    .panel {
+      position: absolute;
+      top: 220px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px;
+    }
 
-.card {
-  display: inline-block;
-  width: 50%;
-  height: 100%;
-  padding: 10px;
-  vertical-align: top;
-}
+    .card-inner {
+      height: 100%;
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 15px;
+      overflow: hidden;
+      text-align: left;
+    }
 
-.card-inner {
-  height: 100%;
-  background: #161616;
-  border: 1px solid #2a2a2a;
-  border-radius: 12px;
-  padding: 15px;
-  overflow: hidden;
-}
+    .title {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-.title {
-  font-size: 14px;
-  color: #888;
-  margin-bottom: 15px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
+    /* CALENDAR */
+    .cal {
+      font-size: 0;
+    }
 
-/* CALENDAR */
-.cal { font-size: 0; }
+    .cal div {
+      display: inline-block;
+      width: 14.285%;
+      text-align: center;
+      font-size: 16px;
+      padding: 10px 0;
+      color: #ccc;
+      vertical-align: top;
+    }
 
-.cal div {
-  display: inline-block;
-  width: 14.285%;
-  text-align: center;
-  font-size: 16px;
-  padding: 12px 0;
-  color: #ccc;
-}
+    .cal-header div {
+      color: #666;
+      font-size: 12px;
+      padding-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-.cal-header div {
-  color: #666;
-  font-size: 12px;
-  padding-bottom: 8px;
-}
+    .today {
+      background: #4a9eff;
+      color: #fff !important;
+      border-radius: 6px;
+      font-weight: bold;
+    }
 
-.today {
-  background: #4a9eff;
-  color: #fff !important;
-  border-radius: 6px;
-  font-weight: bold;
-}
-</style>
+    .empty {
+      visibility: hidden;
+    }
+
+    /* Smaller iPad / portrait safety */
+    @media screen and (max-width: 900px) {
+      .clock-container {
+        height: 180px;
+      }
+
+      .time-part {
+        min-width: 96px;
+        font-size: 74px;
+        padding: 14px 16px;
+      }
+
+      .clock-separator {
+        font-size: 46px;
+        margin-top: 18px;
+      }
+
+      .date {
+        font-size: 16px;
+      }
+
+      .panel {
+        top: 190px;
+      }
+
+      .cal div {
+        font-size: 14px;
+        padding: 8px 0;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      .app {
+        top: 10px;
+        right: 10px;
+        bottom: 10px;
+        left: 10px;
+      }
+
+      .clock-container {
+        height: 150px;
+      }
+
+      .time-part {
+        min-width: 76px;
+        font-size: 56px;
+        padding: 12px 12px;
+        margin: 0 4px;
+      }
+
+      .clock-separator {
+        font-size: 36px;
+        margin-top: 14px;
+      }
+
+      .date {
+        font-size: 14px;
+        margin-top: 14px;
+      }
+
+      .panel {
+        top: 160px;
+        padding: 6px;
+      }
+
+      .title {
+        font-size: 12px;
+        margin-bottom: 10px;
+      }
+
+      .cal div {
+        font-size: 12px;
+        padding: 6px 0;
+      }
+
+      .cal-header div {
+        font-size: 10px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div class="app">
 
-<div class="app">
-
-  <div class="clock-container">
-    <div class="time-part" id="hours">--</div>
-    <div style="display:inline-block; font-size:60px; vertical-align:top; margin-top:25px; color:#555;">:</div>
-    <div class="time-part" id="minutes">--</div>
-    <div id="date" class="date">Loading Date...</div>
-  </div>
-
-  <div class="cards">
-
-    <div class="card">
-      <div class="card-inner">
-        <div class="title">Weather</div>
-        <a class="weatherwidget-io" href="https://forecast7.com/en/n26d2028d04/johannesburg/" data-label_1="JOHANNESBURG" data-theme="dark" data-basecolor="#161616" data-accent="" data-highcolor="#ff9800" data-lowcolor="#4a9eff" >JOHANNESBURG</a>
-        <script>
-        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-        </script>
-      </div>
+    <div class="clock-container">
+      <div class="time-part" id="hours">--</div>
+      <div class="clock-separator">:</div>
+      <div class="time-part" id="minutes">--</div>
+      <div id="date" class="date">Loading Date...</div>
     </div>
 
-    <div class="card">
+    <div class="panel">
       <div class="card-inner">
         <div id="month" class="title">Calendar</div>
         <div class="cal cal-header">
@@ -165,62 +250,63 @@ html, body {
 
   </div>
 
-</div>
-
-<script>
-/* CLOCK LOGIC */
-function pad(n){ return n < 10 ? '0' + n : n; }
-
-function updateClock(){
-  var n = new Date();
-  
-  document.getElementById('hours').innerHTML = pad(n.getHours());
-  document.getElementById('minutes').innerHTML = pad(n.getMinutes());
-
-  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  
-  document.getElementById('date').innerHTML = 
-    days[n.getDay()] + ', ' + n.getDate() + ' ' + months[n.getMonth()] + ' ' + n.getFullYear();
-}
-
-/* CALENDAR LOGIC */
-function buildCalendar(){
-  var n = new Date();
-  var y = n.getFullYear();
-  var m = n.getMonth();
-  var d = n.getDate();
-  var cal = document.getElementById('calendar');
-
-  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  document.getElementById('month').innerHTML = months[m] + ' ' + y;
-
-  cal.innerHTML = '';
-
-  // Blank spaces for days before the 1st of the month
-  var firstDay = new Date(y, m, 1).getDay();
-  for(var i = 0; i < firstDay; i++) {
-    cal.innerHTML += '<div></div>';
-  }
-
-  // Days of the month
-  var daysInMonth = new Date(y, m + 1, 0).getDate();
-  for(var i = 1; i <= daysInMonth; i++) {
-    if(i === d) {
-      cal.innerHTML += '<div class="today">' + i + '</div>';
-    } else {
-      cal.innerHTML += '<div>' + i + '</div>';
+  <script>
+    function pad(n) {
+      return n < 10 ? '0' + n : '' + n;
     }
-  }
-}
 
-/* INIT */
-updateClock();
-buildCalendar();
+    function updateClock() {
+      var n = new Date();
 
-// Update clock every minute since we removed seconds for the minimal flip look
-setInterval(updateClock, 60000); 
-</script>
+      document.getElementById('hours').textContent = pad(n.getHours());
+      document.getElementById('minutes').textContent = pad(n.getMinutes());
 
+      var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+      document.getElementById('date').textContent =
+        days[n.getDay()] + ', ' + n.getDate() + ' ' + months[n.getMonth()] + ' ' + n.getFullYear();
+    }
+
+    function buildCalendar() {
+      var n = new Date();
+      var y = n.getFullYear();
+      var m = n.getMonth();
+      var d = n.getDate();
+      var cal = document.getElementById('calendar');
+
+      var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      document.getElementById('month').textContent = months[m] + ' ' + y;
+
+      cal.innerHTML = '';
+
+      var firstDay = new Date(y, m, 1).getDay();
+      var daysInMonth = new Date(y, m + 1, 0).getDate();
+      var i;
+
+      for (i = 0; i < firstDay; i++) {
+        cal.innerHTML += '<div class="empty">.</div>';
+      }
+
+      for (i = 1; i <= daysInMonth; i++) {
+        if (i === d) {
+          cal.innerHTML += '<div class="today">' + i + '</div>';
+        } else {
+          cal.innerHTML += '<div>' + i + '</div>';
+        }
+      }
+    }
+
+    updateClock();
+    buildCalendar();
+
+    /* Update every second so the date rolls correctly at midnight */
+    setInterval(updateClock, 1000);
+  </script>
 </body>
 </html>
+  <title>Dashboard</title>
+
+  <!-- iOS Home Screen Web App -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
