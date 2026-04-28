@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="Dashboard">
+  <!-- iOS Web App -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Dashboard">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>Dashboard</title>
+  <title>Dashboard</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <!-- ✅ Fonts (CORRECTLY DECLARED) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 * { box-sizing: border-box; }
@@ -22,7 +24,7 @@
 body {
   margin: 0;
   background: #0d0d0d;
-  color: #fff;
+  color: #ffffff;
   font-family: Inter, Arial, sans-serif;
   display: flex;
   flex-direction: column;
@@ -31,7 +33,10 @@ body {
 }
 
 /* CLOCK */
-.clock { display: flex; margin-bottom: 14px; }
+.clock {
+  display: flex;
+  margin-bottom: 14px;
+}
 
 .flip {
   width: 72px;
@@ -102,8 +107,16 @@ body {
   justify-content: space-between;
 }
 
-.day { text-align: center; font-size: 0.75rem; color: #aaa; }
-.day strong { display: block; color: #fff; }
+.day {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+.day strong {
+  display: block;
+  color: #fff;
+}
 
 /* CALENDAR */
 .calendar {
@@ -113,12 +126,17 @@ body {
   font-size: 0.75rem;
 }
 
-.calendar .dow { color: #666; font-weight: bold; }
+.calendar .dow {
+  color: #666;
+  font-weight: bold;
+}
+
 .today {
   background: #4a9eff;
   border-radius: 6px;
 }
 
+/* MOBILE */
 @media (max-width: 500px) {
   .flip {
     width: 52px;
@@ -185,15 +203,13 @@ buildClock();
 updateClock();
 setInterval(updateClock, 1000);
 
-/* WEATHER (XHR – Dolphin safe) */
+/* WEATHER – XHR */
 function getJSON(url, callback) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
   xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        callback(JSON.parse(xhr.responseText));
-      }
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      callback(JSON.parse(xhr.responseText));
     }
   };
   xhr.send();
