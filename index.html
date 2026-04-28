@@ -10,98 +10,122 @@
 * { box-sizing: border-box; }
 
 html, body {
-  margin:0;
-  padding:0;
-  height:100%;
-  overflow:hidden;
-  background:#0d0d0d;
-  color:#fff;
-  font-family:Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #0d0d0d;
+  color: #fff;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
-/* LAYOUT */
+/* MAIN LAYOUT */
 .app {
-  position:absolute;
-  /* FIXED: Removed 'inset: 8px;' which is unsupported in iOS 9 */
-  top: 8px;
-  right: 8px;
-  bottom: 8px;
-  left: 8px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  bottom: 15px;
+  left: 15px;
 }
 
-/* CLOCK */
-.clock-wrap {
-  text-align:center;
-  margin-bottom:8px;
+/* FLIP-STYLE CLOCK */
+.clock-container {
+  text-align: center;
+  height: 220px;
+  padding-top: 20px;
 }
 
-.clock {
-  font-size:64px;
-  font-family:monospace;
+.time-part {
+  display: inline-block;
+  background: #1c1c1e;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 0 8px;
+  font-size: 100px;
+  font-family: monospace;
+  font-weight: bold;
+  color: #e0e0e0;
+  position: relative;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.8);
+}
+
+/* The horizontal line that makes it look like a flip clock */
+.time-part::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #0d0d0d;
+  margin-top: -1px;
 }
 
 .date {
-  font-size:14px;
-  color:#888;
+  font-size: 20px;
+  color: #888;
+  margin-top: 20px;
+  letter-spacing: 1px;
 }
 
-/* CARDS */
+/* CARDS LAYOUT */
 .cards {
-  position:absolute;
-  top:110px;
-  bottom:0;
-  left:0;
-  right:0;
+  position: absolute;
+  top: 250px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .card {
-  display:inline-block;
-  width:50%;
-  height:100%;
-  padding:6px;
+  display: inline-block;
+  width: 50%;
+  height: 100%;
+  padding: 10px;
+  vertical-align: top;
 }
 
 .card-inner {
-  height:100%;
-  background:#161616;
-  border:1px solid #2a2a2a;
-  border-radius:10px;
-  padding:10px;
+  height: 100%;
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 15px;
+  overflow: hidden;
 }
 
 .title {
-  font-size:11px;
-  color:#888;
-  margin-bottom:10px;
-}
-
-/* WEATHER */
-.temp {
-  font-size:36px;
-}
-
-.week { font-size:0; }
-
-.day {
-  display:inline-block;
-  width:14.285%;
-  text-align:center;
-  font-size:11px;
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* CALENDAR */
-.cal { font-size:0; }
+.cal { font-size: 0; }
 
 .cal div {
-  display:inline-block;
-  width:14.285%;
-  text-align:center;
-  font-size:12px;
-  padding:4px 0;
+  display: inline-block;
+  width: 14.285%;
+  text-align: center;
+  font-size: 16px;
+  padding: 12px 0;
+  color: #ccc;
+}
+
+.cal-header div {
+  color: #666;
+  font-size: 12px;
+  padding-bottom: 8px;
 }
 
 .today {
-  background:#4a9eff;
+  background: #4a9eff;
+  color: #fff !important;
+  border-radius: 6px;
+  font-weight: bold;
 }
 </style>
 </head>
@@ -110,115 +134,92 @@ html, body {
 
 <div class="app">
 
-<div class="clock-wrap">
-  <div id="clock" class="clock"></div>
-  <div id="date" class="date"></div>
-</div>
-
-<div class="cards">
-
-  <div class="card">
-    <div class="card-inner">
-      <div class="title">Johannesburg</div>
-      <div id="temp" class="temp">--°</div>
-      <div id="desc">Loading...</div>
-      <div id="week" class="week"></div>
-    </div>
+  <div class="clock-container">
+    <div class="time-part" id="hours">--</div>
+    <div style="display:inline-block; font-size:60px; vertical-align:top; margin-top:25px; color:#555;">:</div>
+    <div class="time-part" id="minutes">--</div>
+    <div id="date" class="date">Loading Date...</div>
   </div>
 
-  <div class="card">
-    <div class="card-inner">
-      <div id="month" class="title"></div>
-      <div id="calendar" class="cal"></div>
-    </div>
-  </div>
+  <div class="cards">
 
-</div>
+    <div class="card">
+      <div class="card-inner">
+        <div class="title">Weather</div>
+        <a class="weatherwidget-io" href="https://forecast7.com/en/n26d2028d04/johannesburg/" data-label_1="JOHANNESBURG" data-theme="dark" data-basecolor="#161616" data-accent="" data-highcolor="#ff9800" data-lowcolor="#4a9eff" >JOHANNESBURG</a>
+        <script>
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+        </script>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div id="month" class="title">Calendar</div>
+        <div class="cal cal-header">
+          <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+        </div>
+        <div id="calendar" class="cal"></div>
+      </div>
+    </div>
+
+  </div>
 
 </div>
 
 <script>
-/* CLOCK */
-function pad(n){return n<10?'0'+n:n;}
+/* CLOCK LOGIC */
+function pad(n){ return n < 10 ? '0' + n : n; }
 
 function updateClock(){
-  var n=new Date();
-  var time=pad(n.getHours())+':'+pad(n.getMinutes())+':'+pad(n.getSeconds());
+  var n = new Date();
+  
+  document.getElementById('hours').innerHTML = pad(n.getHours());
+  document.getElementById('minutes').innerHTML = pad(n.getMinutes());
 
-  document.getElementById('clock').innerHTML=time;
-
-  document.getElementById('date').innerHTML =
-    ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][n.getDay()]
-    + ', ' + n.getDate() + ' ' +
-    ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][n.getMonth()];
+  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  
+  document.getElementById('date').innerHTML = 
+    days[n.getDay()] + ', ' + n.getDate() + ' ' + months[n.getMonth()] + ' ' + n.getFullYear();
 }
 
-/* CALENDAR */
+/* CALENDAR LOGIC */
 function buildCalendar(){
-  var n=new Date(),y=n.getFullYear(),m=n.getMonth(),d=n.getDate();
-  var cal=document.getElementById('calendar');
+  var n = new Date();
+  var y = n.getFullYear();
+  var m = n.getMonth();
+  var d = n.getDate();
+  var cal = document.getElementById('calendar');
 
-  document.getElementById('month').innerHTML =
-    ['January','February','March','April','May','June','July','August','September','October','November','December'][m]+' '+y;
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('month').innerHTML = months[m] + ' ' + y;
 
-  cal.innerHTML='';
+  cal.innerHTML = '';
 
-  var dow=['Su','Mo','Tu','We','Th','Fr','Sa'];
-  for(var i=0;i<7;i++) cal.innerHTML+='<div>'+dow[i]+'</div>';
-
-  for(i=0;i<new Date(y,m,1).getDay();i++) cal.innerHTML+='<div></div>';
-
-  for(i=1;i<=new Date(y,m+1,0).getDate();i++){
-    cal.innerHTML+='<div'+(i===d?' class="today"':'')+'>'+i+'</div>';
+  // Blank spaces for days before the 1st of the month
+  var firstDay = new Date(y, m, 1).getDay();
+  for(var i = 0; i < firstDay; i++) {
+    cal.innerHTML += '<div></div>';
   }
-}
 
-/* WEATHER */
-function loadWeather(){
-  var url='https://api.open-meteo.com/v1/forecast?latitude=-26.2041&longitude=28.0473&current=temperature_2m&daily=temperature_2m_max&forecast_days=7';
-
-  var xhr=new XMLHttpRequest();
-  xhr.open('GET',url,true);
-
-  xhr.onreadystatechange=function(){
-    if(xhr.readyState!==4)return;
-
-    if(xhr.status===200){
-      try{
-        var data=JSON.parse(xhr.responseText);
-
-        document.getElementById('temp').innerHTML =
-          Math.round(data.current.temperature_2m)+'°C';
-
-        document.getElementById('desc').innerHTML='Live';
-
-        var w=document.getElementById('week');
-        w.innerHTML='';
-
-        var days=['Su','Mo','Tu','We','Th','Fr','Sa'];
-
-        for(var i=0;i<7;i++){
-          // FIXED: Manual date splitting for Safari 9 compatibility
-          var dateString = data.daily.time[i]; // "YYYY-MM-DD"
-          var dateParts = dateString.split('-');
-          var d = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
-          
-          w.innerHTML+='<div class="day">'+days[d.getDay()]+'<br>'+data.daily.temperature_2m_max[i]+'°</div>';
-        }
-
-      }catch(e){}
+  // Days of the month
+  var daysInMonth = new Date(y, m + 1, 0).getDate();
+  for(var i = 1; i <= daysInMonth; i++) {
+    if(i === d) {
+      cal.innerHTML += '<div class="today">' + i + '</div>';
+    } else {
+      cal.innerHTML += '<div>' + i + '</div>';
     }
-  };
-
-  xhr.send(null);
+  }
 }
 
 /* INIT */
 updateClock();
 buildCalendar();
-loadWeather();
 
-setInterval(updateClock,1000);
+// Update clock every minute since we removed seconds for the minimal flip look
+setInterval(updateClock, 60000); 
 </script>
 
 </body>
