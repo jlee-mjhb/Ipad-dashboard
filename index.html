@@ -21,23 +21,35 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
 .sec-part{font-size:36px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#4a5590;line-height:1;margin-left:8px;-webkit-align-self:flex-end;align-self:flex-end;margin-bottom:8px;}
 @-webkit-keyframes blink{0%,100%{opacity:1;}50%{opacity:0.15;}}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.15;}}
-.info-card{-webkit-flex:1;flex:1;margin-left:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;padding:14px 22px;}
-.info-date{font-size:42px;font-weight:bold;color:#c8d8ff;letter-spacing:0.5px;text-align:center;margin-bottom:4px;}
-.info-subdate{font-size:19px;color:#6878b0;letter-spacing:1.5px;text-align:center;margin-bottom:14px;}
-.info-divider{width:75%;height:1px;background:#1e2448;margin-bottom:14px;}
-.seoul-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:14px;}
+/* INFO CARD */
+.info-card{-webkit-flex:1;flex:1;margin-left:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;padding:10px 22px;}
+.info-date{font-size:42px;font-weight:bold;color:#c8d8ff;letter-spacing:0.5px;text-align:center;margin-bottom:3px;}
+.info-subdate{font-size:19px;color:#6878b0;letter-spacing:1.5px;text-align:center;margin-bottom:10px;}
+.info-divider{width:75%;height:1px;background:#1e2448;margin-bottom:10px;}
+.seoul-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:10px;}
 .seoul-flag{font-size:26px;line-height:1;margin-right:10px;}
 .seoul-label{font-size:14px;color:#3a4580;text-transform:uppercase;letter-spacing:1.5px;margin-right:12px;}
 .seoul-time{font-size:36px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#8898cc;letter-spacing:1px;}
 .seoul-day{font-size:13px;color:#3a4560;margin-left:8px;}
-.hol-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:14px;}
+.hol-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:10px;}
 .hol-icon{font-size:22px;margin-right:8px;}
 .hol-text{font-size:19px;color:#7888bb;text-align:center;}
-.wx-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;margin-bottom:6px;}
-.wx-icon{font-size:32px;line-height:1;margin-right:10px;}
-.wx-temp{font-size:32px;font-weight:bold;color:#c8d8ff;margin-right:10px;}
-.wx-desc{font-size:15px;color:#6878b0;}
-.wx-detail{font-size:14px;color:#4a5590;text-align:center;}
+/* Current weather row */
+.wx-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;margin-bottom:4px;}
+.wx-icon{font-size:30px;line-height:1;margin-right:8px;}
+.wx-temp{font-size:30px;font-weight:bold;color:#c8d8ff;margin-right:8px;}
+.wx-desc{font-size:14px;color:#6878b0;}
+.wx-detail{font-size:13px;color:#4a5590;text-align:center;margin-bottom:10px;}
+/* 7-day weekly strip */
+.wx-week{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-direction:row;flex-direction:row;width:100%;background:#080c18;border:1px solid #151d38;border-radius:12px;padding:8px 4px;}
+.wx-day{-webkit-flex:1;flex:1;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;-webkit-box-align:center;-webkit-align-items:center;align-items:center;padding:4px 2px;border-radius:8px;}
+.wx-day.wx-today{background:rgba(58,111,255,0.18);border:1px solid rgba(58,111,255,0.3);}
+.wx-day-name{font-size:10px;color:#3a4580;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;}
+.wx-today .wx-day-name{color:#6888cc;}
+.wx-day-icon{font-size:20px;line-height:1;margin-bottom:4px;}
+.wx-day-hi{font-size:13px;font-weight:bold;color:#c8d8ff;}
+.wx-day-lo{font-size:11px;color:#3a4880;margin-top:1px;}
+/* BOTTOM ROW */
 .bottom-row{-webkit-flex:1;flex:1;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-direction:row;flex-direction:row;min-height:0;}
 .sw-al-card{-webkit-flex:1;flex:1;margin-right:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;overflow:hidden;}
 .sw-al-tabs{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-shrink:0;flex-shrink:0;background:#0a0e1a;border-bottom:1px solid #1e2448;border-radius:16px 16px 0 0;padding:4px;}
@@ -72,9 +84,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
 .empty{visibility:hidden;}
 .holiday-name{font-size:10px;color:#cc7070;margin-top:6px;text-align:center;-webkit-flex-shrink:0;flex-shrink:0;min-height:14px;}
 .hol-next{color:#4a5590;}
-@media screen and (max-width:1024px){.time-part{min-width:90px;font-size:80px;padding:7px 12px;}.time-sep{font-size:58px;}.sec-part{font-size:29px;}.info-date{font-size:32px;}.info-subdate{font-size:15px;}.seoul-time{font-size:28px;}.seoul-label{font-size:12px;}.hol-text{font-size:15px;}.wx-icon,.wx-temp{font-size:26px;}.wx-desc{font-size:13px;}.sw-display{font-size:44px;}}
-@media screen and (max-width:900px){.time-part{min-width:72px;font-size:63px;padding:6px 9px;}.time-sep{font-size:45px;}.sec-part{font-size:23px;}.info-date{font-size:26px;}.info-subdate{font-size:13px;}.seoul-time{font-size:22px;}.seoul-label{font-size:10px;}.seoul-flag{font-size:18px;}.hol-text{font-size:13px;}.hol-icon{font-size:16px;}.wx-icon,.wx-temp{font-size:22px;}.wx-desc,.wx-detail{font-size:12px;}.sw-display{font-size:36px;}.al-val{font-size:34px;width:70px;}.al-colon{font-size:34px;padding-top:14px;}.btn-sm{width:70px;font-size:17px;}.cal div{font-size:11px;}}
-@media screen and (max-width:600px){.app{top:6px;right:6px;bottom:6px;left:6px;}.top-row{-webkit-flex-direction:column;flex-direction:column;-webkit-flex:0 0 auto;flex:0 0 auto;}.bottom-row{-webkit-flex:1;flex:1;-webkit-flex-direction:column;flex-direction:column;}.clock-card{margin-right:0;margin-bottom:4px;padding:10px;}.info-card{margin-left:0;margin-top:4px;}.sw-al-card{margin-right:0;margin-bottom:4px;}.cal-card{margin-left:0;margin-top:4px;}.time-part{min-width:58px;font-size:52px;padding:5px 8px;margin:0 2px;}.time-sep{font-size:37px;}.sec-part{font-size:20px;}.info-date{font-size:20px;}.info-subdate{font-size:11px;}.seoul-time{font-size:16px;}.hol-text{font-size:11px;}.wx-icon,.wx-temp{font-size:18px;}.wx-desc,.wx-detail{font-size:10px;}.sw-display{font-size:30px;letter-spacing:2px;margin-bottom:14px;}.al-val{font-size:28px;width:58px;margin:3px 0;}.al-colon{font-size:28px;padding-top:10px;}.btn-sm{width:58px;font-size:15px;}.btn{font-size:13px;padding:8px 14px;}.cal div{font-size:10px;padding:4px 0;}.cal-header div{font-size:8px;}}
+@media screen and (max-width:1024px){.time-part{min-width:90px;font-size:80px;padding:7px 12px;}.time-sep{font-size:58px;}.sec-part{font-size:29px;}.info-date{font-size:32px;}.info-subdate{font-size:15px;}.seoul-time{font-size:28px;}.seoul-label{font-size:12px;}.hol-text{font-size:15px;}.wx-icon,.wx-temp{font-size:25px;}.wx-desc{font-size:12px;}.wx-day-icon{font-size:17px;}.wx-day-hi{font-size:12px;}.wx-day-lo{font-size:10px;}.sw-display{font-size:44px;}}
+@media screen and (max-width:900px){.time-part{min-width:72px;font-size:63px;padding:6px 9px;}.time-sep{font-size:45px;}.sec-part{font-size:23px;}.info-date{font-size:26px;}.info-subdate{font-size:13px;}.seoul-time{font-size:22px;}.seoul-label{font-size:10px;}.seoul-flag{font-size:18px;}.hol-text{font-size:13px;}.hol-icon{font-size:16px;}.wx-icon,.wx-temp{font-size:21px;}.wx-desc{font-size:11px;}.wx-detail{font-size:11px;}.wx-day-name{font-size:9px;}.wx-day-icon{font-size:15px;}.wx-day-hi{font-size:11px;}.wx-day-lo{font-size:10px;}.sw-display{font-size:36px;}.al-val{font-size:34px;width:70px;}.al-colon{font-size:34px;padding-top:14px;}.btn-sm{width:70px;font-size:17px;}.cal div{font-size:11px;}}
+@media screen and (max-width:600px){.app{top:6px;right:6px;bottom:6px;left:6px;}.top-row{-webkit-flex-direction:column;flex-direction:column;-webkit-flex:0 0 auto;flex:0 0 auto;}.bottom-row{-webkit-flex:1;flex:1;-webkit-flex-direction:column;flex-direction:column;}.clock-card{margin-right:0;margin-bottom:4px;padding:10px;}.info-card{margin-left:0;margin-top:4px;}.sw-al-card{margin-right:0;margin-bottom:4px;}.cal-card{margin-left:0;margin-top:4px;}.time-part{min-width:58px;font-size:52px;padding:5px 8px;margin:0 2px;}.time-sep{font-size:37px;}.sec-part{font-size:20px;}.info-date{font-size:20px;}.info-subdate{font-size:11px;}.seoul-time{font-size:16px;}.hol-text{font-size:11px;}.wx-icon,.wx-temp{font-size:18px;}.wx-desc,.wx-detail{font-size:10px;}.wx-week{padding:5px 2px;}.wx-day-name{font-size:8px;}.wx-day-icon{font-size:13px;}.wx-day-hi{font-size:10px;}.wx-day-lo{font-size:9px;}.sw-display{font-size:30px;letter-spacing:2px;margin-bottom:14px;}.al-val{font-size:28px;width:58px;margin:3px 0;}.al-colon{font-size:28px;padding-top:10px;}.btn-sm{width:58px;font-size:15px;}.btn{font-size:13px;padding:8px 14px;}.cal div{font-size:10px;padding:4px 0;}.cal-header div{font-size:8px;}}
 </style>
 </head>
 <body>
@@ -110,6 +122,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
         <span class="wx-desc" id="wx-desc">Loading...</span>
       </div>
       <div class="wx-detail" id="wx-detail"></div>
+      <div class="wx-week" id="wx-week"></div>
     </div>
   </div>
   <div class="bottom-row">
@@ -149,7 +162,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
     </div>
     <div class="card cal-card">
       <div id="cal-month" class="cal-title">Calendar</div>
-      <div class="cal cal-header"><div>Su</div><div>Mo</div><div>Mo</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div></div>
+      <div class="cal cal-header"><div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div></div>
       <div id="calendar" class="cal"></div>
       <div id="holiday-name" class="holiday-name"></div>
     </div>
@@ -166,17 +179,10 @@ var _lastDay=-1;
 function updateClock(){var n=new Date();document.getElementById('hours').textContent=pad(n.getHours());document.getElementById('minutes').textContent=pad(n.getMinutes());document.getElementById('seconds').textContent=pad(n.getSeconds());var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];document.getElementById('date-day').textContent=DAYS[n.getDay()];document.getElementById('date-sub').textContent=n.getDate()+' '+MONTHS[n.getMonth()]+' '+n.getFullYear();if(_lastDay!==-1&&_lastDay!==n.getDate()){buildCalendar();updateHolCountdown();fetchWeather();}_lastDay=n.getDate();updateSeoul();checkAlarm(n);}
 function buildCalendar(){var n=new Date(),y=n.getFullYear(),m=n.getMonth(),d=n.getDate(),MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];document.getElementById('cal-month').textContent=MONTHS[m]+' '+y;var hols=getSAHolidays(y),cal=document.getElementById('calendar');cal.innerHTML='';var firstDay=new Date(y,m,1).getDay(),daysInMonth=new Date(y,m+1,0).getDate(),i,div,key,cls,todayHol='';for(i=0;i<firstDay;i++){div=document.createElement('div');div.className='empty';div.textContent='.';cal.appendChild(div);}for(i=1;i<=daysInMonth;i++){div=document.createElement('div');key=pad(m+1)+'-'+pad(i);cls=(i===d)?'today':'';if(hols[key]){cls+=(cls?' ':'')+' holiday';if(i===d)todayHol=hols[key];}div.className=cls.trim();div.textContent=i;cal.appendChild(div);}var hn=document.getElementById('holiday-name');if(todayHol){hn.innerHTML='&#127881; Today: '+todayHol;hn.className='holiday-name';}else{var next='',ni;for(ni=d+1;ni<=daysInMonth&&!next;ni++){key=pad(m+1)+'-'+pad(ni);if(hols[key])next=ni+' '+MONTHS[m]+': '+hols[key];}hn.textContent=next?'Next: '+next:'';hn.className='holiday-name hol-next';}}
 
-/* ----------------------------------------------------------------
-   WEATHER
-   Strategy A: direct XHR to Open-Meteo (works on modern devices).
-   Strategy B: if XHR returns non-200 or errors, fall back to
-               allorigins.win JSONP proxy. The proxy wraps the
-               Open-Meteo response in a <script> tag callback,
-               bypassing ATS domain blocks on iOS 9 WKWebView.
-   Icons: Unicode emoji rendered by the device OS — zero network.
-   Both strategies use current_weather=true (proven iOS 9 param).
----------------------------------------------------------------- */
-var WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude=-26.2041&longitude=28.0473&current_weather=true&temperature_unit=celsius';
+/* ---- WEATHER ---- */
+/* URL now includes daily=... for 7-day forecast.
+   Timezone is required by Open-Meteo when requesting daily data. */
+var WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude=-26.2041&longitude=28.0473&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=Africa%2FJohannesburg&temperature_unit=celsius';
 var _wxTimer = null;
 var _wxScript = null;
 
@@ -203,33 +209,69 @@ function getWeatherDesc(code) {
 }
 function windDirFromDeg(d){return ['N','NE','E','SE','S','SW','W','NW'][Math.round((d||0)/45)%8];}
 
-function applyWeather(w) {
-  document.getElementById('wx-icon').innerText  = getWeatherIcon(w.weathercode);
-  document.getElementById('wx-temp').innerText  = Math.round(w.temperature) + '\u00b0C';
-  document.getElementById('wx-desc').innerText  = getWeatherDesc(w.weathercode);
+function buildWeekStrip(daily) {
+  var container = document.getElementById('wx-week');
+  if (!container || !daily || !daily.time) return;
+  container.innerHTML = '';
+  var DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  /* daily.time[0] is always today in a standard Open-Meteo forecast */
+  var max = daily.time.length < 7 ? daily.time.length : 7;
+  for (var i = 0; i < max; i++) {
+    /* Parse date string "2025-07-08" safely without Date constructor ambiguity */
+    var parts = daily.time[i].split('-');
+    var d = new Date(parseInt(parts[0],10), parseInt(parts[1],10)-1, parseInt(parts[2],10));
+    var dayName = DAY_NAMES[d.getDay()];
+    var isToday = (i === 0);
+    var cell = document.createElement('div');
+    cell.className = 'wx-day' + (isToday ? ' wx-today' : '');
+    var nameEl = document.createElement('div');
+    nameEl.className = 'wx-day-name';
+    nameEl.innerText = dayName;
+    var iconEl = document.createElement('div');
+    iconEl.className = 'wx-day-icon';
+    iconEl.innerText = getWeatherIcon(daily.weathercode[i]);
+    var hiEl = document.createElement('div');
+    hiEl.className = 'wx-day-hi';
+    hiEl.innerText = Math.round(daily.temperature_2m_max[i]) + '\u00b0';
+    var loEl = document.createElement('div');
+    loEl.className = 'wx-day-lo';
+    loEl.innerText = Math.round(daily.temperature_2m_min[i]) + '\u00b0';
+    cell.appendChild(nameEl);
+    cell.appendChild(iconEl);
+    cell.appendChild(hiEl);
+    cell.appendChild(loEl);
+    container.appendChild(cell);
+  }
+}
+
+function applyWeather(data) {
+  var w = data.current_weather;
+  document.getElementById('wx-icon').innerText   = getWeatherIcon(w.weathercode);
+  document.getElementById('wx-temp').innerText   = Math.round(w.temperature) + '\u00b0C';
+  document.getElementById('wx-desc').innerText   = getWeatherDesc(w.weathercode);
   document.getElementById('wx-detail').innerText = 'Joburg  \u2022  ' + Math.round(w.windspeed) + ' km/h ' + windDirFromDeg(w.winddirection);
+  if (data.daily) { buildWeekStrip(data.daily); }
 }
 
 function wxCleanup() {
-  if (_wxTimer)  { clearTimeout(_wxTimer);  _wxTimer  = null; }
+  if (_wxTimer)  { clearTimeout(_wxTimer); _wxTimer = null; }
   if (_wxScript && _wxScript.parentNode) { _wxScript.parentNode.removeChild(_wxScript); _wxScript = null; }
 }
 
-/* Strategy B: allorigins.win JSONP proxy */
+/* Fallback: allorigins.win JSONP proxy */
 window.wxProxyCallback = function(wrapper) {
   wxCleanup();
   try {
     var data = JSON.parse(wrapper.contents);
-    applyWeather(data.current_weather);
+    applyWeather(data);
   } catch(e) {
-    document.getElementById('wx-desc').innerText   = 'Parse error';
+    document.getElementById('wx-desc').innerText = 'Parse error';
     document.getElementById('wx-detail').innerText = '';
   }
 };
 
 function fetchWeatherViaProxy() {
   wxCleanup();
-  /* 12-second safety net in case the script tag never loads */
   _wxTimer = setTimeout(function() {
     wxCleanup();
     document.getElementById('wx-desc').innerText   = 'Proxy timeout';
@@ -238,7 +280,7 @@ function fetchWeatherViaProxy() {
   var proxyUrl = 'https://api.allorigins.win/get?callback=wxProxyCallback&url=' + encodeURIComponent(WX_URL);
   var s = document.createElement('script');
   s.type = 'text/javascript';
-  s.src  = proxyUrl;
+  s.src = proxyUrl;
   s.onerror = function() {
     wxCleanup();
     document.getElementById('wx-desc').innerText   = 'Proxy blocked';
@@ -248,29 +290,25 @@ function fetchWeatherViaProxy() {
   document.head.appendChild(s);
 }
 
-/* Strategy A: direct XHR */
+/* Primary: direct XHR */
 function fetchWeather() {
   var done = false;
-  var xhr  = new XMLHttpRequest();
+  var xhr = new XMLHttpRequest();
   xhr.open('GET', WX_URL, true);
+  xhr.timeout = 8000;
   xhr.onreadystatechange = function() {
     if (xhr.readyState !== 4 || done) return;
     if (xhr.status === 200) {
       done = true;
       try {
-        var data = JSON.parse(xhr.responseText);
-        applyWeather(data.current_weather);
-      } catch(e) {
-        fetchWeatherViaProxy();
-      }
+        applyWeather(JSON.parse(xhr.responseText));
+      } catch(e) { fetchWeatherViaProxy(); }
     } else {
-      done = true;
-      fetchWeatherViaProxy();
+      done = true; fetchWeatherViaProxy();
     }
   };
   xhr.onerror   = function() { if (!done) { done = true; fetchWeatherViaProxy(); } };
   xhr.ontimeout = function() { if (!done) { done = true; fetchWeatherViaProxy(); } };
-  xhr.timeout   = 8000;
   xhr.send();
 }
 
