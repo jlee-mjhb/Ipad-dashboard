@@ -12,11 +12,7 @@
 html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf6;font-family:Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
 .app{position:absolute;top:12px;right:12px;bottom:12px;left:12px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;}
 .card{background:#0e1223;border:1px solid #1e2448;border-radius:16px;-webkit-box-shadow:0 4px 24px rgba(0,0,0,0.6);box-shadow:0 4px 24px rgba(0,0,0,0.6);}
-
-/* TOP ROW — 60% */
 .top-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-direction:row;flex-direction:row;-webkit-flex:0 0 60%;flex:0 0 60%;min-height:0;margin-bottom:8px;}
-
-/* CLOCK CARD */
 .clock-card{-webkit-flex:1;flex:1;margin-right:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;padding:16px 12px;}
 .time-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;}
 .time-part{display:inline-block;background:#12172b;border:1px solid #2a3058;border-radius:12px;padding:8px 16px;margin:0 3px;min-width:110px;font-size:100px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#c8d8ff;position:relative;text-align:center;-webkit-box-shadow:0 0 44px rgba(100,140,255,0.30),0 10px 26px rgba(0,0,0,0.82);box-shadow:0 0 44px rgba(100,140,255,0.30),0 10px 26px rgba(0,0,0,0.82);line-height:1;}
@@ -25,8 +21,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
 .sec-part{font-size:36px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#4a5590;line-height:1;margin-left:8px;-webkit-align-self:flex-end;align-self:flex-end;margin-bottom:8px;}
 @-webkit-keyframes blink{0%,100%{opacity:1;}50%{opacity:0.15;}}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.15;}}
-
-/* INFO CARD */
 .info-card{-webkit-flex:1;flex:1;margin-left:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;padding:14px 22px;}
 .info-date{font-size:42px;font-weight:bold;color:#c8d8ff;letter-spacing:0.5px;text-align:center;margin-bottom:4px;}
 .info-subdate{font-size:19px;color:#6878b0;letter-spacing:1.5px;text-align:center;margin-bottom:14px;}
@@ -39,16 +33,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
 .hol-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:14px;}
 .hol-icon{font-size:22px;margin-right:8px;}
 .hol-text{font-size:19px;color:#7888bb;text-align:center;}
-
-/* Weather image */
-.wx-wrap{width:100%;-webkit-flex-shrink:0;flex-shrink:0;text-align:center;}
-.wx-img{max-width:100%;height:auto;border-radius:10px;display:block;margin:0 auto;}
-.wx-label{font-size:11px;color:#2a3458;text-align:center;margin-top:4px;letter-spacing:1px;}
-
-/* BOTTOM ROW */
+.wx-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;margin-bottom:6px;}
+.wx-icon{font-size:32px;line-height:1;margin-right:10px;}
+.wx-temp{font-size:32px;font-weight:bold;color:#c8d8ff;margin-right:10px;}
+.wx-desc{font-size:15px;color:#6878b0;}
+.wx-detail{font-size:14px;color:#4a5590;text-align:center;}
 .bottom-row{-webkit-flex:1;flex:1;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-direction:row;flex-direction:row;min-height:0;}
-
-/* SW/AL CARD */
 .sw-al-card{-webkit-flex:1;flex:1;margin-right:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;overflow:hidden;}
 .sw-al-tabs{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-shrink:0;flex-shrink:0;background:#0a0e1a;border-bottom:1px solid #1e2448;border-radius:16px 16px 0 0;padding:4px;}
 .sw-al-tab{-webkit-flex:1;flex:1;background:none;border:none;color:#4a5590;font-size:13px;font-family:Helvetica,Arial,sans-serif;padding:7px 4px;border-radius:8px;cursor:pointer;letter-spacing:0.5px;-webkit-tap-highlight-color:transparent;margin:0 2px;}
@@ -71,8 +61,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
 @-webkit-keyframes ring{0%,100%{-webkit-transform:translateX(0);}15%{-webkit-transform:translateX(-8px);}30%{-webkit-transform:translateX(8px);}45%{-webkit-transform:translateX(-6px);}60%{-webkit-transform:translateX(6px);}75%{-webkit-transform:translateX(-4px);}90%{-webkit-transform:translateX(4px);}}
 @keyframes ring{0%,100%{transform:translateX(0);}15%{transform:translateX(-8px);}30%{transform:translateX(8px);}45%{transform:translateX(-6px);}60%{transform:translateX(6px);}75%{transform:translateX(-4px);}90%{transform:translateX(4px);}}
 .ringing{color:#ffdd44!important;-webkit-animation:ring 0.6s ease-in-out 4;animation:ring 0.6s ease-in-out 4;}
-
-/* CAL CARD */
 .cal-card{-webkit-flex:1;flex:1;margin-left:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;padding:12px;overflow:hidden;}
 .cal-title{font-size:10px;color:#3a4580;margin-bottom:6px;text-transform:uppercase;letter-spacing:2px;text-align:center;-webkit-flex-shrink:0;flex-shrink:0;}
 .cal{font-size:0;-webkit-flex-shrink:0;flex-shrink:0;}
@@ -84,20 +72,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
 .empty{visibility:hidden;}
 .holiday-name{font-size:10px;color:#cc7070;margin-top:6px;text-align:center;-webkit-flex-shrink:0;flex-shrink:0;min-height:14px;}
 .hol-next{color:#4a5590;}
-
-/* RESPONSIVE */
-@media screen and (max-width:1024px){.time-part{min-width:90px;font-size:80px;padding:7px 12px;}.time-sep{font-size:58px;}.sec-part{font-size:29px;}.info-date{font-size:32px;}.info-subdate{font-size:15px;}.seoul-time{font-size:28px;}.seoul-label{font-size:12px;}.hol-text{font-size:15px;}.sw-display{font-size:44px;}}
-@media screen and (max-width:900px){.time-part{min-width:72px;font-size:63px;padding:6px 9px;}.time-sep{font-size:45px;}.sec-part{font-size:23px;}.info-date{font-size:26px;}.info-subdate{font-size:13px;}.seoul-time{font-size:22px;}.seoul-label{font-size:10px;}.seoul-flag{font-size:18px;}.hol-text{font-size:13px;}.hol-icon{font-size:16px;}.sw-display{font-size:36px;}.al-val{font-size:34px;width:70px;}.al-colon{font-size:34px;padding-top:14px;}.btn-sm{width:70px;font-size:17px;}.cal div{font-size:11px;}}
-@media screen and (max-width:600px){.app{top:6px;right:6px;bottom:6px;left:6px;}.top-row{-webkit-flex-direction:column;flex-direction:column;-webkit-flex:0 0 auto;flex:0 0 auto;}.bottom-row{-webkit-flex:1;flex:1;-webkit-flex-direction:column;flex-direction:column;}.clock-card{margin-right:0;margin-bottom:4px;padding:10px;}.info-card{margin-left:0;margin-top:4px;}.sw-al-card{margin-right:0;margin-bottom:4px;}.cal-card{margin-left:0;margin-top:4px;}.time-part{min-width:58px;font-size:52px;padding:5px 8px;margin:0 2px;}.time-sep{font-size:37px;}.sec-part{font-size:20px;}.info-date{font-size:20px;}.info-subdate{font-size:11px;}.seoul-time{font-size:16px;}.hol-text{font-size:11px;}.sw-display{font-size:30px;letter-spacing:2px;margin-bottom:14px;}.al-val{font-size:28px;width:58px;margin:3px 0;}.al-colon{font-size:28px;padding-top:10px;}.btn-sm{width:58px;font-size:15px;}.btn{font-size:13px;padding:8px 14px;}.cal div{font-size:10px;padding:4px 0;}.cal-header div{font-size:8px;}}
+@media screen and (max-width:1024px){.time-part{min-width:90px;font-size:80px;padding:7px 12px;}.time-sep{font-size:58px;}.sec-part{font-size:29px;}.info-date{font-size:32px;}.info-subdate{font-size:15px;}.seoul-time{font-size:28px;}.seoul-label{font-size:12px;}.hol-text{font-size:15px;}.wx-icon{font-size:26px;}.wx-temp{font-size:26px;}.wx-desc{font-size:13px;}.sw-display{font-size:44px;}}
+@media screen and (max-width:900px){.time-part{min-width:72px;font-size:63px;padding:6px 9px;}.time-sep{font-size:45px;}.sec-part{font-size:23px;}.info-date{font-size:26px;}.info-subdate{font-size:13px;}.seoul-time{font-size:22px;}.seoul-label{font-size:10px;}.seoul-flag{font-size:18px;}.hol-text{font-size:13px;}.hol-icon{font-size:16px;}.wx-icon{font-size:22px;}.wx-temp{font-size:22px;}.wx-desc{font-size:12px;}.wx-detail{font-size:12px;}.sw-display{font-size:36px;}.al-val{font-size:34px;width:70px;}.al-colon{font-size:34px;padding-top:14px;}.btn-sm{width:70px;font-size:17px;}.cal div{font-size:11px;}}
+@media screen and (max-width:600px){.app{top:6px;right:6px;bottom:6px;left:6px;}.top-row{-webkit-flex-direction:column;flex-direction:column;-webkit-flex:0 0 auto;flex:0 0 auto;}.bottom-row{-webkit-flex:1;flex:1;-webkit-flex-direction:column;flex-direction:column;}.clock-card{margin-right:0;margin-bottom:4px;padding:10px;}.info-card{margin-left:0;margin-top:4px;}.sw-al-card{margin-right:0;margin-bottom:4px;}.cal-card{margin-left:0;margin-top:4px;}.time-part{min-width:58px;font-size:52px;padding:5px 8px;margin:0 2px;}.time-sep{font-size:37px;}.sec-part{font-size:20px;}.info-date{font-size:20px;}.info-subdate{font-size:11px;}.seoul-time{font-size:16px;}.hol-text{font-size:11px;}.wx-icon{font-size:18px;}.wx-temp{font-size:18px;}.wx-desc{font-size:11px;}.wx-detail{font-size:10px;}.sw-display{font-size:30px;letter-spacing:2px;margin-bottom:14px;}.al-val{font-size:28px;width:58px;margin:3px 0;}.al-colon{font-size:28px;padding-top:10px;}.btn-sm{width:58px;font-size:15px;}.btn{font-size:13px;padding:8px 14px;}.cal div{font-size:10px;padding:4px 0;}.cal-header div{font-size:8px;}}
 </style>
 </head>
 <body>
 <div class="app">
-
-  <!-- TOP ROW -->
   <div class="top-row">
-
-    <!-- Upper Left: Clock -->
     <div class="card clock-card">
       <div class="time-row">
         <div class="time-part" id="hours">--</div>
@@ -106,8 +88,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
         <div class="sec-part" id="seconds">00</div>
       </div>
     </div>
-
-    <!-- Upper Right: Date / Seoul / Holiday / Weather image -->
     <div class="card info-card">
       <div id="date-day" class="info-date">Loading...</div>
       <div id="date-sub" class="info-subdate"></div>
@@ -124,19 +104,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
         <span class="hol-text" id="hol-countdown">Loading...</span>
       </div>
       <div class="info-divider"></div>
-      <!-- Weather: plain <img> request bypasses iOS ATS/XHR restrictions entirely -->
-      <div class="wx-wrap">
-        <img id="wx-img" class="wx-img" src="" alt="Joburg weather">
-        <div class="wx-label">JOHANNESBURG WEATHER</div>
+      <div class="wx-row">
+        <span class="wx-icon" id="wx-icon">&#9729;</span>
+        <span class="wx-temp" id="wx-temp">--&deg;C</span>
+        <span class="wx-desc" id="wx-desc">Loading...</span>
       </div>
+      <div class="wx-detail" id="wx-detail"></div>
     </div>
-
   </div>
-
-  <!-- BOTTOM ROW -->
   <div class="bottom-row">
-
-    <!-- Bottom Left: Stopwatch + Alarm -->
     <div class="card sw-al-card">
       <div class="sw-al-tabs">
         <button class="sw-al-tab active" id="btn-sw" onclick="showSwAl('sw')">&#9201; Stopwatch</button>
@@ -171,59 +147,81 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
         </div>
       </div>
     </div>
-
-    <!-- Bottom Right: Calendar -->
     <div class="card cal-card">
       <div id="cal-month" class="cal-title">Calendar</div>
       <div class="cal cal-header"><div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div></div>
       <div id="calendar" class="cal"></div>
       <div id="holiday-name" class="holiday-name"></div>
     </div>
-
   </div>
 </div>
 <script>
 function pad(n){return n<10?'0'+n:''+n;}
-
 function showSwAl(name){var tabs=['sw','al'],i;for(i=0;i<tabs.length;i++){document.getElementById('panel-'+tabs[i]).style.display=(tabs[i]===name)?'':'none';document.getElementById('btn-'+tabs[i]).className='sw-al-tab'+(tabs[i]===name?' active':'');}unlockAudio();}
-
 function updateSeoul(){var now=new Date();var kst=new Date(now.getTime()+(now.getTimezoneOffset()*60000)+(9*3600000));document.getElementById('tz-seoul').textContent=pad(kst.getHours())+':'+pad(kst.getMinutes())+':'+pad(kst.getSeconds());var diff=kst.getDate()-now.getDate();document.getElementById('tz-seoul-day').textContent=(diff>0)?'+1 day':(diff<0)?'-1 day':'';}
-
 function getEaster(y){var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,ii=Math.floor(c/4),k=c%4,l=(32+2*e+2*ii-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),dy=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,dy);}
-
 function getSAHolidays(y){var hols={},i,dt,key,mon,fixed=[[1,1,"New Year's Day"],[3,21,'Human Rights Day'],[4,27,'Freedom Day'],[5,1,"Workers' Day"],[6,16,'Youth Day'],[8,9,"National Women's Day"],[9,24,'Heritage Day'],[12,16,'Day of Reconciliation'],[12,25,'Christmas Day'],[12,26,'Day of Goodwill']];for(i=0;i<fixed.length;i++){dt=new Date(y,fixed[i][0]-1,fixed[i][1]);key=pad(dt.getMonth()+1)+'-'+pad(dt.getDate());hols[key]=fixed[i][2];if(dt.getDay()===0){mon=new Date(y,dt.getMonth(),dt.getDate()+1);hols[pad(mon.getMonth()+1)+'-'+pad(mon.getDate())]=fixed[i][2]+' (obs)';}}var e=getEaster(y),gf=new Date(y,e.getMonth(),e.getDate()-2),fd=new Date(y,e.getMonth(),e.getDate()+1);hols[pad(gf.getMonth()+1)+'-'+pad(gf.getDate())]='Good Friday';hols[pad(fd.getMonth()+1)+'-'+pad(fd.getDate())]='Family Day';return hols;}
-
 function updateHolCountdown(){var today=new Date(),y=today.getFullYear(),todayMs=new Date(y,today.getMonth(),today.getDate()).getTime(),hols=getSAHolidays(y),bestDays=9999,name='',found=false,key,parts,dt,days;for(key in hols){parts=key.split('-');dt=new Date(y,parseInt(parts[0],10)-1,parseInt(parts[1],10));days=Math.round((dt.getTime()-todayMs)/86400000);if(days>0&&days<bestDays){bestDays=days;name=hols[key];found=true;}}if(!found){hols=getSAHolidays(y+1);for(key in hols){parts=key.split('-');dt=new Date(y+1,parseInt(parts[0],10)-1,parseInt(parts[1],10));days=Math.round((dt.getTime()-todayMs)/86400000);if(days>0&&days<bestDays){bestDays=days;name=hols[key];found=true;}}}document.getElementById('hol-countdown').textContent=found?(name+' in '+bestDays+' days'):'';}
-
 var _lastDay=-1;
-function updateClock(){var n=new Date();document.getElementById('hours').textContent=pad(n.getHours());document.getElementById('minutes').textContent=pad(n.getMinutes());document.getElementById('seconds').textContent=pad(n.getSeconds());var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];document.getElementById('date-day').textContent=DAYS[n.getDay()];document.getElementById('date-sub').textContent=n.getDate()+' '+MONTHS[n.getMonth()]+' '+n.getFullYear();if(_lastDay!==-1&&_lastDay!==n.getDate()){buildCalendar();updateHolCountdown();refreshWxImg();}_lastDay=n.getDate();updateSeoul();checkAlarm(n);}
-
+function updateClock(){var n=new Date();document.getElementById('hours').textContent=pad(n.getHours());document.getElementById('minutes').textContent=pad(n.getMinutes());document.getElementById('seconds').textContent=pad(n.getSeconds());var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];document.getElementById('date-day').textContent=DAYS[n.getDay()];document.getElementById('date-sub').textContent=n.getDate()+' '+MONTHS[n.getMonth()]+' '+n.getFullYear();if(_lastDay!==-1&&_lastDay!==n.getDate()){buildCalendar();updateHolCountdown();fetchWeather();}_lastDay=n.getDate();updateSeoul();checkAlarm(n);}
 function buildCalendar(){var n=new Date(),y=n.getFullYear(),m=n.getMonth(),d=n.getDate(),MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];document.getElementById('cal-month').textContent=MONTHS[m]+' '+y;var hols=getSAHolidays(y),cal=document.getElementById('calendar');cal.innerHTML='';var firstDay=new Date(y,m,1).getDay(),daysInMonth=new Date(y,m+1,0).getDate(),i,div,key,cls,todayHol='';for(i=0;i<firstDay;i++){div=document.createElement('div');div.className='empty';div.textContent='.';cal.appendChild(div);}for(i=1;i<=daysInMonth;i++){div=document.createElement('div');key=pad(m+1)+'-'+pad(i);cls=(i===d)?'today':'';if(hols[key]){cls+=(cls?' ':'')+' holiday';if(i===d)todayHol=hols[key];}div.className=cls.trim();div.textContent=i;cal.appendChild(div);}var hn=document.getElementById('holiday-name');if(todayHol){hn.innerHTML='&#127881; Today: '+todayHol;hn.className='holiday-name';}else{var next='',ni;for(ni=d+1;ni<=daysInMonth&&!next;ni++){key=pad(m+1)+'-'+pad(ni);if(hols[key])next=ni+' '+MONTHS[m]+': '+hols[key];}hn.textContent=next?'Next: '+next:'';hn.className='holiday-name hol-next';}}
 
 /*
-  Weather via plain <img> tag.
-  - No XHR, no JSONP, no fetch — an <img> src request goes through
-    the browser image pipeline which is NOT subject to ATS domain
-    blocking or WKWebView CORS restrictions.
-  - wttr.in generates a PNG weather graphic for any location.
-  - Cache-bust token changes every 3 hours so the image refreshes
-    automatically when left open all day.
+  Weather via XHR using current_weather=true (the proven iOS 9.3.5 compatible
+  Open-Meteo parameter). Icons are Unicode emoji rendered by the device OS font
+  — zero network requests for icons, fully internal to the device.
 */
-function refreshWxImg(){
-  var img=document.getElementById('wx-img');
-  if(!img)return;
-  /* bucket changes every 3 hours → forces a new fetch 8x/day */
-  var bucket=Math.floor(Date.now()/(3*60*60*1000));
-  img.src='https://wttr.in/Johannesburg.png?v='+bucket;
+function getWeatherIcon(code) {
+  if (code === 0) return '☀️';
+  if (code <= 3) return '⛅';
+  if (code <= 48) return '☁️';
+  if (code <= 67) return '☔';
+  if (code <= 77) return '❄️';
+  if (code <= 82) return '☔';
+  if (code <= 86) return '❄️';
+  return '⚡';
+}
+function getWeatherDesc(code) {
+  if (code === 0) return 'Clear Sky';
+  if (code <= 3) return 'Partly Cloudy';
+  if (code <= 48) return 'Fog';
+  if (code <= 55) return 'Drizzle';
+  if (code <= 67) return 'Rain';
+  if (code <= 77) return 'Snow';
+  if (code <= 82) return 'Showers';
+  if (code <= 86) return 'Snow Showers';
+  return 'Thunderstorm';
+}
+function windDirFromDeg(d){return ['N','NE','E','SE','S','SW','W','NW'][Math.round((d||0)/45)%8];}
+
+function fetchWeather() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://api.open-meteo.com/v1/forecast?latitude=-26.2041&longitude=28.0473&current_weather=true&temperature_unit=celsius', true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState !== 4) return;
+    if (xhr.status === 200) {
+      try {
+        var data = JSON.parse(xhr.responseText);
+        var w = data.current_weather;
+        document.getElementById('wx-icon').innerText = getWeatherIcon(w.weathercode);
+        document.getElementById('wx-temp').innerText = Math.round(w.temperature) + '°C';
+        document.getElementById('wx-desc').innerText = getWeatherDesc(w.weathercode);
+        document.getElementById('wx-detail').innerText = 'Joburg  •  ' + Math.round(w.windspeed) + ' km/h ' + windDirFromDeg(w.winddirection);
+      } catch(e) {
+        document.getElementById('wx-desc').innerText = 'Error';
+      }
+    } else {
+      document.getElementById('wx-desc').innerText = 'No weather data';
+      document.getElementById('wx-detail').innerText = 'Status: ' + xhr.status;
+    }
+  };
+  xhr.send();
 }
 
-/* --- Stopwatch --- */
 var swRunning=false,swStart=0,swElapsed=0,swTimer=null;
 function swUpdate(){var e=swElapsed+(Date.now()-swStart),t=Math.floor(e/100);document.getElementById('sw-display').textContent=pad(Math.floor(t/600))+':'+pad(Math.floor(t/10)%60)+'.'+(t%10);}
 function swStartStop(){unlockAudio();var btn=document.getElementById('sw-start');if(swRunning){swElapsed+=Date.now()-swStart;clearInterval(swTimer);swRunning=false;btn.textContent='Resume';btn.className='btn btn-green';}else{swStart=Date.now();swTimer=setInterval(swUpdate,100);swRunning=true;btn.textContent='Pause';btn.className='btn btn-red';}}
 function swReset(){clearInterval(swTimer);swRunning=false;swElapsed=0;document.getElementById('sw-display').textContent='00:00.0';var btn=document.getElementById('sw-start');btn.textContent='Start';btn.className='btn btn-green';}
-
-/* --- Alarm & Audio --- */
 var alH=7,alM=0,alActive=false,alFired=false;
 var AudioCtx=window.webkitAudioContext||window.AudioContext||null;
 var audioCtx=null;
@@ -232,16 +230,7 @@ function alAdj(part,delta){unlockAudio();if(part==='h'){alH=(alH+delta+24)%24;do
 function alToggle(){unlockAudio();var st=document.getElementById('al-status'),sb=document.getElementById('al-set-btn');if(alActive){alActive=false;alFired=false;st.textContent='No alarm set';st.className='alarm-status';sb.textContent='Set Alarm';sb.className='btn btn-blue';}else{alActive=true;alFired=false;st.innerHTML='&#9201; Alarm set for <strong>'+pad(alH)+':'+pad(alM)+'</strong>';st.className='alarm-status alarm-active';sb.textContent='Cancel Alarm';sb.className='btn btn-red';}}
 function playBeep(){if(!audioCtx)return;var i,osc,gain,t,freqs=[880,1046,880];for(i=0;i<3;i++){try{osc=audioCtx.createOscillator();gain=audioCtx.createGain();osc.connect(gain);gain.connect(audioCtx.destination);osc.type='sine';osc.frequency.value=freqs[i];t=audioCtx.currentTime+(i*0.55);gain.gain.setValueAtTime(0.4,t);gain.gain.exponentialRampToValueAtTime(0.001,t+0.45);osc.start(t);osc.stop(t+0.45);}catch(e){}}}
 function checkAlarm(now){if(!alActive||alFired)return;if(now.getHours()===alH&&now.getMinutes()===alM){alFired=true;playBeep();var st=document.getElementById('al-status'),sb=document.getElementById('al-set-btn');st.innerHTML='&#128276; ALARM! '+pad(alH)+':'+pad(alM);st.className='alarm-status alarm-active ringing';setTimeout(function(){alActive=false;alFired=false;st.textContent='No alarm set';st.className='alarm-status';sb.textContent='Set Alarm';sb.className='btn btn-blue';},90000);}}
-
-function init(){
-  updateClock();
-  buildCalendar();
-  updateHolCountdown();
-  refreshWxImg();
-  setInterval(updateClock,1000);
-  /* Refresh weather image every 3 hours */
-  setInterval(refreshWxImg,3*60*60*1000);
-}
+function init(){updateClock();buildCalendar();updateHolCountdown();fetchWeather();setInterval(updateClock,1000);setInterval(fetchWeather,30*60*1000);}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
 </script>
 </body>
