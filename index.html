@@ -12,7 +12,11 @@
 html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf6;font-family:Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
 .app{position:absolute;top:12px;right:12px;bottom:12px;left:12px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;}
 .card{background:#0e1223;border:1px solid #1e2448;border-radius:16px;-webkit-box-shadow:0 4px 24px rgba(0,0,0,0.6);box-shadow:0 4px 24px rgba(0,0,0,0.6);}
-.top-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-direction:row;flex-direction:row;-webkit-flex-shrink:0;flex-shrink:0;margin-bottom:8px;}
+
+/* TOP ROW — 60% height */
+.top-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-direction:row;flex-direction:row;-webkit-flex:0 0 60%;flex:0 0 60%;min-height:0;margin-bottom:8px;}
+
+/* CLOCK CARD — upper left */
 .clock-card{-webkit-flex:1;flex:1;margin-right:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;padding:16px 12px;}
 .time-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;}
 .time-part{display:inline-block;background:#12172b;border:1px solid #2a3058;border-radius:12px;padding:8px 16px;margin:0 3px;min-width:110px;font-size:100px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#c8d8ff;position:relative;text-align:center;-webkit-box-shadow:0 0 44px rgba(100,140,255,0.30),0 10px 26px rgba(0,0,0,0.82);box-shadow:0 0 44px rgba(100,140,255,0.30),0 10px 26px rgba(0,0,0,0.82);line-height:1;}
@@ -21,30 +25,35 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
 .sec-part{font-size:36px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#4a5590;line-height:1;margin-left:8px;-webkit-align-self:flex-end;align-self:flex-end;margin-bottom:8px;}
 @-webkit-keyframes blink{0%,100%{opacity:1;}50%{opacity:0.15;}}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.15;}}
-.info-card{-webkit-flex:1;flex:1;margin-left:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;padding:16px 20px;}
-.info-date{font-size:24px;font-weight:bold;color:#c8d8ff;letter-spacing:0.5px;text-align:center;margin-bottom:2px;}
+
+/* INFO CARD — upper right (date + seoul + holiday + weather) */
+.info-card{-webkit-flex:1;flex:1;margin-left:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;padding:14px 22px;}
+.info-date{font-size:28px;font-weight:bold;color:#c8d8ff;letter-spacing:0.5px;text-align:center;margin-bottom:3px;}
 .info-subdate{font-size:13px;color:#6878b0;letter-spacing:1.5px;text-align:center;margin-bottom:12px;}
-.info-divider{width:70%;height:1px;background:#1e2448;margin-bottom:12px;}
+.info-divider{width:75%;height:1px;background:#1e2448;margin-bottom:12px;}
 .seoul-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:12px;}
 .seoul-flag{font-size:20px;line-height:1;margin-right:8px;}
 .seoul-label{font-size:11px;color:#3a4580;text-transform:uppercase;letter-spacing:1.5px;margin-right:10px;}
 .seoul-time{font-size:28px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#8898cc;letter-spacing:1px;}
 .seoul-day{font-size:10px;color:#3a4560;margin-left:6px;}
-.hol-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;}
+.hol-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:12px;}
 .hol-icon{font-size:16px;margin-right:6px;}
 .hol-text{font-size:13px;color:#7888bb;text-align:center;}
-.weather-bar{-webkit-flex-shrink:0;flex-shrink:0;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-flex-wrap:wrap;flex-wrap:wrap;background:#0e1223;border:1px solid #1e2448;border-radius:10px;padding:6px 16px;margin-bottom:8px;}
-.wx-icon{font-size:16px;line-height:1;margin-right:5px;}
-.wx-temp{font-size:16px;font-weight:bold;color:#c8d8ff;margin-right:5px;}
-.wx-range{font-size:11px;color:#7888bb;margin-right:5px;}
-.wx-desc{font-size:11px;color:#6878b0;margin-right:5px;}
-.wx-wind{font-size:11px;color:#4a5590;margin-right:5px;}
-.sun-item{font-size:11px;color:#3e4d80;margin:0 5px;}
+.wx-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;margin-bottom:7px;}
+.wx-icon{font-size:20px;line-height:1;margin-right:7px;}
+.wx-temp{font-size:20px;font-weight:bold;color:#c8d8ff;margin-right:7px;}
+.wx-range{font-size:12px;color:#7888bb;margin-right:7px;}
+.wx-desc{font-size:12px;color:#6878b0;margin-right:7px;}
+.wx-wind{font-size:12px;color:#4a5590;}
+.sun-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;}
+.sun-item{font-size:12px;color:#3e4d80;margin:0 6px;}
 .sun-val{color:#5a6aaa;margin-left:3px;}
 .sep-dot{color:#2a3050;font-size:13px;margin:0 3px;}
-.fx-item{font-size:11px;color:#3e6040;background:#0b1a10;border:1px solid #1a3022;border-radius:6px;padding:2px 12px;margin-left:5px;display:-webkit-inline-box;display:-webkit-inline-flex;display:inline-flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;}
-.fx-val{color:#5aaa7a;margin-left:5px;font-weight:bold;font-size:13px;}
+
+/* BOTTOM ROW — remaining 40% */
 .bottom-row{-webkit-flex:1;flex:1;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-direction:row;flex-direction:row;min-height:0;}
+
+/* SW/AL CARD — bottom left */
 .sw-al-card{-webkit-flex:1;flex:1;margin-right:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;overflow:hidden;}
 .sw-al-tabs{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-shrink:0;flex-shrink:0;background:#0a0e1a;border-bottom:1px solid #1e2448;border-radius:16px 16px 0 0;padding:4px;}
 .sw-al-tab{-webkit-flex:1;flex:1;background:none;border:none;color:#4a5590;font-size:13px;font-family:Helvetica,Arial,sans-serif;padding:7px 4px;border-radius:8px;cursor:pointer;letter-spacing:0.5px;-webkit-tap-highlight-color:transparent;margin:0 2px;}
@@ -67,6 +76,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
 @-webkit-keyframes ring{0%,100%{-webkit-transform:translateX(0);}15%{-webkit-transform:translateX(-8px);}30%{-webkit-transform:translateX(8px);}45%{-webkit-transform:translateX(-6px);}60%{-webkit-transform:translateX(6px);}75%{-webkit-transform:translateX(-4px);}90%{-webkit-transform:translateX(4px);}}
 @keyframes ring{0%,100%{transform:translateX(0);}15%{transform:translateX(-8px);}30%{transform:translateX(8px);}45%{transform:translateX(-6px);}60%{transform:translateX(6px);}75%{transform:translateX(-4px);}90%{transform:translateX(4px);}}
 .ringing{color:#ffdd44!important;-webkit-animation:ring 0.6s ease-in-out 4;animation:ring 0.6s ease-in-out 4;}
+
+/* CAL CARD — bottom right */
 .cal-card{-webkit-flex:1;flex:1;margin-left:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;padding:12px;overflow:hidden;}
 .cal-title{font-size:10px;color:#3a4580;margin-bottom:6px;text-transform:uppercase;letter-spacing:2px;text-align:center;-webkit-flex-shrink:0;flex-shrink:0;}
 .cal{font-size:0;-webkit-flex-shrink:0;flex-shrink:0;}
@@ -78,14 +89,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
 .empty{visibility:hidden;}
 .holiday-name{font-size:10px;color:#cc7070;margin-top:6px;text-align:center;-webkit-flex-shrink:0;flex-shrink:0;min-height:14px;}
 .hol-next{color:#4a5590;}
-@media screen and (max-width:1024px){.time-part{min-width:88px;font-size:78px;padding:7px 12px;}.time-sep{font-size:56px;}.sec-part{font-size:28px;}.seoul-time{font-size:22px;}.info-date{font-size:19px;}.sw-display{font-size:44px;}}
-@media screen and (max-width:900px){.time-part{min-width:70px;font-size:62px;padding:6px 9px;}.time-sep{font-size:44px;}.sec-part{font-size:22px;}.info-date{font-size:16px;}.info-subdate{font-size:11px;}.seoul-time{font-size:18px;}.seoul-label{font-size:9px;}.sw-display{font-size:36px;}.al-val{font-size:34px;width:70px;}.al-colon{font-size:34px;padding-top:14px;}.btn-sm{width:70px;font-size:17px;}.cal div{font-size:11px;}}
-@media screen and (max-width:600px){.app{top:6px;right:6px;bottom:6px;left:6px;}.top-row{-webkit-flex-direction:column;flex-direction:column;}.bottom-row{-webkit-flex-direction:column;flex-direction:column;}.clock-card{margin-right:0;margin-bottom:4px;}.info-card{margin-left:0;margin-top:4px;}.sw-al-card{margin-right:0;margin-bottom:4px;}.cal-card{margin-left:0;margin-top:4px;}.time-part{min-width:56px;font-size:50px;padding:5px 8px;margin:0 2px;}.time-sep{font-size:36px;}.sec-part{font-size:19px;}.info-date{font-size:14px;}.seoul-time{font-size:15px;}.sw-display{font-size:30px;letter-spacing:2px;margin-bottom:14px;}.al-val{font-size:28px;width:58px;margin:3px 0;}.al-colon{font-size:28px;padding-top:10px;}.btn-sm{width:58px;font-size:15px;}.btn{font-size:13px;padding:8px 14px;}.cal div{font-size:10px;padding:4px 0;}.cal-header div{font-size:8px;}}
+
+/* RESPONSIVE */
+@media screen and (max-width:1024px){.time-part{min-width:90px;font-size:80px;padding:7px 12px;}.time-sep{font-size:58px;}.sec-part{font-size:29px;}.info-date{font-size:22px;}.seoul-time{font-size:22px;}.sw-display{font-size:44px;}}
+@media screen and (max-width:900px){.time-part{min-width:72px;font-size:63px;padding:6px 9px;}.time-sep{font-size:45px;}.sec-part{font-size:23px;}.info-date{font-size:17px;}.info-subdate{font-size:11px;}.seoul-time{font-size:18px;}.seoul-label{font-size:9px;}.wx-temp{font-size:16px;}.wx-icon{font-size:16px;}.sw-display{font-size:36px;}.al-val{font-size:34px;width:70px;}.al-colon{font-size:34px;padding-top:14px;}.btn-sm{width:70px;font-size:17px;}.cal div{font-size:11px;}}
+@media screen and (max-width:600px){.app{top:6px;right:6px;bottom:6px;left:6px;}.top-row{-webkit-flex-direction:column;flex-direction:column;-webkit-flex:0 0 auto;flex:0 0 auto;}.bottom-row{-webkit-flex:1;flex:1;-webkit-flex-direction:column;flex-direction:column;}.clock-card{margin-right:0;margin-bottom:4px;padding:10px;}.info-card{margin-left:0;margin-top:4px;}.sw-al-card{margin-right:0;margin-bottom:4px;}.cal-card{margin-left:0;margin-top:4px;}.time-part{min-width:58px;font-size:52px;padding:5px 8px;margin:0 2px;}.time-sep{font-size:37px;}.sec-part{font-size:20px;}.info-date{font-size:15px;}.seoul-time{font-size:15px;}.sw-display{font-size:30px;letter-spacing:2px;margin-bottom:14px;}.al-val{font-size:28px;width:58px;margin:3px 0;}.al-colon{font-size:28px;padding-top:10px;}.btn-sm{width:58px;font-size:15px;}.btn{font-size:13px;padding:8px 14px;}.cal div{font-size:10px;padding:4px 0;}.cal-header div{font-size:8px;}}
 </style>
 </head>
 <body>
 <div class="app">
+
+  <!-- TOP ROW -->
   <div class="top-row">
+
+    <!-- Upper Left: Clock only -->
     <div class="card clock-card">
       <div class="time-row">
         <div class="time-part" id="hours">--</div>
@@ -94,6 +111,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
         <div class="sec-part" id="seconds">00</div>
       </div>
     </div>
+
+    <!-- Upper Right: Date, Seoul, Holiday, Weather -->
     <div class="card info-card">
       <div id="date-day" class="info-date">Loading...</div>
       <div id="date-sub" class="info-subdate"></div>
@@ -109,22 +128,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
         <span class="hol-icon">&#127881;</span>
         <span class="hol-text" id="hol-countdown">Loading...</span>
       </div>
+      <div class="info-divider"></div>
+      <div class="wx-row">
+        <span class="wx-icon" id="wx-icon">&#9729;</span>
+        <span class="wx-temp" id="wx-temp">--&deg;C</span>
+        <span class="wx-range" id="wx-range"></span>
+        <span class="wx-desc" id="wx-desc">Loading weather...</span>
+        <span class="wx-wind" id="wx-wind"></span>
+      </div>
+      <div class="sun-row">
+        <span class="sun-item">&#9728;<span class="sun-val" id="wx-sunrise">--:--</span></span>
+        <span class="sep-dot">&middot;</span>
+        <span class="sun-item">&#9790;<span class="sun-val" id="wx-sunset">--:--</span></span>
+      </div>
     </div>
+
   </div>
-  <div class="weather-bar">
-    <span class="wx-icon" id="wx-icon">&#9729;</span>
-    <span class="wx-temp" id="wx-temp">--&deg;C</span>
-    <span class="wx-range" id="wx-range"></span>
-    <span class="wx-desc" id="wx-desc">Joburg...</span>
-    <span class="wx-wind" id="wx-wind"></span>
-    <span class="sep-dot">&middot;</span>
-    <span class="sun-item">&#9728;<span class="sun-val" id="wx-sunrise">--:--</span></span>
-    <span class="sep-dot">&middot;</span>
-    <span class="sun-item">&#9790;<span class="sun-val" id="wx-sunset">--:--</span></span>
-    <span class="sep-dot">&middot;</span>
-    <span class="fx-item">USD/ZAR<span class="fx-val" id="fx-rate">--</span></span>
-  </div>
+
+  <!-- BOTTOM ROW -->
   <div class="bottom-row">
+
+    <!-- Bottom Left: Stopwatch + Alarm -->
     <div class="card sw-al-card">
       <div class="sw-al-tabs">
         <button class="sw-al-tab active" id="btn-sw" onclick="showSwAl('sw')">&#9201; Stopwatch</button>
@@ -159,34 +183,66 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
         </div>
       </div>
     </div>
+
+    <!-- Bottom Right: Calendar -->
     <div class="card cal-card">
       <div id="cal-month" class="cal-title">Calendar</div>
       <div class="cal cal-header"><div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div></div>
       <div id="calendar" class="cal"></div>
       <div id="holiday-name" class="holiday-name"></div>
     </div>
+
   </div>
 </div>
 <script>
 function pad(n){return n<10?'0'+n:''+n;}
+
 function showSwAl(name){var tabs=['sw','al'],i;for(i=0;i<tabs.length;i++){document.getElementById('panel-'+tabs[i]).style.display=(tabs[i]===name)?'':'none';document.getElementById('btn-'+tabs[i]).className='sw-al-tab'+(tabs[i]===name?' active':'');}unlockAudio();}
+
 function updateSeoul(){var now=new Date();var kst=new Date(now.getTime()+(now.getTimezoneOffset()*60000)+(9*3600000));document.getElementById('tz-seoul').textContent=pad(kst.getHours())+':'+pad(kst.getMinutes())+':'+pad(kst.getSeconds());var diff=kst.getDate()-now.getDate();document.getElementById('tz-seoul-day').textContent=(diff>0)?'+1 day':(diff<0)?'-1 day':'';}
+
 function getEaster(y){var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,ii=Math.floor(c/4),k=c%4,l=(32+2*e+2*ii-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),dy=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,dy);}
+
 function getSAHolidays(y){var hols={},i,dt,key,mon,fixed=[[1,1,"New Year's Day"],[3,21,'Human Rights Day'],[4,27,'Freedom Day'],[5,1,"Workers' Day"],[6,16,'Youth Day'],[8,9,"National Women's Day"],[9,24,'Heritage Day'],[12,16,'Day of Reconciliation'],[12,25,'Christmas Day'],[12,26,'Day of Goodwill']];for(i=0;i<fixed.length;i++){dt=new Date(y,fixed[i][0]-1,fixed[i][1]);key=pad(dt.getMonth()+1)+'-'+pad(dt.getDate());hols[key]=fixed[i][2];if(dt.getDay()===0){mon=new Date(y,dt.getMonth(),dt.getDate()+1);hols[pad(mon.getMonth()+1)+'-'+pad(mon.getDate())]=fixed[i][2]+' (obs)';}}var e=getEaster(y),gf=new Date(y,e.getMonth(),e.getDate()-2),fd=new Date(y,e.getMonth(),e.getDate()+1);hols[pad(gf.getMonth()+1)+'-'+pad(gf.getDate())]='Good Friday';hols[pad(fd.getMonth()+1)+'-'+pad(fd.getDate())]='Family Day';return hols;}
+
 function updateHolCountdown(){var today=new Date(),y=today.getFullYear(),todayMs=new Date(y,today.getMonth(),today.getDate()).getTime(),hols=getSAHolidays(y),bestDays=9999,name='',found=false,key,parts,dt,days;for(key in hols){parts=key.split('-');dt=new Date(y,parseInt(parts[0],10)-1,parseInt(parts[1],10));days=Math.round((dt.getTime()-todayMs)/86400000);if(days>0&&days<bestDays){bestDays=days;name=hols[key];found=true;}}if(!found){hols=getSAHolidays(y+1);for(key in hols){parts=key.split('-');dt=new Date(y+1,parseInt(parts[0],10)-1,parseInt(parts[1],10));days=Math.round((dt.getTime()-todayMs)/86400000);if(days>0&&days<bestDays){bestDays=days;name=hols[key];found=true;}}}document.getElementById('hol-countdown').textContent=found?(name+' in '+bestDays+' days'):'';}
+
 var _lastDay=-1;
-function updateClock(){var n=new Date();document.getElementById('hours').textContent=pad(n.getHours());document.getElementById('minutes').textContent=pad(n.getMinutes());document.getElementById('seconds').textContent=pad(n.getSeconds());var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];document.getElementById('date-day').textContent=DAYS[n.getDay()];document.getElementById('date-sub').textContent=n.getDate()+' '+MONTHS[n.getMonth()]+' '+n.getFullYear();if(_lastDay!==-1&&_lastDay!==n.getDate()){buildCalendar();updateHolCountdown();fetchWeather();fetchFX();}_lastDay=n.getDate();updateSeoul();checkAlarm(n);}
+function updateClock(){var n=new Date();document.getElementById('hours').textContent=pad(n.getHours());document.getElementById('minutes').textContent=pad(n.getMinutes());document.getElementById('seconds').textContent=pad(n.getSeconds());var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];document.getElementById('date-day').textContent=DAYS[n.getDay()];document.getElementById('date-sub').textContent=n.getDate()+' '+MONTHS[n.getMonth()]+' '+n.getFullYear();if(_lastDay!==-1&&_lastDay!==n.getDate()){buildCalendar();updateHolCountdown();fetchWeather();}_lastDay=n.getDate();updateSeoul();checkAlarm(n);}
+
 function buildCalendar(){var n=new Date(),y=n.getFullYear(),m=n.getMonth(),d=n.getDate(),MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];document.getElementById('cal-month').textContent=MONTHS[m]+' '+y;var hols=getSAHolidays(y),cal=document.getElementById('calendar');cal.innerHTML='';var firstDay=new Date(y,m,1).getDay(),daysInMonth=new Date(y,m+1,0).getDate(),i,div,key,cls,todayHol='';for(i=0;i<firstDay;i++){div=document.createElement('div');div.className='empty';div.textContent='.';cal.appendChild(div);}for(i=1;i<=daysInMonth;i++){div=document.createElement('div');key=pad(m+1)+'-'+pad(i);cls=(i===d)?'today':'';if(hols[key]){cls+=(cls?' ':'')+' holiday';if(i===d)todayHol=hols[key];}div.className=cls.trim();div.textContent=i;cal.appendChild(div);}var hn=document.getElementById('holiday-name');if(todayHol){hn.innerHTML='&#127881; Today: '+todayHol;hn.className='holiday-name';}else{var next='',ni;for(ni=d+1;ni<=daysInMonth&&!next;ni++){key=pad(m+1)+'-'+pad(ni);if(hols[key])next=ni+' '+MONTHS[m]+': '+hols[key];}hn.textContent=next?'Next: '+next:'';hn.className='holiday-name hol-next';}}
+
 var WX_MAP=[[0,'&#9728;','Clear'],[1,'&#127780;','Mainly clear'],[2,'&#9925;','Partly cloudy'],[3,'&#9729;','Overcast'],[45,'&#127787;','Fog'],[48,'&#127787;','Icy fog'],[51,'&#127746;','Lt drizzle'],[53,'&#127746;','Drizzle'],[55,'&#127746;','Hvy drizzle'],[61,'&#127783;','Lt rain'],[63,'&#127783;','Rain'],[65,'&#127783;','Hvy rain'],[71,'&#10052;','Lt snow'],[73,'&#10052;','Snow'],[75,'&#10052;','Hvy snow'],[80,'&#127783;','Showers'],[85,'&#10052;','Snow shwrs'],[95,'&#9928;','Storm'],[99,'&#9928;','Storm']];
 function wxLookup(c){var r={icon:'&#9729;',desc:'Weather'},i;for(i=0;i<WX_MAP.length;i++){if(WX_MAP[i][0]<=c){r.icon=WX_MAP[i][1];r.desc=WX_MAP[i][2];}else{break;}}return r;}
 function windDir(d){return ['N','NE','E','SE','S','SW','W','NW'][Math.round((d||0)/45)%8];}
 function parseHHMM(s){if(!s)return '--:--';var p=s.split('T');return p.length>1?p[1].substring(0,5):'--:--';}
-function fetchWeather(){var xhr=new XMLHttpRequest();xhr.open('GET','https://api.open-meteo.com/v1/forecast?latitude=-26.2041&longitude=28.0473&current=temperature_2m,weathercode,windspeed_10m,winddirection_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=Africa%2FJohannesburg&temperature_unit=celsius',true);xhr.onreadystatechange=function(){if(xhr.readyState!==4)return;if(xhr.status===200){try{var data=JSON.parse(xhr.responseText),cw=data.current,wx=wxLookup(cw.weathercode);document.getElementById('wx-icon').innerHTML=wx.icon;document.getElementById('wx-temp').textContent=Math.round(cw.temperature_2m)+'\u00b0C';document.getElementById('wx-desc').textContent=wx.desc+' \u2022 Joburg';document.getElementById('wx-wind').textContent='\u2022 '+Math.round(cw.windspeed_10m)+' km/h '+windDir(cw.winddirection_10m);var dd=data.daily;if(dd&&dd.temperature_2m_max){document.getElementById('wx-range').textContent='\u2191'+Math.round(dd.temperature_2m_max[0])+'\u00b0 \u2193'+Math.round(dd.temperature_2m_min[0])+'\u00b0';}if(dd&&dd.sunrise&&dd.sunrise[0]){document.getElementById('wx-sunrise').textContent=parseHHMM(dd.sunrise[0]);document.getElementById('wx-sunset').textContent=parseHHMM(dd.sunset[0]);}}catch(e){document.getElementById('wx-desc').textContent='Weather error';}}else{document.getElementById('wx-desc').textContent='Weather unavailable';}};xhr.send();}
-function fetchFX(){var xhr=new XMLHttpRequest();xhr.open('GET','https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/usd/zar.json',true);xhr.onreadystatechange=function(){if(xhr.readyState!==4)return;if(xhr.status===200){try{var d=JSON.parse(xhr.responseText),r=(d&&d.zar)?d.zar:null;document.getElementById('fx-rate').textContent=r!==null?(' R'+r.toFixed(2)):'--';}catch(e){document.getElementById('fx-rate').textContent='--';}}else{document.getElementById('fx-rate').textContent='--';}};xhr.send();}
+
+function fetchWeather(){
+  var xhr=new XMLHttpRequest();
+  xhr.open('GET','https://api.open-meteo.com/v1/forecast?latitude=-26.2041&longitude=28.0473&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=Africa%2FJohannesburg&temperature_unit=celsius',true);
+  xhr.onreadystatechange=function(){
+    if(xhr.readyState!==4)return;
+    if(xhr.status===200){
+      try{
+        var data=JSON.parse(xhr.responseText),cw=data.current,wx=wxLookup(cw.weather_code);
+        document.getElementById('wx-icon').innerHTML=wx.icon;
+        document.getElementById('wx-temp').textContent=Math.round(cw.temperature_2m)+'\u00b0C';
+        document.getElementById('wx-desc').textContent=wx.desc+' \u2022 Joburg';
+        document.getElementById('wx-wind').textContent='\u2022 '+Math.round(cw.wind_speed_10m)+' km/h '+windDir(cw.wind_direction_10m);
+        var dd=data.daily;
+        if(dd&&dd.temperature_2m_max){document.getElementById('wx-range').textContent='\u2191'+Math.round(dd.temperature_2m_max[0])+'\u00b0 \u2193'+Math.round(dd.temperature_2m_min[0])+'\u00b0';}
+        if(dd&&dd.sunrise&&dd.sunrise[0]){document.getElementById('wx-sunrise').textContent=parseHHMM(dd.sunrise[0]);document.getElementById('wx-sunset').textContent=parseHHMM(dd.sunset[0]);}
+      }catch(e){document.getElementById('wx-desc').textContent='Weather error';}
+    }else{document.getElementById('wx-desc').textContent='Weather unavailable';}
+  };
+  xhr.send();
+}
+
 var swRunning=false,swStart=0,swElapsed=0,swTimer=null;
 function swUpdate(){var e=swElapsed+(Date.now()-swStart),t=Math.floor(e/100);document.getElementById('sw-display').textContent=pad(Math.floor(t/600))+':'+pad(Math.floor(t/10)%60)+'.'+(t%10);}
 function swStartStop(){unlockAudio();var btn=document.getElementById('sw-start');if(swRunning){swElapsed+=Date.now()-swStart;clearInterval(swTimer);swRunning=false;btn.textContent='Resume';btn.className='btn btn-green';}else{swStart=Date.now();swTimer=setInterval(swUpdate,100);swRunning=true;btn.textContent='Pause';btn.className='btn btn-red';}}
 function swReset(){clearInterval(swTimer);swRunning=false;swElapsed=0;document.getElementById('sw-display').textContent='00:00.0';var btn=document.getElementById('sw-start');btn.textContent='Start';btn.className='btn btn-green';}
+
 var alH=7,alM=0,alActive=false,alFired=false;
 var AudioCtx=window.webkitAudioContext||window.AudioContext||null;
 var audioCtx=null;
@@ -195,7 +251,8 @@ function alAdj(part,delta){unlockAudio();if(part==='h'){alH=(alH+delta+24)%24;do
 function alToggle(){unlockAudio();var st=document.getElementById('al-status'),sb=document.getElementById('al-set-btn');if(alActive){alActive=false;alFired=false;st.textContent='No alarm set';st.className='alarm-status';sb.textContent='Set Alarm';sb.className='btn btn-blue';}else{alActive=true;alFired=false;st.innerHTML='&#9201; Alarm set for <strong>'+pad(alH)+':'+pad(alM)+'</strong>';st.className='alarm-status alarm-active';sb.textContent='Cancel Alarm';sb.className='btn btn-red';}}
 function playBeep(){if(!audioCtx)return;var i,osc,gain,t,freqs=[880,1046,880];for(i=0;i<3;i++){try{osc=audioCtx.createOscillator();gain=audioCtx.createGain();osc.connect(gain);gain.connect(audioCtx.destination);osc.type='sine';osc.frequency.value=freqs[i];t=audioCtx.currentTime+(i*0.55);gain.gain.setValueAtTime(0.4,t);gain.gain.exponentialRampToValueAtTime(0.001,t+0.45);osc.start(t);osc.stop(t+0.45);}catch(e){}}}
 function checkAlarm(now){if(!alActive||alFired)return;if(now.getHours()===alH&&now.getMinutes()===alM){alFired=true;playBeep();var st=document.getElementById('al-status'),sb=document.getElementById('al-set-btn');st.innerHTML='&#128276; ALARM! '+pad(alH)+':'+pad(alM);st.className='alarm-status alarm-active ringing';setTimeout(function(){alActive=false;alFired=false;st.textContent='No alarm set';st.className='alarm-status';sb.textContent='Set Alarm';sb.className='btn btn-blue';},90000);}}
-function init(){updateClock();buildCalendar();updateHolCountdown();fetchWeather();fetchFX();setInterval(updateClock,1000);setInterval(fetchWeather,3*60*60*1000);setInterval(fetchFX,4*60*60*1000);}
+
+function init(){updateClock();buildCalendar();updateHolCountdown();fetchWeather();setInterval(updateClock,1000);setInterval(fetchWeather,3*60*60*1000);}
 if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
 </script>
 </body>
