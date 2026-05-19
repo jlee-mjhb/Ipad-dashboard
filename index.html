@@ -26,29 +26,29 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
 @-webkit-keyframes blink{0%,100%{opacity:1;}50%{opacity:0.15;}}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.15;}}
 
-/* INFO CARD — upper right (date + seoul + holiday + weather) */
+/* INFO CARD — upper right */
 .info-card{-webkit-flex:1;flex:1;margin-left:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;padding:14px 22px;}
-.info-date{font-size:28px;font-weight:bold;color:#c8d8ff;letter-spacing:0.5px;text-align:center;margin-bottom:3px;}
-.info-subdate{font-size:13px;color:#6878b0;letter-spacing:1.5px;text-align:center;margin-bottom:12px;}
-.info-divider{width:75%;height:1px;background:#1e2448;margin-bottom:12px;}
-.seoul-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:12px;}
-.seoul-flag{font-size:20px;line-height:1;margin-right:8px;}
-.seoul-label{font-size:11px;color:#3a4580;text-transform:uppercase;letter-spacing:1.5px;margin-right:10px;}
-.seoul-time{font-size:28px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#8898cc;letter-spacing:1px;}
-.seoul-day{font-size:10px;color:#3a4560;margin-left:6px;}
-.hol-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:12px;}
-.hol-icon{font-size:16px;margin-right:6px;}
-.hol-text{font-size:13px;color:#7888bb;text-align:center;}
-.wx-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;margin-bottom:7px;}
-.wx-icon{font-size:20px;line-height:1;margin-right:7px;}
-.wx-temp{font-size:20px;font-weight:bold;color:#c8d8ff;margin-right:7px;}
-.wx-range{font-size:12px;color:#7888bb;margin-right:7px;}
-.wx-desc{font-size:12px;color:#6878b0;margin-right:7px;}
-.wx-wind{font-size:12px;color:#4a5590;}
+.info-date{font-size:42px;font-weight:bold;color:#c8d8ff;letter-spacing:0.5px;text-align:center;margin-bottom:4px;}
+.info-subdate{font-size:19px;color:#6878b0;letter-spacing:1.5px;text-align:center;margin-bottom:14px;}
+.info-divider{width:75%;height:1px;background:#1e2448;margin-bottom:14px;}
+.seoul-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:14px;}
+.seoul-flag{font-size:26px;line-height:1;margin-right:10px;}
+.seoul-label{font-size:14px;color:#3a4580;text-transform:uppercase;letter-spacing:1.5px;margin-right:12px;}
+.seoul-time{font-size:36px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#8898cc;letter-spacing:1px;}
+.seoul-day{font-size:13px;color:#3a4560;margin-left:8px;}
+.hol-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:14px;}
+.hol-icon{font-size:22px;margin-right:8px;}
+.hol-text{font-size:19px;color:#7888bb;text-align:center;}
+.wx-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;margin-bottom:8px;}
+.wx-icon{font-size:26px;line-height:1;margin-right:8px;}
+.wx-temp{font-size:26px;font-weight:bold;color:#c8d8ff;margin-right:8px;}
+.wx-range{font-size:16px;color:#7888bb;margin-right:8px;}
+.wx-desc{font-size:16px;color:#6878b0;margin-right:8px;}
+.wx-wind{font-size:16px;color:#4a5590;}
 .sun-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;}
-.sun-item{font-size:12px;color:#3e4d80;margin:0 6px;}
-.sun-val{color:#5a6aaa;margin-left:3px;}
-.sep-dot{color:#2a3050;font-size:13px;margin:0 3px;}
+.sun-item{font-size:16px;color:#3e4d80;margin:0 8px;}
+.sun-val{color:#5a6aaa;margin-left:4px;}
+.sep-dot{color:#2a3050;font-size:16px;margin:0 4px;}
 
 /* BOTTOM ROW — remaining 40% */
 .bottom-row{-webkit-flex:1;flex:1;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-direction:row;flex-direction:row;min-height:0;}
@@ -91,9 +91,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf
 .hol-next{color:#4a5590;}
 
 /* RESPONSIVE */
-@media screen and (max-width:1024px){.time-part{min-width:90px;font-size:80px;padding:7px 12px;}.time-sep{font-size:58px;}.sec-part{font-size:29px;}.info-date{font-size:22px;}.seoul-time{font-size:22px;}.sw-display{font-size:44px;}}
-@media screen and (max-width:900px){.time-part{min-width:72px;font-size:63px;padding:6px 9px;}.time-sep{font-size:45px;}.sec-part{font-size:23px;}.info-date{font-size:17px;}.info-subdate{font-size:11px;}.seoul-time{font-size:18px;}.seoul-label{font-size:9px;}.wx-temp{font-size:16px;}.wx-icon{font-size:16px;}.sw-display{font-size:36px;}.al-val{font-size:34px;width:70px;}.al-colon{font-size:34px;padding-top:14px;}.btn-sm{width:70px;font-size:17px;}.cal div{font-size:11px;}}
-@media screen and (max-width:600px){.app{top:6px;right:6px;bottom:6px;left:6px;}.top-row{-webkit-flex-direction:column;flex-direction:column;-webkit-flex:0 0 auto;flex:0 0 auto;}.bottom-row{-webkit-flex:1;flex:1;-webkit-flex-direction:column;flex-direction:column;}.clock-card{margin-right:0;margin-bottom:4px;padding:10px;}.info-card{margin-left:0;margin-top:4px;}.sw-al-card{margin-right:0;margin-bottom:4px;}.cal-card{margin-left:0;margin-top:4px;}.time-part{min-width:58px;font-size:52px;padding:5px 8px;margin:0 2px;}.time-sep{font-size:37px;}.sec-part{font-size:20px;}.info-date{font-size:15px;}.seoul-time{font-size:15px;}.sw-display{font-size:30px;letter-spacing:2px;margin-bottom:14px;}.al-val{font-size:28px;width:58px;margin:3px 0;}.al-colon{font-size:28px;padding-top:10px;}.btn-sm{width:58px;font-size:15px;}.btn{font-size:13px;padding:8px 14px;}.cal div{font-size:10px;padding:4px 0;}.cal-header div{font-size:8px;}}
+@media screen and (max-width:1024px){.time-part{min-width:90px;font-size:80px;padding:7px 12px;}.time-sep{font-size:58px;}.sec-part{font-size:29px;}.info-date{font-size:32px;}.info-subdate{font-size:15px;}.seoul-time{font-size:28px;}.seoul-label{font-size:12px;}.hol-text{font-size:15px;}.wx-temp{font-size:22px;}.wx-icon{font-size:22px;}.wx-range,.wx-desc,.wx-wind,.sun-item{font-size:14px;}.sw-display{font-size:44px;}}
+@media screen and (max-width:900px){.time-part{min-width:72px;font-size:63px;padding:6px 9px;}.time-sep{font-size:45px;}.sec-part{font-size:23px;}.info-date{font-size:26px;}.info-subdate{font-size:13px;}.seoul-time{font-size:22px;}.seoul-label{font-size:10px;}.seoul-flag{font-size:18px;}.hol-text{font-size:13px;}.hol-icon{font-size:16px;}.wx-temp{font-size:18px;}.wx-icon{font-size:18px;}.wx-range,.wx-desc,.wx-wind,.sun-item{font-size:12px;}.sw-display{font-size:36px;}.al-val{font-size:34px;width:70px;}.al-colon{font-size:34px;padding-top:14px;}.btn-sm{width:70px;font-size:17px;}.cal div{font-size:11px;}}
+@media screen and (max-width:600px){.app{top:6px;right:6px;bottom:6px;left:6px;}.top-row{-webkit-flex-direction:column;flex-direction:column;-webkit-flex:0 0 auto;flex:0 0 auto;}.bottom-row{-webkit-flex:1;flex:1;-webkit-flex-direction:column;flex-direction:column;}.clock-card{margin-right:0;margin-bottom:4px;padding:10px;}.info-card{margin-left:0;margin-top:4px;}.sw-al-card{margin-right:0;margin-bottom:4px;}.cal-card{margin-left:0;margin-top:4px;}.time-part{min-width:58px;font-size:52px;padding:5px 8px;margin:0 2px;}.time-sep{font-size:37px;}.sec-part{font-size:20px;}.info-date{font-size:20px;}.info-subdate{font-size:11px;}.seoul-time{font-size:16px;}.hol-text{font-size:11px;}.wx-temp{font-size:14px;}.wx-icon{font-size:14px;}.wx-range,.wx-desc,.wx-wind,.sun-item{font-size:10px;}.sw-display{font-size:30px;letter-spacing:2px;margin-bottom:14px;}.al-val{font-size:28px;width:58px;margin:3px 0;}.al-colon{font-size:28px;padding-top:10px;}.btn-sm{width:58px;font-size:15px;}.btn{font-size:13px;padding:8px 14px;}.cal div{font-size:10px;padding:4px 0;}.cal-header div{font-size:8px;}}
 </style>
 </head>
 <body>
@@ -212,19 +212,29 @@ function updateClock(){var n=new Date();document.getElementById('hours').textCon
 
 function buildCalendar(){var n=new Date(),y=n.getFullYear(),m=n.getMonth(),d=n.getDate(),MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];document.getElementById('cal-month').textContent=MONTHS[m]+' '+y;var hols=getSAHolidays(y),cal=document.getElementById('calendar');cal.innerHTML='';var firstDay=new Date(y,m,1).getDay(),daysInMonth=new Date(y,m+1,0).getDate(),i,div,key,cls,todayHol='';for(i=0;i<firstDay;i++){div=document.createElement('div');div.className='empty';div.textContent='.';cal.appendChild(div);}for(i=1;i<=daysInMonth;i++){div=document.createElement('div');key=pad(m+1)+'-'+pad(i);cls=(i===d)?'today':'';if(hols[key]){cls+=(cls?' ':'')+' holiday';if(i===d)todayHol=hols[key];}div.className=cls.trim();div.textContent=i;cal.appendChild(div);}var hn=document.getElementById('holiday-name');if(todayHol){hn.innerHTML='&#127881; Today: '+todayHol;hn.className='holiday-name';}else{var next='',ni;for(ni=d+1;ni<=daysInMonth&&!next;ni++){key=pad(m+1)+'-'+pad(ni);if(hols[key])next=ni+' '+MONTHS[m]+': '+hols[key];}hn.textContent=next?'Next: '+next:'';hn.className='holiday-name hol-next';}}
 
+/* --- Weather --- */
 var WX_MAP=[[0,'&#9728;','Clear'],[1,'&#127780;','Mainly clear'],[2,'&#9925;','Partly cloudy'],[3,'&#9729;','Overcast'],[45,'&#127787;','Fog'],[48,'&#127787;','Icy fog'],[51,'&#127746;','Lt drizzle'],[53,'&#127746;','Drizzle'],[55,'&#127746;','Hvy drizzle'],[61,'&#127783;','Lt rain'],[63,'&#127783;','Rain'],[65,'&#127783;','Hvy rain'],[71,'&#10052;','Lt snow'],[73,'&#10052;','Snow'],[75,'&#10052;','Hvy snow'],[80,'&#127783;','Showers'],[85,'&#10052;','Snow shwrs'],[95,'&#9928;','Storm'],[99,'&#9928;','Storm']];
 function wxLookup(c){var r={icon:'&#9729;',desc:'Weather'},i;for(i=0;i<WX_MAP.length;i++){if(WX_MAP[i][0]<=c){r.icon=WX_MAP[i][1];r.desc=WX_MAP[i][2];}else{break;}}return r;}
-function windDir(d){return ['N','NE','E','SE','S','SW','W','NW'][Math.round((d||0)/45)%8];}
-function parseHHMM(s){if(!s)return '--:--';var p=s.split('T');return p.length>1?p[1].substring(0,5):'--:--';}
 
+/* wttr.in icon mapping by code range */
+function wttrIcon(c){if(c<=113)return '&#9728;';if(c<=116)return '&#9925;';if(c<=122)return '&#9729;';if(c<=260)return '&#127787;';if(c<=314)return '&#127783;';if(c<=338)return '&#10052;';if(c<=377)return '&#127783;';return '&#9928;';}
+
+function windDir(deg){return ['N','NE','E','SE','S','SW','W','NW'][Math.round((deg||0)/45)%8];}
+function parseHHMM(s){if(!s)return '--:--';var p=s.split('T');return p.length>1?p[1].substring(0,5):'--:--';}
+function fmtTime(s){if(!s)return '--:--';return (s.split(' ')[0])||'--:--';}
+
+/* Primary: Open-Meteo. On any failure -> fallback to wttr.in */
 function fetchWeather(){
+  var done=false;
   var xhr=new XMLHttpRequest();
+  xhr.timeout=9000;
   xhr.open('GET','https://api.open-meteo.com/v1/forecast?latitude=-26.2041&longitude=28.0473&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=Africa%2FJohannesburg&temperature_unit=celsius',true);
   xhr.onreadystatechange=function(){
-    if(xhr.readyState!==4)return;
+    if(xhr.readyState!==4||done)return;
     if(xhr.status===200){
       try{
         var data=JSON.parse(xhr.responseText),cw=data.current,wx=wxLookup(cw.weather_code);
+        done=true;
         document.getElementById('wx-icon').innerHTML=wx.icon;
         document.getElementById('wx-temp').textContent=Math.round(cw.temperature_2m)+'\u00b0C';
         document.getElementById('wx-desc').textContent=wx.desc+' \u2022 Joburg';
@@ -232,17 +242,50 @@ function fetchWeather(){
         var dd=data.daily;
         if(dd&&dd.temperature_2m_max){document.getElementById('wx-range').textContent='\u2191'+Math.round(dd.temperature_2m_max[0])+'\u00b0 \u2193'+Math.round(dd.temperature_2m_min[0])+'\u00b0';}
         if(dd&&dd.sunrise&&dd.sunrise[0]){document.getElementById('wx-sunrise').textContent=parseHHMM(dd.sunrise[0]);document.getElementById('wx-sunset').textContent=parseHHMM(dd.sunset[0]);}
-      }catch(e){document.getElementById('wx-desc').textContent='Weather error';}
-    }else{document.getElementById('wx-desc').textContent='Weather unavailable';}
+      }catch(e){if(!done){done=true;fetchWttr();}}
+    }else{if(!done){done=true;fetchWttr();}}
   };
+  xhr.ontimeout=function(){if(!done){done=true;fetchWttr();}};
+  xhr.onerror=function(){if(!done){done=true;fetchWttr();}};
   xhr.send();
 }
 
+/* Fallback: wttr.in (separate CDN, different TLS chain) */
+function fetchWttr(){
+  var xhr=new XMLHttpRequest();
+  xhr.timeout=9000;
+  xhr.open('GET','https://wttr.in/-26.2041,28.0473?format=j1',true);
+  xhr.onreadystatechange=function(){
+    if(xhr.readyState!==4)return;
+    if(xhr.status===200){
+      try{
+        var d=JSON.parse(xhr.responseText),cc=d.current_condition[0];
+        var wc=parseInt(cc.weatherCode,10);
+        document.getElementById('wx-icon').innerHTML=wttrIcon(wc);
+        document.getElementById('wx-temp').textContent=Math.round(parseFloat(cc.temp_C))+'\u00b0C';
+        var desc=(cc.weatherDesc&&cc.weatherDesc[0]&&cc.weatherDesc[0].value)?cc.weatherDesc[0].value:'Weather';
+        document.getElementById('wx-desc').textContent=desc+' \u2022 Joburg';
+        document.getElementById('wx-wind').textContent='\u2022 '+Math.round(parseFloat(cc.windspeedKmph))+' km/h '+windDir(parseFloat(cc.winddirDegree));
+        var w=d.weather&&d.weather[0];
+        if(w){
+          document.getElementById('wx-range').textContent='\u2191'+Math.round(parseFloat(w.maxtempC))+'\u00b0 \u2193'+Math.round(parseFloat(w.mintempC))+'\u00b0';
+          if(w.astronomy&&w.astronomy[0]){document.getElementById('wx-sunrise').textContent=fmtTime(w.astronomy[0].sunrise);document.getElementById('wx-sunset').textContent=fmtTime(w.astronomy[0].sunset);}
+        }
+      }catch(e){document.getElementById('wx-desc').textContent='Weather error';}
+    }else{document.getElementById('wx-desc').textContent='No weather data';}
+  };
+  xhr.ontimeout=function(){document.getElementById('wx-desc').textContent='Weather timeout';};
+  xhr.onerror=function(){document.getElementById('wx-desc').textContent='Weather offline';};
+  xhr.send();
+}
+
+/* --- Stopwatch --- */
 var swRunning=false,swStart=0,swElapsed=0,swTimer=null;
 function swUpdate(){var e=swElapsed+(Date.now()-swStart),t=Math.floor(e/100);document.getElementById('sw-display').textContent=pad(Math.floor(t/600))+':'+pad(Math.floor(t/10)%60)+'.'+(t%10);}
 function swStartStop(){unlockAudio();var btn=document.getElementById('sw-start');if(swRunning){swElapsed+=Date.now()-swStart;clearInterval(swTimer);swRunning=false;btn.textContent='Resume';btn.className='btn btn-green';}else{swStart=Date.now();swTimer=setInterval(swUpdate,100);swRunning=true;btn.textContent='Pause';btn.className='btn btn-red';}}
 function swReset(){clearInterval(swTimer);swRunning=false;swElapsed=0;document.getElementById('sw-display').textContent='00:00.0';var btn=document.getElementById('sw-start');btn.textContent='Start';btn.className='btn btn-green';}
 
+/* --- Alarm & Audio --- */
 var alH=7,alM=0,alActive=false,alFired=false;
 var AudioCtx=window.webkitAudioContext||window.AudioContext||null;
 var audioCtx=null;
