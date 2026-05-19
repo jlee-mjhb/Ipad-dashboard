@@ -8,7 +8,6 @@
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
 <style>
-/* iOS 9.3.5 safe: -webkit- prefixes first, no gap, no CSS grid, no custom properties */
 *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0;}
 html,body{
   width:100%;height:100%;overflow:hidden;
@@ -24,17 +23,19 @@ html,body{
 }
 
 /* ======================================================
-   ROW 1: Clock (top-left) + Weather card (top-right)
+   ROW 1: Clock (top-left, ~54%) + Weather card (top-right)
+   flex-grow so it fills remaining space above bottom row
    ====================================================== */
 .row1{
+  -webkit-box-flex:1;-webkit-flex:1 1 auto;flex:1 1 auto;
   display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:horizontal;-webkit-box-direction:normal;
   -webkit-flex-direction:row;flex-direction:row;
-  -webkit-flex-shrink:0;flex-shrink:0;
   margin-bottom:5px;
+  min-height:0;
 }
 
-/* -- Clock panel (top-left) -- */
+/* -- Clock card (top-left) -- */
 .clock-col{
   width:54%;
   -webkit-box-flex:0;-webkit-flex:0 0 auto;flex:0 0 auto;
@@ -42,8 +43,9 @@ html,body{
   -webkit-box-orient:vertical;-webkit-box-direction:normal;
   -webkit-flex-direction:column;flex-direction:column;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
   background:#0e1223;border:1px solid #1e2448;border-radius:12px;
-  padding:8px 6px 7px 6px;margin-right:5px;
+  padding:8px 6px;margin-right:5px;
 }
 .time-row{
   display:-webkit-box;display:-webkit-flex;display:flex;
@@ -51,7 +53,6 @@ html,body{
   -webkit-flex-direction:row;flex-direction:row;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
 }
-/* 86px = 10% smaller than original 96px */
 .time-part{
   background:#12172b;border:1px solid #2a3058;border-radius:10px;
   padding:6px 10px;margin:0 2px;
@@ -79,7 +80,6 @@ html,body{
   font-size:12px;color:#6878b0;margin-top:5px;
   letter-spacing:1px;text-align:center;
 }
-/* Seoul secondary clock */
 .tz-strip{
   margin-top:5px;
   display:-webkit-box;display:-webkit-flex;display:flex;
@@ -104,6 +104,7 @@ html,body{
   -webkit-flex-direction:column;flex-direction:column;
   background:#0e1223;border:1px solid #1e2448;
   border-radius:12px;padding:8px 10px;
+  min-height:0;
 }
 .wx-now-row{
   display:-webkit-box;display:-webkit-flex;display:flex;
@@ -111,27 +112,31 @@ html,body{
   -webkit-flex-direction:row;flex-direction:row;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
   margin-bottom:3px;
+  -webkit-flex-shrink:0;flex-shrink:0;
 }
-.wx-icon{font-size:28px;margin-right:8px;line-height:1;}
-.wx-temp{font-size:30px;font-weight:bold;color:#c8d8ff;margin-right:8px;}
+.wx-icon{font-size:26px;margin-right:7px;line-height:1;}
+.wx-temp{font-size:28px;font-weight:bold;color:#c8d8ff;margin-right:8px;}
 .wx-meta{
   display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:vertical;-webkit-box-direction:normal;
   -webkit-flex-direction:column;flex-direction:column;
 }
-.wx-desc{font-size:11px;color:#6878b0;}
-.wx-range{font-size:11px;color:#7888bb;}
-.wx-wind{font-size:10px;color:#4a5590;margin-top:1px;}
-.wx-sun{font-size:9px;color:#3e4d80;margin-bottom:5px;}
-/* 7-day weekly strip */
+.wx-desc{font-size:10px;color:#6878b0;}
+.wx-range{font-size:10px;color:#7888bb;}
+.wx-wind{font-size:9px;color:#4a5590;margin-top:1px;}
+.wx-sun{
+  font-size:9px;color:#3e4d80;margin-bottom:4px;
+  -webkit-flex-shrink:0;flex-shrink:0;
+}
 .wx-weekly{
   display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:horizontal;-webkit-box-direction:normal;
   -webkit-flex-direction:row;flex-direction:row;
   -webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  border-top:1px solid #1a2040;padding-top:6px;
+  border-top:1px solid #1a2040;padding-top:5px;
   -webkit-flex:1 1 auto;flex:1 1 auto;
+  min-height:0;
 }
 .wx-day{
   display:-webkit-box;display:-webkit-flex;display:flex;
@@ -141,12 +146,12 @@ html,body{
   -webkit-box-flex:1;-webkit-flex:1;flex:1;
 }
 .wx-day-name{font-size:8px;color:#3a4580;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
-.wx-day-icon{font-size:17px;margin-bottom:2px;line-height:1;}
-.wx-day-hi{font-size:10px;color:#c8d8ff;font-weight:bold;}
-.wx-day-lo{font-size:9px;color:#4a5590;}
+.wx-day-icon{font-size:16px;margin-bottom:2px;line-height:1;}
+.wx-day-hi{font-size:9px;color:#c8d8ff;font-weight:bold;}
+.wx-day-lo{font-size:8px;color:#4a5590;}
 
 /* ======================================================
-   ROW 2: FX + Holiday info strip
+   ROW 2: FX + Holiday info strip (fixed height)
    ====================================================== */
 .info-strip{
   display:-webkit-box;display:-webkit-flex;display:flex;
@@ -163,47 +168,51 @@ html,body{
 .hol-item{font-size:11px;color:#3e4d80;margin:0 7px;}
 
 /* ======================================================
-   ROW 3: Alarm/Stopwatch (bottom-left) + Calendar (bottom-right)
+   ROW 3: Alarm/Stopwatch (bottom-left, 40%) +
+           Calendar (bottom-right, 58%)
+   Fixed shorter height so clock/weather get more space.
    ====================================================== */
 .row3{
-  -webkit-box-flex:1;-webkit-flex:1 1 auto;flex:1 1 auto;
+  height:195px;
+  -webkit-flex-shrink:0;flex-shrink:0;
   display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:horizontal;-webkit-box-direction:normal;
   -webkit-flex-direction:row;flex-direction:row;
-  min-height:0;
 }
 
-/* -- Alarm / Stopwatch card (bottom-left) -- */
+/* -- Alarm/Stopwatch card (bottom-left, narrower) -- */
 .sw-al-panel{
-  -webkit-box-flex:1;-webkit-flex:1 1 auto;flex:1 1 auto;
+  width:40%;
+  -webkit-box-flex:0;-webkit-flex:0 0 auto;flex:0 0 auto;
   display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:vertical;-webkit-box-direction:normal;
   -webkit-flex-direction:column;flex-direction:column;
   background:#0e1223;border:1px solid #1e2448;
-  border-radius:12px;padding:7px;margin-right:5px;
+  border-radius:12px;padding:6px;margin-right:5px;
+  overflow:hidden;
 }
 .panel-tabs{
   display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:horizontal;-webkit-box-direction:normal;
   -webkit-flex-direction:row;flex-direction:row;
   background:#080c18;border:1px solid #1a2040;
-  border-radius:8px;padding:3px;
-  margin-bottom:6px;
+  border-radius:8px;padding:2px;
+  margin-bottom:4px;
   -webkit-flex-shrink:0;flex-shrink:0;
 }
 .ptab-btn{
   -webkit-box-flex:1;-webkit-flex:1;flex:1;
   background:none;border:none;color:#4a5590;
-  font-size:11px;font-family:Helvetica,Arial,sans-serif;
-  padding:5px 2px;border-radius:6px;cursor:pointer;
-  letter-spacing:0.3px;-webkit-tap-highlight-color:transparent;
+  font-size:10px;font-family:Helvetica,Arial,sans-serif;
+  padding:4px 2px;border-radius:6px;cursor:pointer;
+  letter-spacing:0.2px;-webkit-tap-highlight-color:transparent;
 }
 .ptab-btn.active{
   background:-webkit-linear-gradient(135deg,#2a4fcc,#5030cc);
   background:linear-gradient(135deg,#2a4fcc,#5030cc);
   color:#fff;
-  -webkit-box-shadow:0 0 6px rgba(80,120,255,0.35);
-  box-shadow:0 0 6px rgba(80,120,255,0.35);
+  -webkit-box-shadow:0 0 5px rgba(80,120,255,0.35);
+  box-shadow:0 0 5px rgba(80,120,255,0.35);
 }
 .panel-body{
   -webkit-box-flex:1;-webkit-flex:1 1 auto;flex:1 1 auto;
@@ -212,12 +221,11 @@ html,body{
   -webkit-flex-direction:column;flex-direction:column;
   -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  min-height:0;
+  min-height:0;overflow:hidden;
 }
-/* Stopwatch */
 .sw-display{
-  font-size:50px;font-family:'Courier New',Courier,monospace;
-  font-weight:bold;color:#c8d8ff;letter-spacing:3px;margin-bottom:14px;
+  font-size:38px;font-family:'Courier New',Courier,monospace;
+  font-weight:bold;color:#c8d8ff;letter-spacing:2px;margin-bottom:10px;
   text-align:center;
 }
 .btn-row{
@@ -228,15 +236,14 @@ html,body{
 }
 .btn{
   background:#12172b;border:1px solid #2a3058;border-radius:40px;
-  color:#c8d8ff;font-size:13px;font-family:Helvetica,Arial,sans-serif;
-  padding:8px 20px;margin:0 4px;cursor:pointer;
+  color:#c8d8ff;font-size:12px;font-family:Helvetica,Arial,sans-serif;
+  padding:6px 14px;margin:0 3px;cursor:pointer;
   -webkit-tap-highlight-color:transparent;
 }
 .btn-green{background:-webkit-linear-gradient(135deg,#1a5c2a,#1d7a38);background:linear-gradient(135deg,#1a5c2a,#1d7a38);border-color:#2a9950;color:#aaffcc;}
 .btn-red{background:-webkit-linear-gradient(135deg,#661a1a,#882233);background:linear-gradient(135deg,#661a1a,#882233);border-color:#993344;color:#ffaaaa;}
 .btn-blue{background:-webkit-linear-gradient(135deg,#1a3a99,#3322aa);background:linear-gradient(135deg,#1a3a99,#3322aa);border-color:#4433bb;color:#aaccff;}
-/* Alarm */
-.alarm-status{font-size:11px;color:#6878b0;margin-bottom:8px;min-height:15px;text-align:center;}
+.alarm-status{font-size:10px;color:#6878b0;margin-bottom:5px;min-height:13px;text-align:center;}
 .alarm-active{color:#ffaa44;}
 .alarm-controls{
   display:-webkit-box;display:-webkit-flex;display:flex;
@@ -244,7 +251,7 @@ html,body{
   -webkit-flex-direction:row;flex-direction:row;
   -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  margin-bottom:10px;
+  margin-bottom:7px;
 }
 .al-group{
   display:-webkit-box;display:-webkit-flex;display:flex;
@@ -252,25 +259,25 @@ html,body{
   -webkit-flex-direction:column;flex-direction:column;
   -webkit-box-align:center;-webkit-align-items:center;align-items:center;
 }
-.al-label{font-size:8px;color:#4a5590;letter-spacing:1px;margin-bottom:3px;text-transform:uppercase;}
-.al-val{font-size:40px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#c8d8ff;width:76px;text-align:center;margin:3px 0;}
-.al-colon{font-size:40px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#3a4580;margin:0 3px;padding-top:16px;}
+.al-label{font-size:7px;color:#4a5590;letter-spacing:1px;margin-bottom:2px;text-transform:uppercase;}
+.al-val{font-size:30px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#c8d8ff;width:58px;text-align:center;margin:2px 0;}
+.al-colon{font-size:30px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#3a4580;margin:0 2px;padding-top:12px;}
 .btn-sm{
-  background:#12172b;border:1px solid #2a3058;border-radius:6px;
-  color:#8898cc;font-size:18px;padding:2px 0;cursor:pointer;
+  background:#12172b;border:1px solid #2a3058;border-radius:5px;
+  color:#8898cc;font-size:15px;padding:1px 0;cursor:pointer;
   -webkit-tap-highlight-color:transparent;display:block;
-  width:76px;text-align:center;line-height:1;
+  width:58px;text-align:center;line-height:1;
   font-family:Helvetica,Arial,sans-serif;
 }
 @-webkit-keyframes ring{
   0%,100%{-webkit-transform:translateX(0);transform:translateX(0);}
-  25%{-webkit-transform:translateX(-7px);transform:translateX(-7px);}
-  75%{-webkit-transform:translateX(7px);transform:translateX(7px);}
+  25%{-webkit-transform:translateX(-6px);transform:translateX(-6px);}
+  75%{-webkit-transform:translateX(6px);transform:translateX(6px);}
 }
 @keyframes ring{
   0%,100%{transform:translateX(0);}
-  25%{transform:translateX(-7px);}
-  75%{transform:translateX(7px);}
+  25%{transform:translateX(-6px);}
+  75%{transform:translateX(6px);}
 }
 .ringing{
   color:#ffdd44!important;
@@ -278,30 +285,29 @@ html,body{
   animation:ring 0.5s ease-in-out 5;
 }
 
-/* -- Calendar card (bottom-right) -- */
+/* -- Calendar card (bottom-right, wider at 58%) -- */
 .cal-panel{
-  width:38%;
-  -webkit-box-flex:0;-webkit-flex:0 0 auto;flex:0 0 auto;
+  -webkit-box-flex:1;-webkit-flex:1 1 auto;flex:1 1 auto;
   display:-webkit-box;display:-webkit-flex;display:flex;
   -webkit-box-orient:vertical;-webkit-box-direction:normal;
   -webkit-flex-direction:column;flex-direction:column;
   background:#0e1223;border:1px solid #1e2448;
-  border-radius:12px;padding:7px 5px 5px 5px;
-  min-height:0;
+  border-radius:12px;padding:6px 5px 4px 5px;
+  overflow:hidden;
 }
 .cal-title{
   font-size:8px;color:#3a4580;text-transform:uppercase;
-  letter-spacing:1.5px;text-align:center;margin-bottom:4px;
+  letter-spacing:1.5px;text-align:center;margin-bottom:3px;
   -webkit-flex-shrink:0;flex-shrink:0;
 }
 .cal{font-size:0;-webkit-flex-shrink:0;flex-shrink:0;}
 .cal div{
   display:inline-block;width:14.285%;text-align:center;
-  font-size:9px;padding:2px 0;color:#8898cc;
+  font-size:10px;padding:3px 0;color:#8898cc;
   vertical-align:top;border-radius:3px;
 }
 .cal-header div{
-  color:#323a68;font-size:7px;padding-bottom:3px;
+  color:#323a68;font-size:7px;padding-bottom:2px;
   text-transform:uppercase;letter-spacing:0.5px;
 }
 .today{
@@ -319,7 +325,7 @@ html,body{
 }
 .empty{visibility:hidden;}
 .holiday-name{
-  font-size:7px;color:#cc7070;margin-top:3px;
+  font-size:7px;color:#cc7070;margin-top:2px;
   text-align:center;min-height:10px;
   -webkit-flex-shrink:0;flex-shrink:0;
 }
@@ -332,7 +338,7 @@ html,body{
   <!-- ===== ROW 1: Clock (top-left) + Weather (top-right) ===== -->
   <div class="row1">
 
-    <!-- Clock card (top-left) -->
+    <!-- Clock card -->
     <div class="clock-col">
       <div class="time-row">
         <div class="time-part" id="hours">--</div>
@@ -351,13 +357,13 @@ html,body{
       </div>
     </div>
 
-    <!-- Weather card (top-right) with 7-day weekly view -->
+    <!-- Weather card (top-right) -->
     <div class="weather-col">
       <div class="wx-now-row">
         <span class="wx-icon" id="wx-icon">&#9729;</span>
         <span class="wx-temp" id="wx-temp">--&#176;C</span>
         <div class="wx-meta">
-          <span class="wx-desc" id="wx-desc">Johannesburg&#8230;</span>
+          <span class="wx-desc" id="wx-desc">Loading&#8230;</span>
           <span class="wx-range" id="wx-range"></span>
           <span class="wx-wind" id="wx-wind"></span>
         </div>
@@ -373,28 +379,25 @@ html,body{
         <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
       </div>
     </div>
-
   </div>
 
   <!-- ===== ROW 2: FX + Holiday strip ===== -->
   <div class="info-strip">
-    <span class="fx-item">USD/ZAR<span class="fx-val" id="fx-rate">--</span></span>
+    <span class="fx-item">USD/ZAR<span class="fx-val" id="fx-rate"> --</span></span>
     <span class="sep-dot">&#183;</span>
     <span class="hol-item" id="hol-countdown"></span>
   </div>
 
-  <!-- ===== ROW 3: Alarm/Stopwatch (bottom-left) + Calendar (bottom-right) ===== -->
+  <!-- ===== ROW 3: Stopwatch/Alarm (left 40%) + Calendar (right 58%) ===== -->
   <div class="row3">
 
-    <!-- Alarm / Stopwatch card (bottom-left) -->
+    <!-- Alarm/Stopwatch card (bottom-left) -->
     <div class="sw-al-panel">
       <div class="panel-tabs">
         <button class="ptab-btn active" id="btn-sw" onclick="showTab('sw')">&#9201; Stopwatch</button>
         <button class="ptab-btn" id="btn-al" onclick="showTab('al')">&#128276; Alarm</button>
       </div>
       <div class="panel-body">
-
-        <!-- Stopwatch tab -->
         <div id="tab-sw">
           <div class="sw-display" id="sw-display">00:00.0</div>
           <div class="btn-row">
@@ -402,8 +405,6 @@ html,body{
             <button class="btn btn-red" onclick="swReset()">Reset</button>
           </div>
         </div>
-
-        <!-- Alarm tab -->
         <div id="tab-al" style="display:none">
           <div class="alarm-status" id="al-status">No alarm set</div>
           <div class="alarm-controls">
@@ -423,11 +424,10 @@ html,body{
           </div>
           <button class="btn btn-blue" id="al-set-btn" onclick="alToggle()">Set Alarm</button>
         </div>
-
       </div>
     </div>
 
-    <!-- Calendar card (bottom-right) -->
+    <!-- Calendar card (bottom-right, wider) -->
     <div class="cal-panel">
       <div id="cal-month" class="cal-title">Calendar</div>
       <div class="cal cal-header">
@@ -436,28 +436,24 @@ html,body{
       <div id="calendar" class="cal"></div>
       <div id="holiday-name" class="holiday-name"></div>
     </div>
-
   </div>
 </div>
 <script>
 /*
   ES5-only. No const/let/arrow/Promise/fetch/template-literals.
-  iOS 9.3.5 Safari + GitHub Pages (HTTPS) compatible.
-  Weather: open-meteo.com  FX: frankfurter.app
-  KEY FIXES vs previous version:
-  1. Removed :after pseudo-element on .time-part (caused iOS 9 rendering blank).
-  2. Clock font-size reduced to 86px (10% smaller than 96px).
-  3. Seoul KST uses pure UTC-offset math (no Intl, no timezone string).
-  4. XHR: explicit Accept header + 30s timeout + ontimeout on BOTH weather & FX.
-  5. weather_code field: try both weather_code AND weathercode from daily.
-  6. FX: null-safe rate extraction + textContent only (no innerHTML).
-  7. buildCalendar + updateClock both null-check every DOM element.
-  8. Linear-gradient direction uses old webkit syntax (top left -> bottom right)
-     replaced with angle for iOS 9 compatibility.
-  9. init() wrapped in DOMContentLoaded guard that works on iOS 9 UIWebView.
+  iOS 9.3.5 UIWebView + Safari compatible.
+
+  KEY FIX — Weather & FX were blank:
+  setRequestHeader('Accept','application/json') was triggering a CORS
+  preflight OPTIONS request that iOS 9 UIWebView silently drops, so
+  onreadystatechange never fires. Fix: send plain GET with NO custom headers.
+  Also added xhr.onerror so network-level failures show a message instead
+  of leaving fields blank.
+
+  FX endpoint switched from frankfurter.app to open.er-api.com which has
+  broader TLS/cipher compatibility with iOS 9.
 */
 
-/* ===== HELPERS ===== */
 function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
 /* ===== TAB SWITCHER ===== */
@@ -472,12 +468,12 @@ function showTab(name) {
   unlockAudio();
 }
 
-/* ===== SEOUL SECONDARY CLOCK (KST = UTC+9, pure offset math, no Intl) ===== */
+/* ===== SEOUL CLOCK (UTC+9 pure offset, no Intl) ===== */
 function updateSeoul() {
-  var now    = new Date();
-  var utcMs  = now.getTime() + (now.getTimezoneOffset() * 60000);
-  var kst    = new Date(utcMs + 9 * 3600000);
-  var loc    = new Date();
+  var now   = new Date();
+  var utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
+  var kst   = new Date(utcMs + 9 * 3600000);
+  var loc   = new Date();
   var kd = kst.getFullYear() * 10000 + (kst.getMonth() + 1) * 100 + kst.getDate();
   var ld = loc.getFullYear() * 10000 + (loc.getMonth()  + 1) * 100 + loc.getDate();
   var el  = document.getElementById('tz-seoul');
@@ -488,252 +484,235 @@ function updateSeoul() {
 
 /* ===== SA PUBLIC HOLIDAYS ===== */
 function getEaster(y) {
-  var a = y % 19, b = Math.floor(y / 100), c = y % 100;
-  var d = Math.floor(b / 4), e = b % 4;
-  var f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
-  var h = (19 * a + b - d - g + 15) % 30;
-  var ii = Math.floor(c / 4), k = c % 4;
-  var l  = (32 + 2 * e + 2 * ii - h - k) % 7;
-  var m  = Math.floor((a + 11 * h + 22 * l) / 451);
-  var mo = Math.floor((h + l - 7 * m + 114) / 31);
-  var dy = ((h + l - 7 * m + 114) % 31) + 1;
-  return new Date(y, mo - 1, dy);
+  var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4;
+  var f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3);
+  var h=(19*a+b-d-g+15)%30,ii=Math.floor(c/4),k=c%4;
+  var l=(32+2*e+2*ii-h-k)%7,m=Math.floor((a+11*h+22*l)/451);
+  var mo=Math.floor((h+l-7*m+114)/31),dy=((h+l-7*m+114)%31)+1;
+  return new Date(y,mo-1,dy);
 }
 function getSAHolidays(y) {
-  var hols = {}, i, dt, key, mon;
-  var fixed = [
+  var hols={},i,dt,key,mon;
+  var fixed=[
     [1,1,"New Year's Day"],[3,21,'Human Rights Day'],
     [4,27,'Freedom Day'],[5,1,"Workers' Day"],[6,16,'Youth Day'],
     [8,9,"National Women's Day"],[9,24,'Heritage Day'],
     [12,16,'Day of Reconciliation'],[12,25,'Christmas Day'],[12,26,'Day of Goodwill']
   ];
-  for (i = 0; i < fixed.length; i++) {
-    dt  = new Date(y, fixed[i][0] - 1, fixed[i][1]);
-    key = pad(dt.getMonth() + 1) + '-' + pad(dt.getDate());
-    hols[key] = fixed[i][2];
-    if (dt.getDay() === 0) {
-      mon = new Date(y, dt.getMonth(), dt.getDate() + 1);
-      hols[pad(mon.getMonth() + 1) + '-' + pad(mon.getDate())] = fixed[i][2] + ' (obs)';
+  for (i=0;i<fixed.length;i++) {
+    dt=new Date(y,fixed[i][0]-1,fixed[i][1]);
+    key=pad(dt.getMonth()+1)+'-'+pad(dt.getDate());
+    hols[key]=fixed[i][2];
+    if (dt.getDay()===0) {
+      mon=new Date(y,dt.getMonth(),dt.getDate()+1);
+      hols[pad(mon.getMonth()+1)+'-'+pad(mon.getDate())]=fixed[i][2]+' (obs)';
     }
   }
-  var easter = getEaster(y);
-  var gf = new Date(y, easter.getMonth(), easter.getDate() - 2);
-  var fd = new Date(y, easter.getMonth(), easter.getDate() + 1);
-  hols[pad(gf.getMonth() + 1) + '-' + pad(gf.getDate())] = 'Good Friday';
-  hols[pad(fd.getMonth() + 1) + '-' + pad(fd.getDate())] = 'Family Day';
+  var easter=getEaster(y);
+  var gf=new Date(y,easter.getMonth(),easter.getDate()-2);
+  var fd=new Date(y,easter.getMonth(),easter.getDate()+1);
+  hols[pad(gf.getMonth()+1)+'-'+pad(gf.getDate())]='Good Friday';
+  hols[pad(fd.getMonth()+1)+'-'+pad(fd.getDate())]='Family Day';
   return hols;
 }
 
 /* ===== HOLIDAY COUNTDOWN ===== */
 function updateHolCountdown() {
-  var today = new Date(), y = today.getFullYear();
-  var todayMs = new Date(y, today.getMonth(), today.getDate()).getTime();
-  var hols = getSAHolidays(y), best = null, bestDays = 9999, name = '', key, parts, dt, days;
+  var today=new Date(),y=today.getFullYear();
+  var todayMs=new Date(y,today.getMonth(),today.getDate()).getTime();
+  var hols=getSAHolidays(y),best=null,bestDays=9999,name='',key,parts,dt,days;
   for (key in hols) {
     if (!hols.hasOwnProperty(key)) continue;
-    parts = key.split('-');
-    dt    = new Date(y, parseInt(parts[0], 10) - 1, parseInt(parts[1], 10));
-    days  = Math.round((dt.getTime() - todayMs) / 86400000);
-    if (days > 0 && days < bestDays) { bestDays = days; best = dt; name = hols[key]; }
+    parts=key.split('-');
+    dt=new Date(y,parseInt(parts[0],10)-1,parseInt(parts[1],10));
+    days=Math.round((dt.getTime()-todayMs)/86400000);
+    if (days>0&&days<bestDays){bestDays=days;best=dt;name=hols[key];}
   }
   if (!best) {
-    hols = getSAHolidays(y + 1);
+    hols=getSAHolidays(y+1);
     for (key in hols) {
       if (!hols.hasOwnProperty(key)) continue;
-      parts = key.split('-');
-      dt    = new Date(y + 1, parseInt(parts[0], 10) - 1, parseInt(parts[1], 10));
-      days  = Math.round((dt.getTime() - todayMs) / 86400000);
-      if (days > 0 && days < bestDays) { bestDays = days; best = dt; name = hols[key]; }
+      parts=key.split('-');
+      dt=new Date(y+1,parseInt(parts[0],10)-1,parseInt(parts[1],10));
+      days=Math.round((dt.getTime()-todayMs)/86400000);
+      if (days>0&&days<bestDays){bestDays=days;best=dt;name=hols[key];}
     }
   }
-  var el = document.getElementById('hol-countdown');
-  if (el) el.textContent = best ? (name + ' in ' + bestDays + 'd') : '';
+  var el=document.getElementById('hol-countdown');
+  if (el) el.textContent=best?(name+' in '+bestDays+'d'):'';
 }
 
-/* ===== DATE / DAY ARRAYS ===== */
-var DAYS_LONG   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-var MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-var DAY_SHORT   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+/* ===== DATE/DAY ARRAYS ===== */
+var DAYS_LONG=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var MONTHS_LONG=['January','February','March','April','May','June','July','August','September','October','November','December'];
+var DAY_SHORT=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 /* ===== MAIN CLOCK ===== */
-var _lastDay = -1;
+var _lastDay=-1;
 function updateClock() {
-  var n   = new Date();
-  var hEl = document.getElementById('hours');
-  var mEl = document.getElementById('minutes');
-  var sEl = document.getElementById('seconds');
-  var dEl = document.getElementById('date');
-  /* textContent is safe on iOS 9; use it exclusively to avoid innerHTML parse cost */
-  if (hEl) hEl.textContent = pad(n.getHours());
-  if (mEl) mEl.textContent = pad(n.getMinutes());
-  if (sEl) sEl.textContent = pad(n.getSeconds());
-  if (dEl) dEl.textContent = DAYS_LONG[n.getDay()] + ', ' + n.getDate() + ' ' + MONTHS_LONG[n.getMonth()] + ' ' + n.getFullYear();
-  /* Rebuild calendar and refresh data once per day */
-  if (_lastDay !== -1 && _lastDay !== n.getDate()) {
-    buildCalendar();
-    updateHolCountdown();
-    fetchWeather();
-    fetchFX();
+  var n=new Date();
+  var hEl=document.getElementById('hours');
+  var mEl=document.getElementById('minutes');
+  var sEl=document.getElementById('seconds');
+  var dEl=document.getElementById('date');
+  if (hEl) hEl.textContent=pad(n.getHours());
+  if (mEl) mEl.textContent=pad(n.getMinutes());
+  if (sEl) sEl.textContent=pad(n.getSeconds());
+  if (dEl) dEl.textContent=DAYS_LONG[n.getDay()]+', '+n.getDate()+' '+MONTHS_LONG[n.getMonth()]+' '+n.getFullYear();
+  if (_lastDay!==-1&&_lastDay!==n.getDate()) {
+    buildCalendar();updateHolCountdown();fetchWeather();fetchFX();
   }
-  _lastDay = n.getDate();
+  _lastDay=n.getDate();
   updateSeoul();
   checkAlarm(n);
 }
 
 /* ===== CALENDAR ===== */
 function buildCalendar() {
-  var n = new Date(), y = n.getFullYear(), m = n.getMonth(), d = n.getDate();
-  var titleEl = document.getElementById('cal-month');
-  if (titleEl) titleEl.textContent = MONTHS_LONG[m] + ' ' + y;
-  var hols = getSAHolidays(y);
-  var cal  = document.getElementById('calendar');
+  var n=new Date(),y=n.getFullYear(),m=n.getMonth(),d=n.getDate();
+  var titleEl=document.getElementById('cal-month');
+  if (titleEl) titleEl.textContent=MONTHS_LONG[m]+' '+y;
+  var hols=getSAHolidays(y);
+  var cal=document.getElementById('calendar');
   if (!cal) return;
-  /* Clear children without innerHTML (safer on old WebKit) */
-  while (cal.firstChild) { cal.removeChild(cal.firstChild); }
-  var firstDay    = new Date(y, m, 1).getDay();
-  var daysInMonth = new Date(y, m + 1, 0).getDate();
-  var i, div, key, cls, todayHol = '';
-  for (i = 0; i < firstDay; i++) {
-    div = document.createElement('div');
-    div.className = 'empty';
-    div.textContent = '.';
+  while (cal.firstChild){cal.removeChild(cal.firstChild);}
+  var firstDay=new Date(y,m,1).getDay();
+  var daysInMonth=new Date(y,m+1,0).getDate();
+  var i,div,key,cls,todayHol='';
+  for (i=0;i<firstDay;i++) {
+    div=document.createElement('div');
+    div.className='empty';div.textContent='.';
     cal.appendChild(div);
   }
-  for (i = 1; i <= daysInMonth; i++) {
-    div = document.createElement('div');
-    key = pad(m + 1) + '-' + pad(i);
-    cls = (i === d) ? 'today' : '';
-    if (hols[key]) {
-      cls += (cls ? ' ' : '') + 'holiday';
-      if (i === d) { todayHol = hols[key]; }
-    }
-    div.className   = cls.trim() || '';
-    div.textContent = '' + i;
+  for (i=1;i<=daysInMonth;i++) {
+    div=document.createElement('div');
+    key=pad(m+1)+'-'+pad(i);
+    cls=(i===d)?'today':'';
+    if (hols[key]){cls+=(cls?' ':')+'holiday';if(i===d){todayHol=hols[key];}}
+    div.className=cls.trim()||'';
+    div.textContent=''+i;
     cal.appendChild(div);
   }
-  var hn = document.getElementById('holiday-name');
+  var hn=document.getElementById('holiday-name');
   if (!hn) return;
   if (todayHol) {
-    hn.textContent = '\u2665 ' + todayHol;
-    hn.className   = 'holiday-name';
+    hn.textContent='\u2665 '+todayHol;hn.className='holiday-name';
   } else {
-    var next = '', ni;
-    for (ni = d + 1; ni <= daysInMonth && !next; ni++) {
-      key = pad(m + 1) + '-' + pad(ni);
-      if (hols[key]) { next = ni + ': ' + hols[key]; }
+    var next='',ni;
+    for (ni=d+1;ni<=daysInMonth&&!next;ni++) {
+      key=pad(m+1)+'-'+pad(ni);
+      if (hols[key]){next=ni+': '+hols[key];}
     }
-    hn.textContent = next ? ('Next: ' + next) : '';
-    hn.className   = 'holiday-name hol-next';
+    hn.textContent=next?('Next: '+next):'';hn.className='holiday-name hol-next';
   }
 }
 
 /* ===== WEATHER CODE MAP ===== */
-var WX_MAP = [
+var WX_MAP=[
   [0,'\u2600','Clear'],[1,'\u26C5','Mainly clear'],[2,'\u26C5','Partly cloudy'],
   [3,'\u2601','Overcast'],[45,'\uD83C\uDF2B','Fog'],[48,'\uD83C\uDF2B','Icy fog'],
   [51,'\uD83C\uDF26','Lt drizzle'],[53,'\uD83C\uDF26','Drizzle'],[55,'\uD83C\uDF26','Hvy drizzle'],
   [61,'\uD83C\uDF27','Lt rain'],[63,'\uD83C\uDF27','Rain'],[65,'\uD83C\uDF27','Hvy rain'],
   [71,'\u2744','Lt snow'],[73,'\u2744','Snow'],[75,'\u2744','Hvy snow'],
   [80,'\uD83C\uDF27','Showers'],[85,'\u2744','Snow shwrs'],
-  [95,'\u26C8','Thunderstorm'],[99,'\u26C8','Thunderstorm']
+  [95,'\u26C8','Storm'],[99,'\u26C8','Storm']
 ];
 function wxLookup(code) {
-  var r = { icon: '\u2601', desc: 'Weather' }, i;
-  for (i = 0; i < WX_MAP.length; i++) {
-    if (WX_MAP[i][0] <= code) { r.icon = WX_MAP[i][1]; r.desc = WX_MAP[i][2]; }
+  var r={icon:'\u2601',desc:'Weather'},i;
+  for (i=0;i<WX_MAP.length;i++) {
+    if (WX_MAP[i][0]<=code){r.icon=WX_MAP[i][1];r.desc=WX_MAP[i][2];}
   }
   return r;
 }
 function windDir(deg) {
-  var d = ['N','NE','E','SE','S','SW','W','NW'];
-  return d[Math.round((deg || 0) / 45) % 8];
+  var d=['N','NE','E','SE','S','SW','W','NW'];
+  return d[Math.round((deg||0)/45)%8];
 }
 function parseHHMM(iso) {
   if (!iso) return '--:--';
-  var p = iso.split('T');
-  return (p.length > 1) ? p[1].substring(0, 5) : '--:--';
+  var p=iso.split('T');
+  return (p.length>1)?p[1].substring(0,5):'--:--';
 }
 
-/* ===== WEATHER FETCH (iOS 9 safe) ===== */
-var JHB_LAT = -26.2041, JHB_LON = 28.0473;
+/* ===== WEATHER FETCH =====
+   NO custom request headers — plain GET only.
+   Custom headers (even Accept) trigger CORS preflight on iOS 9 UIWebView
+   which is silently dropped, leaving onreadystatechange never called.
+*/
+var JHB_LAT=-26.2041,JHB_LON=28.0473;
 function fetchWeather() {
-  var url = 'https://api.open-meteo.com/v1/forecast' +
-    '?latitude='  + JHB_LAT +
-    '&longitude=' + JHB_LON +
+  var descEl=document.getElementById('wx-desc');
+  if (descEl) descEl.textContent='Loading...';
+  var url='https://api.open-meteo.com/v1/forecast' +
+    '?latitude='+JHB_LAT+'&longitude='+JHB_LON +
     '&current_weather=true' +
     '&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,windspeed_10m_max' +
     '&timezone=Africa%2FJohannesburg' +
-    '&temperature_unit=celsius' +
-    '&wind_speed_unit=kmh' +
-    '&forecast_days=7';
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', url, true);
-  xhr.setRequestHeader('Accept', 'application/json');
-  xhr.timeout = 30000;
-  xhr.ontimeout = function () {
-    var el = document.getElementById('wx-desc');
-    if (el) el.textContent = 'Weather timeout';
+    '&temperature_unit=celsius&wind_speed_unit=kmh&forecast_days=7';
+  var xhr=new XMLHttpRequest();
+  xhr.open('GET',url,true);
+  /* NO setRequestHeader — avoids CORS preflight on iOS 9 UIWebView */
+  xhr.timeout=30000;
+  xhr.ontimeout=function(){
+    var el=document.getElementById('wx-desc');
+    if(el)el.textContent='Timeout';
   };
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState !== 4) return;
-    var descEl = document.getElementById('wx-desc');
-    if (xhr.status !== 200) {
-      if (descEl) descEl.textContent = 'Weather err ' + xhr.status;
+  xhr.onerror=function(){
+    /* Network-level failure (status 0): ATS block, SSL mismatch, no connectivity */
+    var el=document.getElementById('wx-desc');
+    if(el)el.textContent='Network err';
+  };
+  xhr.onreadystatechange=function(){
+    if(xhr.readyState!==4)return;
+    descEl=document.getElementById('wx-desc');
+    if(xhr.status!==200){
+      if(descEl)descEl.textContent='Err '+xhr.status;
       return;
     }
-    var data, cw, code, wx, dd, codes, weekly, dayEls, j, wxd, now2, dayDate;
-    var dnEl, diEl, dhEl, dlEl;
-    try {
-      data = JSON.parse(xhr.responseText);
-    } catch (e) {
-      if (descEl) descEl.textContent = 'JSON error';
-      return;
+    var data,cw,code,wx,dd,codes,weekly,dayEls,j,wxd,now2,dayDate;
+    var dnEl,diEl,dhEl,dlEl;
+    try{data=JSON.parse(xhr.responseText);}
+    catch(e){if(descEl)descEl.textContent='Parse err';return;}
+    cw=data.current_weather;
+    if(!cw){if(descEl)descEl.textContent='No data';return;}
+    code=(typeof cw.weathercode!=='undefined')?cw.weathercode:
+         ((typeof cw.weather_code!=='undefined')?cw.weather_code:0);
+    wx=wxLookup(code);
+    var iconEl=document.getElementById('wx-icon');
+    var tempEl=document.getElementById('wx-temp');
+    var windEl=document.getElementById('wx-wind');
+    var rngEl=document.getElementById('wx-range');
+    var srEl=document.getElementById('wx-sunrise');
+    var ssEl=document.getElementById('wx-sunset');
+    if(iconEl)iconEl.textContent=wx.icon;
+    if(tempEl)tempEl.textContent=Math.round(cw.temperature)+'\u00b0C';
+    if(descEl)descEl.textContent=wx.desc+' \u2022 Joburg';
+    if(windEl&&cw.windspeed!=null){
+      windEl.textContent='\u2022 '+Math.round(cw.windspeed)+' km/h '+windDir(cw.winddirection);
     }
-    cw = data.current_weather;
-    if (!cw) {
-      if (descEl) descEl.textContent = 'No wx data';
-      return;
-    }
-    code = (typeof cw.weathercode !== 'undefined') ? cw.weathercode :
-           ((typeof cw.weather_code !== 'undefined') ? cw.weather_code : 0);
-    wx   = wxLookup(code);
-    var iconEl = document.getElementById('wx-icon');
-    var tempEl = document.getElementById('wx-temp');
-    var windEl = document.getElementById('wx-wind');
-    var rngEl  = document.getElementById('wx-range');
-    var srEl   = document.getElementById('wx-sunrise');
-    var ssEl   = document.getElementById('wx-sunset');
-    if (iconEl) iconEl.textContent = wx.icon;
-    if (tempEl) tempEl.textContent = Math.round(cw.temperature) + '\u00b0C';
-    if (descEl) descEl.textContent = wx.desc + ' \u2022 Joburg';
-    if (windEl && cw.windspeed != null) {
-      windEl.textContent = '\u2022 ' + Math.round(cw.windspeed) + ' km/h ' + windDir(cw.winddirection);
-    }
-    dd = data.daily;
-    if (dd) {
-      if (dd.temperature_2m_max && dd.temperature_2m_max.length && rngEl) {
-        rngEl.textContent = '\u2191' + Math.round(dd.temperature_2m_max[0]) + '\u00b0' +
-                            ' \u2193' + Math.round(dd.temperature_2m_min[0]) + '\u00b0';
+    dd=data.daily;
+    if(dd){
+      if(dd.temperature_2m_max&&dd.temperature_2m_max.length&&rngEl){
+        rngEl.textContent='\u2191'+Math.round(dd.temperature_2m_max[0])+'\u00b0 \u2193'+Math.round(dd.temperature_2m_min[0])+'\u00b0';
       }
-      if (srEl && dd.sunrise  && dd.sunrise[0])  srEl.textContent = parseHHMM(dd.sunrise[0]);
-      if (ssEl && dd.sunset   && dd.sunset[0])   ssEl.textContent = parseHHMM(dd.sunset[0]);
-      /* Accept both field names open-meteo has used over time */
-      codes  = dd.weather_code || dd.weathercode;
-      weekly = document.getElementById('wx-weekly');
-      if (weekly && codes && dd.temperature_2m_max) {
-        dayEls = weekly.getElementsByClassName('wx-day');
-        now2   = new Date();
-        for (j = 0; j < 7 && j < dayEls.length && j < codes.length; j++) {
-          dayDate = new Date(now2.getFullYear(), now2.getMonth(), now2.getDate() + j);
-          wxd  = wxLookup(codes[j]);
-          dnEl = dayEls[j].getElementsByClassName('wx-day-name')[0];
-          diEl = dayEls[j].getElementsByClassName('wx-day-icon')[0];
-          dhEl = dayEls[j].getElementsByClassName('wx-day-hi')[0];
-          dlEl = dayEls[j].getElementsByClassName('wx-day-lo')[0];
-          if (dnEl) dnEl.textContent = (j === 0) ? 'Today' : DAY_SHORT[dayDate.getDay()];
-          if (diEl) diEl.textContent = wxd.icon;
-          if (dhEl) dhEl.textContent = Math.round(dd.temperature_2m_max[j]) + '\u00b0';
-          if (dlEl) dlEl.textContent = Math.round(dd.temperature_2m_min[j]) + '\u00b0';
+      if(srEl&&dd.sunrise&&dd.sunrise[0])srEl.textContent=parseHHMM(dd.sunrise[0]);
+      if(ssEl&&dd.sunset&&dd.sunset[0])ssEl.textContent=parseHHMM(dd.sunset[0]);
+      codes=dd.weather_code||dd.weathercode;
+      weekly=document.getElementById('wx-weekly');
+      if(weekly&&codes&&dd.temperature_2m_max){
+        dayEls=weekly.getElementsByClassName('wx-day');
+        now2=new Date();
+        for(j=0;j<7&&j<dayEls.length&&j<codes.length;j++){
+          dayDate=new Date(now2.getFullYear(),now2.getMonth(),now2.getDate()+j);
+          wxd=wxLookup(codes[j]);
+          dnEl=dayEls[j].getElementsByClassName('wx-day-name')[0];
+          diEl=dayEls[j].getElementsByClassName('wx-day-icon')[0];
+          dhEl=dayEls[j].getElementsByClassName('wx-day-hi')[0];
+          dlEl=dayEls[j].getElementsByClassName('wx-day-lo')[0];
+          if(dnEl)dnEl.textContent=(j===0)?'Today':DAY_SHORT[dayDate.getDay()];
+          if(diEl)diEl.textContent=wxd.icon;
+          if(dhEl)dhEl.textContent=Math.round(dd.temperature_2m_max[j])+'\u00b0';
+          if(dlEl)dlEl.textContent=Math.round(dd.temperature_2m_min[j])+'\u00b0';
         }
       }
     }
@@ -741,157 +720,142 @@ function fetchWeather() {
   xhr.send();
 }
 
-/* ===== USD/ZAR FX RATE (frankfurter.app, iOS 9 safe) ===== */
+/* ===== USD/ZAR FX RATE =====
+   open.er-api.com — free, no key, CORS-open, broad TLS compatibility.
+   NO custom headers to avoid preflight on iOS 9 UIWebView.
+   Returns: { "rates": { "ZAR": 18.xx, ... } }
+*/
 function fetchFX() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://api.frankfurter.app/latest?from=USD&to=ZAR', true);
-  xhr.setRequestHeader('Accept', 'application/json');
-  xhr.timeout = 30000;
-  xhr.ontimeout = function () {
-    var el = document.getElementById('fx-rate');
-    if (el) el.textContent = 'timeout';
+  var el=document.getElementById('fx-rate');
+  if(el)el.textContent=' ...';
+  var xhr=new XMLHttpRequest();
+  xhr.open('GET','https://open.er-api.com/v6/latest/USD',true);
+  /* NO setRequestHeader */
+  xhr.timeout=30000;
+  xhr.ontimeout=function(){
+    var e=document.getElementById('fx-rate');
+    if(e)e.textContent=' --';
   };
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState !== 4) return;
-    var el = document.getElementById('fx-rate');
-    if (!el) return;
-    if (xhr.status === 200) {
-      var data, rate;
-      try {
-        data = JSON.parse(xhr.responseText);
-        rate = (data && data.rates && typeof data.rates.ZAR === 'number') ? data.rates.ZAR : null;
-        el.textContent = (rate !== null) ? ' R' + rate.toFixed(2) : '--';
-      } catch (e) {
-        el.textContent = '--';
-      }
-    } else {
-      el.textContent = '--';
+  xhr.onerror=function(){
+    var e=document.getElementById('fx-rate');
+    if(e)e.textContent=' err';
+  };
+  xhr.onreadystatechange=function(){
+    if(xhr.readyState!==4)return;
+    var e=document.getElementById('fx-rate');
+    if(!e)return;
+    if(xhr.status===200){
+      var data,rate;
+      try{
+        data=JSON.parse(xhr.responseText);
+        rate=(data&&data.rates&&typeof data.rates.ZAR==='number')?data.rates.ZAR:null;
+        e.textContent=(rate!==null)?' R'+rate.toFixed(2):' --';
+      }catch(ex){e.textContent=' --';}
+    }else{
+      e.textContent=' --';
     }
   };
   xhr.send();
 }
 
 /* ===== STOPWATCH ===== */
-var swRunning = false, swStart = 0, swElapsed = 0, swTimer = null;
-function swUpdate() {
-  var e = swElapsed + (Date.now() - swStart);
-  var t = Math.floor(e / 100);
-  var el = document.getElementById('sw-display');
-  if (el) el.textContent = pad(Math.floor(t / 600)) + ':' + pad(Math.floor(t / 10) % 60) + '.' + (t % 10);
+var swRunning=false,swStart=0,swElapsed=0,swTimer=null;
+function swUpdate(){
+  var e=swElapsed+(Date.now()-swStart),t=Math.floor(e/100);
+  var el=document.getElementById('sw-display');
+  if(el)el.textContent=pad(Math.floor(t/600))+':'+pad(Math.floor(t/10)%60)+'.'+(t%10);
 }
-function swStartStop() {
+function swStartStop(){
   unlockAudio();
-  var btn = document.getElementById('sw-start');
-  if (swRunning) {
-    swElapsed += Date.now() - swStart;
-    clearInterval(swTimer);
-    swRunning = false;
-    if (btn) { btn.textContent = 'Resume'; btn.className = 'btn btn-green'; }
-  } else {
-    swStart   = Date.now();
-    swTimer   = setInterval(swUpdate, 100);
-    swRunning = true;
-    if (btn) { btn.textContent = 'Pause'; btn.className = 'btn btn-red'; }
+  var btn=document.getElementById('sw-start');
+  if(swRunning){
+    swElapsed+=Date.now()-swStart;clearInterval(swTimer);swRunning=false;
+    if(btn){btn.textContent='Resume';btn.className='btn btn-green';}
+  }else{
+    swStart=Date.now();swTimer=setInterval(swUpdate,100);swRunning=true;
+    if(btn){btn.textContent='Pause';btn.className='btn btn-red';}
   }
 }
-function swReset() {
-  clearInterval(swTimer);
-  swRunning = false;
-  swElapsed = 0;
-  var el  = document.getElementById('sw-display');
-  var btn = document.getElementById('sw-start');
-  if (el)  el.textContent  = '00:00.0';
-  if (btn) { btn.textContent = 'Start'; btn.className = 'btn btn-green'; }
+function swReset(){
+  clearInterval(swTimer);swRunning=false;swElapsed=0;
+  var el=document.getElementById('sw-display'),btn=document.getElementById('sw-start');
+  if(el)el.textContent='00:00.0';
+  if(btn){btn.textContent='Start';btn.className='btn btn-green';}
 }
 
 /* ===== ALARM (webkitAudioContext for iOS 9) ===== */
-var alH = 7, alM = 0, alActive = false, alFired = false;
-var AudioCtxClass = window.webkitAudioContext || window.AudioContext || null;
-var audioCtx = null;
-function unlockAudio() {
-  if (AudioCtxClass && !audioCtx) {
-    try {
-      audioCtx = new AudioCtxClass();
-      if (audioCtx.state === 'suspended' && audioCtx.resume) { audioCtx.resume(); }
-    } catch (e) { audioCtx = null; }
+var alH=7,alM=0,alActive=false,alFired=false;
+var AudioCtxClass=window.webkitAudioContext||window.AudioContext||null;
+var audioCtx=null;
+function unlockAudio(){
+  if(AudioCtxClass&&!audioCtx){
+    try{
+      audioCtx=new AudioCtxClass();
+      if(audioCtx.state==='suspended'&&audioCtx.resume){audioCtx.resume();}
+    }catch(e){audioCtx=null;}
   }
 }
-function alAdj(part, delta) {
+function alAdj(part,delta){
   unlockAudio();
   var el;
-  if (part === 'h') {
-    alH = (alH + delta + 24) % 24;
-    el  = document.getElementById('al-h');
-    if (el) el.textContent = pad(alH);
-  } else {
-    alM = (alM + delta + 60) % 60;
-    el  = document.getElementById('al-m');
-    if (el) el.textContent = pad(alM);
-  }
+  if(part==='h'){alH=(alH+delta+24)%24;el=document.getElementById('al-h');if(el)el.textContent=pad(alH);}
+  else{alM=(alM+delta+60)%60;el=document.getElementById('al-m');if(el)el.textContent=pad(alM);}
 }
-function alToggle() {
+function alToggle(){
   unlockAudio();
-  var st = document.getElementById('al-status');
-  var sb = document.getElementById('al-set-btn');
-  if (alActive) {
-    alActive = false; alFired = false;
-    if (st) { st.textContent = 'No alarm set'; st.className = 'alarm-status'; }
-    if (sb) { sb.textContent = 'Set Alarm';    sb.className = 'btn btn-blue'; }
-  } else {
-    alActive = true; alFired = false;
-    if (st) { st.textContent = '\u23f0 Set: ' + pad(alH) + ':' + pad(alM); st.className = 'alarm-status alarm-active'; }
-    if (sb) { sb.textContent = 'Cancel'; sb.className = 'btn btn-red'; }
+  var st=document.getElementById('al-status'),sb=document.getElementById('al-set-btn');
+  if(alActive){
+    alActive=false;alFired=false;
+    if(st){st.textContent='No alarm set';st.className='alarm-status';}
+    if(sb){sb.textContent='Set Alarm';sb.className='btn btn-blue';}
+  }else{
+    alActive=true;alFired=false;
+    if(st){st.textContent='\u23f0 Set: '+pad(alH)+':'+pad(alM);st.className='alarm-status alarm-active';}
+    if(sb){sb.textContent='Cancel';sb.className='btn btn-red';}
   }
 }
-function _beepAt(offset) {
-  if (!audioCtx) return;
-  try {
-    var osc  = audioCtx.createOscillator();
-    var gain = audioCtx.createGain();
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.type = 'sine';
-    osc.frequency.value = 880;
-    gain.gain.value = 0.35;
-    var t = audioCtx.currentTime + offset;
-    osc.start(t);
-    osc.stop(t + 0.18);
-  } catch (e) {}
+function _beepAt(offset){
+  if(!audioCtx)return;
+  try{
+    var osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
+    osc.connect(gain);gain.connect(audioCtx.destination);
+    osc.type='sine';osc.frequency.value=880;gain.gain.value=0.35;
+    var t=audioCtx.currentTime+offset;
+    osc.start(t);osc.stop(t+0.18);
+  }catch(e){}
 }
-function playAlarmBeeps() { _beepAt(0); _beepAt(0.28); _beepAt(0.56); }
-function checkAlarm(now) {
-  if (!alActive || alFired) return;
-  if (now.getHours() === alH && now.getMinutes() === alM && now.getSeconds() < 2) {
-    alFired = true;
+function playAlarmBeeps(){_beepAt(0);_beepAt(0.28);_beepAt(0.56);}
+function checkAlarm(now){
+  if(!alActive||alFired)return;
+  if(now.getHours()===alH&&now.getMinutes()===alM&&now.getSeconds()<2){
+    alFired=true;
     playAlarmBeeps();
-    var st = document.getElementById('al-status');
-    if (st) { st.textContent = '\u23f0 ALARM!'; st.className = 'alarm-status alarm-active ringing'; }
-    setTimeout(function () {
-      alActive = false; alFired = false;
-      var e = document.getElementById('al-status');
-      var s = document.getElementById('al-set-btn');
-      if (e) { e.textContent = 'No alarm set'; e.className = 'alarm-status'; }
-      if (s) { s.textContent = 'Set Alarm';    s.className = 'btn btn-blue'; }
-    }, 30000);
+    var st=document.getElementById('al-status');
+    if(st){st.textContent='\u23f0 ALARM!';st.className='alarm-status alarm-active ringing';}
+    setTimeout(function(){
+      alActive=false;alFired=false;
+      var e=document.getElementById('al-status'),s=document.getElementById('al-set-btn');
+      if(e){e.textContent='No alarm set';e.className='alarm-status';}
+      if(s){s.textContent='Set Alarm';s.className='btn btn-blue';}
+    },30000);
   }
 }
 
 /* ===== INIT ===== */
-function init() {
+function init(){
   buildCalendar();
   updateHolCountdown();
   updateClock();
   fetchWeather();
   fetchFX();
-  setInterval(updateClock,   1000);
-  setInterval(fetchWeather, 600000);
-  setInterval(fetchFX,      600000);
+  setInterval(updateClock,1000);
+  setInterval(fetchWeather,600000);
+  setInterval(fetchFX,600000);
 }
 
-/* iOS 9 UIWebView safe DOMContentLoaded guard */
-if (document.readyState === 'loading' || document.readyState === 'uninitialized') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
+if(document.readyState==='loading'||document.readyState==='uninitialized'){
+  document.addEventListener('DOMContentLoaded',init);
+}else{
   init();
 }
 </script>
