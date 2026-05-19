@@ -1,688 +1,951 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Dashboard</title>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <style>
-    * { -webkit-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      width: 100%; height: 100%; overflow: hidden;
-      background: #0a0e1a; color: #e8eaf6;
-      font-family: Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased; text-align: center;
-    }
-    .app {
-      position: absolute; top: 14px; right: 14px; bottom: 14px; left: 14px;
-      display: -webkit-box; display: -webkit-flex; display: flex;
-      -webkit-box-orient: vertical; -webkit-box-direction: normal;
-      -webkit-flex-direction: column; flex-direction: column;
-    }
+<meta charset="utf-8">
+<title>Dashboard</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<!--
+  GITHUB PAGES DEPLOYMENT:
+  1. Combine A1 + A2 cell text into a single file named index.html
+  2. Push to the root of your gh-pages branch (or /docs folder)
+  3. No build step needed — pure HTML/CSS/JS, zero dependencies
+  Both APIs (open-meteo.com + frankfurter.app) are HTTPS and CORS-open.
+-->
+<style>
+/* iOS 9 / Safari 9 safe: always -webkit-box- FIRST, then -webkit-flex-, then unprefixed */
+*{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0;}
+html,body{
+  width:100%;height:100%;overflow:hidden;
+  background:#0a0e1a;color:#e8eaf6;
+  font-family:Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+/* NO gap property — unsupported on iOS 9 Safari even at gap:0 */
+.app{
+  position:absolute;top:10px;right:10px;bottom:10px;left:10px;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-box-direction:normal;
+  -webkit-flex-direction:column;flex-direction:column;
+}
 
-    /* == MAIN CLOCK == */
-    .clock-container { -webkit-flex-shrink: 0; flex-shrink: 0; padding-top: 4px; }
-    .time-row { display: inline-block; }
-    .time-part {
-      display: inline-block; background: #12172b; border: 1px solid #2a3058;
-      border-radius: 16px; padding: 16px 22px; margin: 0 5px; min-width: 200px;
-      font-size: 168px; font-family: 'Courier New', Courier, monospace; font-weight: bold;
-      color: #c8d8ff; position: relative;
-      -webkit-box-shadow: 0 0 48px rgba(100,140,255,0.32), 0 14px 32px rgba(0,0,0,0.85);
-      box-shadow: 0 0 48px rgba(100,140,255,0.32), 0 14px 32px rgba(0,0,0,0.85);
-      line-height: 1;
-    }
-    .time-part::after {
-      content: ''; position: absolute; top: 50%; left: 5%; width: 90%; height: 1px;
-      background: rgba(42,48,88,0.95); margin-top: -1px;
-    }
-    .time-sep {
-      display: inline-block; font-size: 113px;
-      font-family: 'Courier New', Courier, monospace; font-weight: bold;
-      vertical-align: top; margin-top: 31px; color: #2e3870; line-height: 1;
-      -webkit-animation: blink 1s step-end infinite; animation: blink 1s step-end infinite;
-    }
-    .sec-part {
-      display: inline-block; font-size: 53px;
-      font-family: 'Courier New', Courier, monospace; font-weight: bold;
-      vertical-align: bottom; margin-bottom: 29px; margin-left: 10px;
-      color: #4a5590; line-height: 1;
-    }
-    @-webkit-keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.15;} }
-    @keyframes blink         { 0%,100%{opacity:1;} 50%{opacity:0.15;} }
-    .date { font-size: 16px; color: #6878b0; margin-top: 8px; letter-spacing: 1.5px; }
+/* == TOP ROW == */
+.top-row{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
+  -webkit-flex-direction:row;flex-direction:row;
+  -webkit-flex-shrink:0;flex-shrink:0;
+  margin-bottom:6px;
+}
 
-    /* == SECONDARY CLOCK (Seoul) == */
-    .tz-strip {
-      margin-top: 6px;
-      display: -webkit-box; display: -webkit-flex; display: flex;
-      -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
-      -webkit-box-align: center; -webkit-align-items: center; align-items: center;
-    }
-    .tz-card {
-      background: #0e1223; border: 1px solid #1a2040;
-      border-radius: 10px; padding: 5px 16px;
-      display: -webkit-box; display: -webkit-flex; display: flex;
-      -webkit-box-align: center; -webkit-align-items: center; align-items: center;
-      -webkit-box-shadow: 0 2px 10px rgba(0,0,0,0.5); box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    }
-    .tz-flag  { font-size: 18px; margin-right: 7px; line-height: 1; }
-    .tz-label { font-size: 10px; color: #3a4580; text-transform: uppercase; letter-spacing: 1.5px; margin-right: 8px; }
-    .tz-time  {
-      font-size: 22px; font-family: 'Courier New', Courier, monospace;
-      font-weight: bold; color: #8898cc; letter-spacing: 1px;
-    }
-    .tz-day { font-size: 10px; color: #3a4560; margin-left: 7px; }
+/* == CLOCK COLUMN (60% width, iOS9-safe: no 3-value flex shorthand) == */
+.clock-col{
+  width:60%;
+  -webkit-box-flex:1;-webkit-flex:1 1 auto;flex:1 1 auto;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-box-direction:normal;
+  -webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  padding-right:6px;
+}
+.time-row{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
+  -webkit-flex-direction:row;flex-direction:row;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+}
+.time-part{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  background:#12172b;border:1px solid #2a3058;border-radius:12px;
+  padding:10px 14px;margin:0 3px;min-width:120px;
+  font-size:96px;font-family:'Courier New',Courier,monospace;
+  font-weight:bold;color:#c8d8ff;
+  -webkit-box-shadow:0 0 32px rgba(100,140,255,0.28),0 8px 20px rgba(0,0,0,0.8);
+  box-shadow:0 0 32px rgba(100,140,255,0.28),0 8px 20px rgba(0,0,0,0.8);
+  line-height:1;position:relative;
+}
+.time-part:after{
+  content:'';position:absolute;top:50%;left:5%;width:90%;height:1px;
+  background:rgba(42,48,88,0.9);margin-top:-1px;
+}
+.time-sep{
+  font-size:66px;font-family:'Courier New',Courier,monospace;
+  font-weight:bold;color:#2e3870;line-height:1;margin:0 1px;
+  -webkit-animation:blink 1s step-end infinite;
+  animation:blink 1s step-end infinite;
+}
+.sec-part{
+  font-size:32px;font-family:'Courier New',Courier,monospace;
+  font-weight:bold;color:#4a5590;margin-left:6px;line-height:1;
+  -webkit-align-self:flex-end;-webkit-box-ordinal-group:1;align-self:flex-end;
+  margin-bottom:4px;
+}
+@-webkit-keyframes blink{0%,100%{opacity:1;}50%{opacity:0.15;}}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.15;}}
+.date-line{font-size:13px;color:#6878b0;margin-top:5px;letter-spacing:1.2px;text-align:center;}
 
-    /* == WEATHER ROW == */
-    .weather-strip {
-      margin-top: 6px;
-      display: -webkit-box; display: -webkit-flex; display: flex;
-      -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
-      -webkit-box-align: center; -webkit-align-items: center; align-items: center;
-    }
-    .wx-icon  { font-size: 20px; margin-right: 5px; line-height: 1; }
-    .wx-temp  { font-size: 20px; font-weight: bold; color: #c8d8ff; margin-right: 7px; }
-    .wx-range { font-size: 12px; color: #7888bb; margin-right: 7px; }
-    .wx-desc  { font-size: 12px; color: #6878b0; margin-right: 7px; }
-    .wx-wind  { font-size: 12px; color: #4a5590; }
+/* == SECONDARY CLOCK == */
+.tz-strip{
+  margin-top:5px;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+}
+.tz-card{
+  background:#0e1223;border:1px solid #1a2040;border-radius:8px;
+  padding:4px 12px;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-shadow:0 2px 8px rgba(0,0,0,0.5);box-shadow:0 2px 8px rgba(0,0,0,0.5);
+}
+.tz-flag{font-size:16px;margin-right:6px;}
+.tz-label{font-size:9px;color:#3a4580;text-transform:uppercase;letter-spacing:1.2px;margin-right:7px;}
+.tz-time{font-size:18px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#8898cc;letter-spacing:1px;}
+.tz-day{font-size:9px;color:#3a4560;margin-left:6px;}
 
-    /* == INFO STRIP (sun + rate + holiday) == */
-    .info-strip {
-      margin-top: 5px;
-      display: -webkit-box; display: -webkit-flex; display: flex;
-      -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
-      -webkit-box-align: center; -webkit-align-items: center; align-items: center;
-    }
-    .sun-item  { font-size: 12px; color: #3e4d80; margin: 0 8px; }
-    .sun-val   { color: #5a6aaa; margin-left: 3px; }
-    .sep-dot   { color: #2a3050; font-size: 14px; }
-    .fx-item   { font-size: 12px; color: #3e6040; margin: 0 8px; }
-    .fx-val    { color: #5aaa7a; margin-left: 3px; font-weight: bold; }
+/* == CALENDAR COLUMN (38% fixed, iOS9-safe) == */
+.cal-col{
+  width:38%;-webkit-box-flex:0;-webkit-flex:0 0 auto;flex:0 0 auto;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-box-direction:normal;
+  -webkit-flex-direction:column;flex-direction:column;
+  background:#0e1223;border:1px solid #1e2448;
+  border-radius:12px;padding:6px 6px 4px 6px;
+}
+.cal-title{
+  font-size:9px;color:#3a4580;text-transform:uppercase;
+  letter-spacing:1.8px;text-align:center;margin-bottom:3px;
+  -webkit-flex-shrink:0;flex-shrink:0;
+}
+.cal{font-size:0;-webkit-flex-shrink:0;flex-shrink:0;}
+.cal div{
+  display:inline-block;width:14.285%;text-align:center;
+  font-size:9px;padding:2px 0;color:#8898cc;
+  vertical-align:top;border-radius:4px;
+}
+.cal-header div{
+  color:#323a68;font-size:8px;padding-bottom:2px;
+  text-transform:uppercase;letter-spacing:1px;
+}
+.today{
+  background:-webkit-linear-gradient(315deg,#3a6fff,#6a4fff);
+  background:linear-gradient(135deg,#3a6fff,#6a4fff);
+  color:#fff!important;font-weight:bold;
+  -webkit-box-shadow:0 0 8px rgba(80,120,255,0.45);
+  box-shadow:0 0 8px rgba(80,120,255,0.45);
+}
+.holiday{background:rgba(255,70,70,0.13);color:#ff9090!important;}
+.today.holiday{
+  background:-webkit-linear-gradient(315deg,#cc2244,#992288);
+  background:linear-gradient(135deg,#cc2244,#992288);
+  color:#fff!important;
+}
+.empty{visibility:hidden;}
+.holiday-name{font-size:8px;color:#cc7070;margin-top:2px;text-align:center;min-height:11px;}
+.hol-next{color:#4a5590;}
 
-    /* == QUOTE == */
-    .quote-strip {
-      margin-top: 4px; font-size: 11px; color: #28305a; font-style: italic;
-      letter-spacing: 0.3px; padding: 0 24px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
+/* == WEATHER PANEL == */
+/* iOS9: -webkit-box-orient/-webkit-box-direction BEFORE -webkit-flex-direction */
+.weather-panel{
+  background:#0e1223;border:1px solid #1e2448;border-radius:12px;
+  padding:7px 10px;
+  -webkit-flex-shrink:0;flex-shrink:0;
+  margin-bottom:6px;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
+  -webkit-flex-direction:row;flex-direction:row;
+}
+/* Current conditions: 42% fixed width */
+.wx-current{
+  width:42%;-webkit-box-flex:0;-webkit-flex:0 0 auto;flex:0 0 auto;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-box-direction:normal;
+  -webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  border-right:1px solid #1a2040;padding-right:8px;margin-right:8px;
+}
+.wx-now-row{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
+  -webkit-flex-direction:row;flex-direction:row;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+}
+.wx-icon{font-size:22px;margin-right:6px;}
+.wx-temp{font-size:24px;font-weight:bold;color:#c8d8ff;}
+.wx-desc{font-size:10px;color:#6878b0;margin-top:2px;}
+.wx-range{font-size:10px;color:#7888bb;margin-top:1px;}
+.wx-wind{font-size:10px;color:#4a5590;margin-top:1px;}
+.wx-sun{font-size:9px;color:#3e4d80;margin-top:3px;}
+/* Weekly strip: takes remaining space */
+.wx-weekly{
+  -webkit-box-flex:1;-webkit-flex:1 1 auto;flex:1 1 auto;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
+  -webkit-flex-direction:row;flex-direction:row;
+  -webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+}
+.wx-day{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-box-direction:normal;
+  -webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+}
+.wx-day-name{font-size:8px;color:#3a4580;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
+.wx-day-icon{font-size:14px;margin-bottom:1px;}
+.wx-day-hi{font-size:9px;color:#c8d8ff;font-weight:bold;}
+.wx-day-lo{font-size:8px;color:#4a5590;}
 
-    /* == TABS == */
-    .tabs {
-      -webkit-flex-shrink: 0; flex-shrink: 0;
-      display: -webkit-box; display: -webkit-flex; display: flex;
-      margin-top: 7px; background: #0e1223; border: 1px solid #1e2448;
-      border-radius: 12px; padding: 4px;
-    }
-    .tab-btn {
-      -webkit-flex: 1; flex: 1;
-      background: none; border: none; color: #4a5590; font-size: 13px;
-      font-family: Helvetica, Arial, sans-serif; padding: 7px 4px;
-      border-radius: 8px; cursor: pointer; letter-spacing: 0.5px;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .tab-btn.active {
-      background: -webkit-linear-gradient(315deg,#2a4fcc,#5030cc);
-      background: linear-gradient(135deg,#2a4fcc,#5030cc); color: #fff;
-      -webkit-box-shadow: 0 0 10px rgba(80,120,255,0.4); box-shadow: 0 0 10px rgba(80,120,255,0.4);
-    }
+/* == INFO + QUOTE == */
+.info-strip{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-flex-shrink:0;flex-shrink:0;margin-bottom:3px;
+}
+.fx-item{font-size:11px;color:#3e6040;margin:0 8px;}
+.fx-val{color:#5aaa7a;margin-left:2px;font-weight:bold;}
+.sep-dot{color:#2a3050;font-size:13px;}
+.hol-item{font-size:11px;color:#3e4d80;margin:0 8px;}
+.quote-strip{
+  font-size:10px;color:#28305a;font-style:italic;
+  letter-spacing:0.3px;padding:0 14px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  -webkit-flex-shrink:0;flex-shrink:0;
+  margin-bottom:4px;text-align:center;
+}
 
-    /* == PANEL == */
-    .panel { -webkit-flex: 1; flex: 1; overflow: hidden; min-height: 0; margin-top: 6px; }
-    .tab-content {
-      height: 100%; background: #0e1223; border: 1px solid #1e2448;
-      border-radius: 16px; overflow: hidden;
-      display: -webkit-box; display: -webkit-flex; display: flex;
-      -webkit-box-orient: vertical; -webkit-box-direction: normal;
-      -webkit-flex-direction: column; flex-direction: column;
-    }
-    #tab-cal, #tab-sw, #tab-al {
-      -webkit-flex: 1; flex: 1;
-      display: -webkit-box; display: -webkit-flex; display: flex;
-      -webkit-box-orient: vertical; -webkit-box-direction: normal;
-      -webkit-flex-direction: column; flex-direction: column;
-      -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
-      -webkit-box-align: center; -webkit-align-items: center; align-items: center;
-      padding: 8px 12px;
-    }
-    #tab-cal {
-      -webkit-box-pack: start; -webkit-justify-content: flex-start; justify-content: flex-start;
-      -webkit-box-align: stretch; -webkit-align-items: stretch; align-items: stretch;
-    }
+/* == TABS == */
+.tabs{
+  -webkit-flex-shrink:0;flex-shrink:0;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
+  -webkit-flex-direction:row;flex-direction:row;
+  background:#0e1223;border:1px solid #1e2448;
+  border-radius:10px;padding:3px;margin-bottom:5px;
+}
+.tab-btn{
+  -webkit-box-flex:1;-webkit-flex:1;flex:1;
+  background:none;border:none;color:#4a5590;
+  font-size:12px;font-family:Helvetica,Arial,sans-serif;
+  padding:6px 3px;border-radius:7px;cursor:pointer;
+  letter-spacing:0.4px;-webkit-tap-highlight-color:transparent;
+}
+.tab-btn.active{
+  background:-webkit-linear-gradient(315deg,#2a4fcc,#5030cc);
+  background:linear-gradient(135deg,#2a4fcc,#5030cc);
+  color:#fff;
+  -webkit-box-shadow:0 0 8px rgba(80,120,255,0.35);
+  box-shadow:0 0 8px rgba(80,120,255,0.35);
+}
 
-    /* == CALENDAR == */
-    .cal-title {
-      font-size: 10px; color: #3a4580; margin-bottom: 4px;
-      text-transform: uppercase; letter-spacing: 2px; text-align: center;
-      -webkit-flex-shrink: 0; flex-shrink: 0;
-    }
-    .cal { font-size: 0; -webkit-flex-shrink: 0; flex-shrink: 0; }
-    .cal div {
-      display: inline-block; width: 14.285%; text-align: center; font-size: 12px;
-      padding: 4px 0; color: #8898cc; vertical-align: top; border-radius: 5px;
-    }
-    .cal-header div {
-      color: #323a68; font-size: 9px; padding-bottom: 3px;
-      text-transform: uppercase; letter-spacing: 1.5px;
-    }
-    .today {
-      background: -webkit-linear-gradient(315deg,#3a6fff,#6a4fff);
-      background: linear-gradient(135deg,#3a6fff,#6a4fff);
-      color: #fff !important; font-weight: bold;
-      -webkit-box-shadow: 0 0 10px rgba(80,120,255,0.5); box-shadow: 0 0 10px rgba(80,120,255,0.5);
-    }
-    .holiday { background: rgba(255,70,70,0.14); color: #ff9090 !important; }
-    .today.holiday {
-      background: -webkit-linear-gradient(315deg,#cc2244,#992288);
-      background: linear-gradient(135deg,#cc2244,#992288); color:#fff!important;
-    }
-    .empty { visibility: hidden; }
-    .holiday-name {
-      font-size: 10px; color: #cc7070; margin-top: 4px; text-align: center;
-      -webkit-flex-shrink: 0; flex-shrink: 0; min-height: 14px;
-    }
-    .hol-next { color: #4a5590; }
+/* == PANEL == */
+.panel{-webkit-box-flex:1;-webkit-flex:1;flex:1;overflow:hidden;min-height:0;}
+.tab-content{
+  height:100%;background:#0e1223;border:1px solid #1e2448;
+  border-radius:12px;overflow:hidden;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-box-direction:normal;
+  -webkit-flex-direction:column;flex-direction:column;
+}
+.t-panel{
+  -webkit-box-flex:1;-webkit-flex:1;flex:1;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-box-direction:normal;
+  -webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  padding:8px 12px;
+}
 
-    /* == STOPWATCH == */
-    .sw-display {
-      font-size: 64px; font-family: 'Courier New', Courier, monospace; font-weight: bold;
-      color: #c8d8ff; letter-spacing: 4px;
-      text-shadow: 0 0 24px rgba(100,140,255,0.3); margin-bottom: 28px;
-    }
-    .btn-row {
-      display: -webkit-box; display: -webkit-flex; display: flex;
-      -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
-    }
-    .btn {
-      background: #12172b; border: 1px solid #2a3058; border-radius: 50px;
-      color: #c8d8ff; font-size: 16px; font-family: Helvetica, Arial, sans-serif;
-      padding: 12px 28px; margin: 0 8px; cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-box-shadow: 0 4px 12px rgba(0,0,0,0.4); box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-    .btn-green { background:-webkit-linear-gradient(315deg,#1a5c2a,#1d7a38); background:linear-gradient(135deg,#1a5c2a,#1d7a38); border-color:#2a9950; color:#aaffcc; }
-    .btn-red   { background:-webkit-linear-gradient(315deg,#661a1a,#882233); background:linear-gradient(135deg,#661a1a,#882233); border-color:#993344; color:#ffaaaa; }
-    .btn-blue  { background:-webkit-linear-gradient(315deg,#1a3a99,#3322aa); background:linear-gradient(135deg,#1a3a99,#3322aa); border-color:#4433bb; color:#aaccff; }
+/* == STOPWATCH == */
+.sw-display{
+  font-size:56px;font-family:'Courier New',Courier,monospace;
+  font-weight:bold;color:#c8d8ff;letter-spacing:3px;margin-bottom:20px;
+}
+.btn-row{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
+  -webkit-flex-direction:row;flex-direction:row;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+}
+.btn{
+  background:#12172b;border:1px solid #2a3058;border-radius:40px;
+  color:#c8d8ff;font-size:15px;font-family:Helvetica,Arial,sans-serif;
+  padding:10px 22px;margin:0 6px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn-green{background:-webkit-linear-gradient(315deg,#1a5c2a,#1d7a38);background:linear-gradient(135deg,#1a5c2a,#1d7a38);border-color:#2a9950;color:#aaffcc;}
+.btn-red{background:-webkit-linear-gradient(315deg,#661a1a,#882233);background:linear-gradient(135deg,#661a1a,#882233);border-color:#993344;color:#ffaaaa;}
+.btn-blue{background:-webkit-linear-gradient(315deg,#1a3a99,#3322aa);background:linear-gradient(135deg,#1a3a99,#3322aa);border-color:#4433bb;color:#aaccff;}
 
-    /* == ALARM == */
-    .alarm-status { font-size: 13px; color: #6878b0; margin-bottom: 12px; min-height: 18px; }
-    .alarm-active { color: #ffaa44; }
-    .alarm-controls {
-      display: -webkit-box; display: -webkit-flex; display: flex;
-      -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
-      -webkit-box-align: center; -webkit-align-items: center; align-items: center;
-      margin-bottom: 20px;
-    }
-    .al-group {
-      display: -webkit-box; display: -webkit-flex; display: flex;
-      -webkit-box-orient: vertical; -webkit-box-direction: normal;
-      -webkit-flex-direction: column; flex-direction: column;
-      -webkit-box-align: center; -webkit-align-items: center; align-items: center;
-    }
-    .al-label { font-size: 10px; color: #4a5590; letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase; }
-    .al-val   { font-size: 52px; font-family:'Courier New',Courier,monospace; font-weight:bold; color:#c8d8ff; width:100px; text-align:center; margin:6px 0; }
-    .al-colon { font-size:52px; font-family:'Courier New',Courier,monospace; font-weight:bold; color:#3a4580; margin:0 6px; padding-top:22px; }
-    .btn-sm {
-      background:#12172b; border:1px solid #2a3058; border-radius:8px;
-      color:#8898cc; font-size:22px; padding:4px 0; cursor:pointer;
-      -webkit-tap-highlight-color:transparent; display:block;
-      width:100px; text-align:center; line-height:1; font-family:Helvetica,Arial,sans-serif;
-    }
-    @-webkit-keyframes ring {
-      0%,100%{-webkit-transform:translateX(0);} 15%{-webkit-transform:translateX(-8px);}
-      30%{-webkit-transform:translateX(8px);}  45%{-webkit-transform:translateX(-6px);}
-      60%{-webkit-transform:translateX(6px);}  75%{-webkit-transform:translateX(-4px);} 90%{-webkit-transform:translateX(4px);}
-    }
-    @keyframes ring {
-      0%,100%{transform:translateX(0);} 15%{transform:translateX(-8px);}
-      30%{transform:translateX(8px);}  45%{transform:translateX(-6px);}
-      60%{transform:translateX(6px);}  75%{transform:translateX(-4px);} 90%{transform:translateX(4px);}
-    }
-    .ringing { color:#ffdd44!important; -webkit-animation:ring 0.6s ease-in-out 4; animation:ring 0.6s ease-in-out 4; }
-
-    /* == RESPONSIVE == */
-    @media screen and (max-width: 1024px) {
-      .time-part { min-width: 178px; font-size: 149px; padding: 14px 18px; }
-      .time-sep  { font-size: 101px; margin-top: 26px; }
-      .sec-part  { font-size: 46px;  margin-bottom: 24px; }
-    }
-    @media screen and (max-width: 900px) {
-      .time-part { min-width: 142px; font-size: 120px; padding: 13px 14px; }
-      .time-sep  { font-size: 82px;  margin-top: 22px; }
-      .sec-part  { font-size: 36px;  margin-bottom: 19px; }
-      .date { font-size: 13px; }
-      .wx-temp { font-size: 17px; } .wx-icon { font-size: 17px; }
-      .tz-time { font-size: 19px; }
-      .sw-display { font-size: 50px; }
-      .al-val { font-size: 42px; width: 82px; } .al-colon { font-size: 42px; } .btn-sm { width: 82px; }
-    }
-    @media screen and (max-width: 600px) {
-      .app { top: 8px; right: 8px; bottom: 8px; left: 8px; }
-      .time-part { min-width: 96px; font-size: 82px; padding: 10px 10px; margin: 0 3px; }
-      .time-sep  { font-size: 53px; margin-top: 14px; }
-      .sec-part  { font-size: 26px; margin-bottom: 12px; }
-      .date { font-size: 11px; margin-top: 5px; }
-      .wx-temp { font-size: 14px; } .wx-icon { font-size: 14px; }
-      .wx-range,.wx-desc,.wx-wind { font-size: 10px; }
-      .sun-item, .fx-item { font-size: 10px; margin: 0 5px; }
-      .tz-time { font-size: 17px; } .tz-label { font-size: 9px; } .tz-flag { font-size: 15px; }
-      .tab-btn { font-size: 11px; padding: 6px 2px; }
-      .cal div { font-size: 10px; padding: 3px 0; }
-      .cal-header div { font-size: 8px; }
-      .quote-strip { font-size: 10px; }
-      .sw-display { font-size: 36px; letter-spacing: 2px; margin-bottom: 18px; }
-      .al-val { font-size: 34px; width: 68px; margin: 4px 0; } .al-colon { font-size: 34px; padding-top: 14px; } .btn-sm { width: 68px; font-size: 18px; }
-      .btn { font-size: 14px; padding: 10px 18px; margin: 0 4px; }
-    }
-  </style>
+/* == ALARM == */
+.alarm-status{font-size:12px;color:#6878b0;margin-bottom:10px;min-height:16px;}
+.alarm-active{color:#ffaa44;}
+.alarm-controls{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
+  -webkit-flex-direction:row;flex-direction:row;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  margin-bottom:16px;
+}
+.al-group{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-box-direction:normal;
+  -webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+}
+.al-label{font-size:9px;color:#4a5590;letter-spacing:1px;margin-bottom:4px;text-transform:uppercase;}
+.al-val{font-size:46px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#c8d8ff;width:90px;text-align:center;margin:4px 0;}
+.al-colon{font-size:46px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#3a4580;margin:0 5px;padding-top:18px;}
+.btn-sm{
+  background:#12172b;border:1px solid #2a3058;border-radius:7px;
+  color:#8898cc;font-size:20px;padding:3px 0;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;display:block;
+  width:90px;text-align:center;line-height:1;
+  font-family:Helvetica,Arial,sans-serif;
+}
+@-webkit-keyframes ring{
+  0%,100%{-webkit-transform:translateX(0);transform:translateX(0);}
+  15%{-webkit-transform:translateX(-8px);transform:translateX(-8px);}
+  30%{-webkit-transform:translateX(8px);transform:translateX(8px);}
+  45%{-webkit-transform:translateX(-6px);transform:translateX(-6px);}
+  60%{-webkit-transform:translateX(6px);transform:translateX(6px);}
+  75%{-webkit-transform:translateX(-4px);transform:translateX(-4px);}
+  90%{-webkit-transform:translateX(4px);transform:translateX(4px);}
+}
+@keyframes ring{
+  0%,100%{transform:translateX(0);}
+  15%{transform:translateX(-8px);}
+  30%{transform:translateX(8px);}
+  45%{transform:translateX(-6px);}
+  60%{transform:translateX(6px);}
+  75%{transform:translateX(-4px);}
+  90%{transform:translateX(4px);}
+}
+.ringing{
+  color:#ffdd44!important;
+  -webkit-animation:ring 0.6s ease-in-out 4;
+  animation:ring 0.6s ease-in-out 4;
+}
+</style>
 </head>
 <body>
-  <div class="app">
+<div class="app">
 
-    <!-- MAIN CLOCK -->
-    <div class="clock-container">
+  <!-- TOP ROW: CLOCK (left 60%) + CALENDAR (right 38%) -->
+  <div class="top-row">
+
+    <div class="clock-col">
       <div class="time-row">
         <div class="time-part" id="hours">--</div>
         <div class="time-sep">:</div>
         <div class="time-part" id="minutes">--</div>
         <div class="sec-part" id="seconds">00</div>
       </div>
-      <div id="date" class="date">Loading&hellip;</div>
-
-      <!-- SEOUL SECONDARY CLOCK -->
+      <div class="date-line" id="date">Loading&#8230;</div>
       <div class="tz-strip">
         <div class="tz-card">
           <span class="tz-flag">&#127472;&#127479;</span>
           <span class="tz-label">Seoul KST</span>
           <span class="tz-time" id="tz-seoul">--:--:--</span>
-          <span class="tz-day"  id="tz-seoul-day"></span>
+          <span class="tz-day" id="tz-seoul-day"></span>
         </div>
       </div>
-
-      <!-- WEATHER -->
-      <div class="weather-strip">
-        <span class="wx-icon"  id="wx-icon">&#9729;</span>
-        <span class="wx-temp"  id="wx-temp">&ndash;&ndash;&deg;C</span>
-        <span class="wx-range" id="wx-range"></span>
-        <span class="wx-desc"  id="wx-desc">Johannesburg&hellip;</span>
-        <span class="wx-wind"  id="wx-wind"></span>
-      </div>
-
-      <!-- INFO: SUN + FX + HOLIDAY -->
-      <div class="info-strip">
-        <span class="sun-item">&#9728;<span class="sun-val" id="wx-sunrise">--:--</span></span>
-        <span class="sep-dot">&middot;</span>
-        <span class="sun-item">&#9790;<span class="sun-val" id="wx-sunset">--:--</span></span>
-        <span class="sep-dot">&middot;</span>
-        <span class="fx-item">USD/ZAR<span class="fx-val" id="fx-rate">--</span></span>
-        <span class="sep-dot">&middot;</span>
-        <span class="sun-item" id="hol-countdown"></span>
-      </div>
-
-      <div class="quote-strip" id="quote-strip">&nbsp;</div>
     </div>
 
-    <!-- TABS -->
-    <div class="tabs">
-      <button class="tab-btn active" id="btn-cal" onclick="showTab('cal')">&#128197; Calendar</button>
-      <button class="tab-btn"        id="btn-sw"  onclick="showTab('sw')">&#9201; Stopwatch</button>
-      <button class="tab-btn"        id="btn-al"  onclick="showTab('al')">&#128276; Alarm</button>
-    </div>
-
-    <!-- PANEL -->
-    <div class="panel">
-      <div class="tab-content">
-
-        <!-- CALENDAR -->
-        <div id="tab-cal">
-          <div id="cal-month" class="cal-title">Calendar</div>
-          <div class="cal cal-header">
-            <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
-          </div>
-          <div id="calendar" class="cal"></div>
-          <div id="holiday-name" class="holiday-name"></div>
-        </div>
-
-        <!-- STOPWATCH -->
-        <div id="tab-sw" style="display:none">
-          <div class="sw-display" id="sw-display">00:00.0</div>
-          <div class="btn-row">
-            <button class="btn btn-green" id="sw-start" onclick="swStartStop()">Start</button>
-            <button class="btn btn-red"   onclick="swReset()">Reset</button>
-          </div>
-        </div>
-
-        <!-- ALARM -->
-        <div id="tab-al" style="display:none">
-          <div class="alarm-status" id="al-status">No alarm set</div>
-          <div class="alarm-controls">
-            <div class="al-group">
-              <div class="al-label">Hour</div>
-              <button class="btn-sm" onclick="alAdj('h',1)">+</button>
-              <div class="al-val" id="al-h">07</div>
-              <button class="btn-sm" onclick="alAdj('h',-1)">&minus;</button>
-            </div>
-            <div class="al-colon">:</div>
-            <div class="al-group">
-              <div class="al-label">Min</div>
-              <button class="btn-sm" onclick="alAdj('m',1)">+</button>
-              <div class="al-val" id="al-m">00</div>
-              <button class="btn-sm" onclick="alAdj('m',-1)">&minus;</button>
-            </div>
-          </div>
-          <button class="btn btn-blue" id="al-set-btn" onclick="alToggle()">Set Alarm</button>
-        </div>
-
+    <div class="cal-col">
+      <div id="cal-month" class="cal-title">Calendar</div>
+      <div class="cal cal-header">
+        <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
       </div>
+      <div id="calendar" class="cal"></div>
+      <div id="holiday-name" class="holiday-name"></div>
     </div>
-  </div><!-- end .app -->
+  </div>
 
-  <script>
-    /* == HELPERS == */
-    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  <!-- WEATHER PANEL: current (left) + 7-day weekly (right) -->
+  <div class="weather-panel">
+    <div class="wx-current">
+      <div class="wx-now-row">
+        <span class="wx-icon" id="wx-icon">&#9729;</span>
+        <span class="wx-temp" id="wx-temp">--&#176;C</span>
+      </div>
+      <div class="wx-desc" id="wx-desc">Johannesburg&#8230;</div>
+      <div class="wx-range" id="wx-range"></div>
+      <div class="wx-wind" id="wx-wind"></div>
+      <div class="wx-sun">&#9728; <span id="wx-sunrise">--:--</span>&nbsp;&#9790; <span id="wx-sunset">--:--</span></div>
+    </div>
+    <div class="wx-weekly" id="wx-weekly">
+      <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
+      <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
+      <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
+      <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
+      <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
+      <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
+      <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
+    </div>
+  </div>
 
-    /* == TABS == */
-    function showTab(name) {
-      var tabs = ['cal','sw','al'], i;
-      for (i = 0; i < tabs.length; i++) {
-        document.getElementById('tab-' + tabs[i]).style.display = (tabs[i] === name) ? '' : 'none';
-        document.getElementById('btn-' + tabs[i]).className = 'tab-btn' + (tabs[i] === name ? ' active' : '');
-      }
-      unlockAudio();
+  <!-- INFO STRIP: FX rate + next holiday -->
+  <div class="info-strip">
+    <span class="fx-item">USD/ZAR<span class="fx-val" id="fx-rate">--</span></span>
+    <span class="sep-dot">&#183;</span>
+    <span class="hol-item" id="hol-countdown"></span>
+  </div>
+  <div class="quote-strip" id="quote-strip">&nbsp;</div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" id="btn-sw" onclick="showTab('sw')">&#9201; Stopwatch</button>
+    <button class="tab-btn" id="btn-al" onclick="showTab('al')">&#128276; Alarm</button>
+  </div>
+
+  <!-- PANEL -->
+  <div class="panel">
+    <div class="tab-content">
+
+      <!-- STOPWATCH -->
+      <div class="t-panel" id="tab-sw">
+        <div class="sw-display" id="sw-display">00:00.0</div>
+        <div class="btn-row">
+          <button class="btn btn-green" id="sw-start" onclick="swStartStop()">Start</button>
+          <button class="btn btn-red" onclick="swReset()">Reset</button>
+        </div>
+      </div>
+
+      <!-- ALARM -->
+      <div class="t-panel" id="tab-al" style="display:none">
+        <div class="alarm-status" id="al-status">No alarm set</div>
+        <div class="alarm-controls">
+          <div class="al-group">
+            <div class="al-label">Hour</div>
+            <button class="btn-sm" onclick="alAdj('h',1)">+</button>
+            <div class="al-val" id="al-h">07</div>
+            <button class="btn-sm" onclick="alAdj('h',-1)">&#8722;</button>
+          </div>
+          <div class="al-colon">:</div>
+          <div class="al-group">
+            <div class="al-label">Min</div>
+            <button class="btn-sm" onclick="alAdj('m',1)">+</button>
+            <div class="al-val" id="al-m">00</div>
+            <button class="btn-sm" onclick="alAdj('m',-1)">&#8722;</button>
+          </div>
+        </div>
+        <button class="btn btn-blue" id="al-set-btn" onclick="alToggle()">Set Alarm</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+/*
+  GITHUB PAGES: this file is the continuation of index.html (A1).
+  Concatenate A1 + A2 into one index.html file for deployment.
+  All JS is ES5-only: var, function declarations, no arrow fns,
+  no const/let, no template literals, no Promises, no fetch().
+  Tested-compatible: iOS 9.3.5 Safari, Chrome 49+, GitHub Pages (HTTPS).
+*/
+
+/* ===== HELPERS ===== */
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+/* ===== TAB SWITCHER ===== */
+function showTab(name) {
+  var tabs = ['sw', 'al'];
+  var i, el, btn;
+  for (i = 0; i < tabs.length; i++) {
+    el = document.getElementById('tab-' + tabs[i]);
+    if (el) el.style.display = (tabs[i] === name) ? '' : 'none';
+    btn = document.getElementById('btn-' + tabs[i]);
+    if (btn) btn.className = 'tab-btn' + (tabs[i] === name ? ' active' : '');
+  }
+  unlockAudio();
+}
+
+/* ===== SEOUL SECONDARY CLOCK =====
+   Pure UTC-offset arithmetic. No Intl, no timezone strings.
+   KST = UTC+9. iOS 9 safe. */
+function updateSeoul() {
+  var now = new Date();
+  /* Convert local time to UTC, then add 9 hours */
+  var kstMs = now.getTime() + (now.getTimezoneOffset() * 60000) + (9 * 3600000);
+  var kst = new Date(kstMs);
+  var el = document.getElementById('tz-seoul');
+  if (el) {
+    el.textContent = pad(kst.getHours()) + ':' + pad(kst.getMinutes()) + ':' + pad(kst.getSeconds());
+  }
+  /* Compare calendar dates using numeric YYYYMMDD to avoid month-boundary bugs */
+  var local = new Date();
+  var kd = kst.getFullYear() * 10000 + (kst.getMonth() + 1) * 100 + kst.getDate();
+  var ld = local.getFullYear() * 10000 + (local.getMonth() + 1) * 100 + local.getDate();
+  var dayLabel = kd > ld ? '+1d' : (kd < ld ? '-1d' : '');
+  var el2 = document.getElementById('tz-seoul-day');
+  if (el2) el2.textContent = dayLabel;
+}
+
+/* ===== SA PUBLIC HOLIDAYS ===== */
+function getEaster(y) {
+  /* Anonymous Gregorian algorithm */
+  var a = y % 19, b = Math.floor(y / 100), c = y % 100;
+  var d = Math.floor(b / 4), e = b % 4;
+  var f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
+  var h = (19 * a + b - d - g + 15) % 30;
+  var ii = Math.floor(c / 4), k = c % 4;
+  var l = (32 + 2 * e + 2 * ii - h - k) % 7;
+  var m = Math.floor((a + 11 * h + 22 * l) / 451);
+  var mo = Math.floor((h + l - 7 * m + 114) / 31);
+  var dy = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(y, mo - 1, dy);
+}
+function getSAHolidays(y) {
+  var hols = {};
+  var i, dt, key, mon;
+  var fixed = [
+    [1,  1,  "New Year's Day"],
+    [3,  21, 'Human Rights Day'],
+    [4,  27, 'Freedom Day'],
+    [5,  1,  "Workers' Day"],
+    [6,  16, 'Youth Day'],
+    [8,  9,  "National Women's Day"],
+    [9,  24, 'Heritage Day'],
+    [12, 16, 'Day of Reconciliation'],
+    [12, 25, 'Christmas Day'],
+    [12, 26, 'Day of Goodwill']
+  ];
+  for (i = 0; i < fixed.length; i++) {
+    dt  = new Date(y, fixed[i][0] - 1, fixed[i][1]);
+    key = pad(dt.getMonth() + 1) + '-' + pad(dt.getDate());
+    hols[key] = fixed[i][2];
+    /* If falls on Sunday, observed Monday */
+    if (dt.getDay() === 0) {
+      mon = new Date(y, dt.getMonth(), dt.getDate() + 1);
+      hols[pad(mon.getMonth() + 1) + '-' + pad(mon.getDate())] = fixed[i][2] + ' (obs)';
     }
+  }
+  var easter = getEaster(y);
+  var gf = new Date(y, easter.getMonth(), easter.getDate() - 2);
+  var fd = new Date(y, easter.getMonth(), easter.getDate() + 1);
+  hols[pad(gf.getMonth() + 1) + '-' + pad(gf.getDate())] = 'Good Friday';
+  hols[pad(fd.getMonth() + 1) + '-' + pad(fd.getDate())] = 'Family Day';
+  return hols;
+}
 
-    /* == SEOUL SECONDARY CLOCK (KST = UTC+9) == */
-    /* Pure offset maths — no library, no geolocation, iOS 9 safe */
-    var DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    function updateSeoul() {
-      var now    = new Date();
-      /* UTC ms + 9 hours */
-      var kstMs  = now.getTime() + (now.getTimezoneOffset() * 60000) + (9 * 3600000);
-      var kst    = new Date(kstMs);
-      document.getElementById('tz-seoul').textContent =
-        pad(kst.getHours()) + ':' + pad(kst.getMinutes()) + ':' + pad(kst.getSeconds());
-      /* Show "+1 day" / "-1 day" relative to local Joburg date */
-      var local = new Date();
-      var diffDays = kst.getDate() - local.getDate();
-      /* Handle month boundary cases simply */
-      var dayLabel = '';
-      if      (diffDays > 0 || (kst.getMonth() > local.getMonth()))  dayLabel = '+1 day';
-      else if (diffDays < 0 || (kst.getMonth() < local.getMonth()))  dayLabel = '-1 day';
-      document.getElementById('tz-seoul-day').textContent = dayLabel;
+/* ===== HOLIDAY COUNTDOWN ===== */
+function updateHolCountdown() {
+  var today  = new Date();
+  var y      = today.getFullYear();
+  var todayMs = new Date(y, today.getMonth(), today.getDate()).getTime();
+  var hols = getSAHolidays(y);
+  var best = null, bestDays = 9999, name = '';
+  var key, parts, dt, days;
+  for (key in hols) {
+    parts = key.split('-');
+    dt    = new Date(y, parseInt(parts[0], 10) - 1, parseInt(parts[1], 10));
+    days  = Math.round((dt.getTime() - todayMs) / 86400000);
+    if (days > 0 && days < bestDays) { bestDays = days; best = dt; name = hols[key]; }
+  }
+  if (!best) {
+    /* Wrap to next year */
+    hols = getSAHolidays(y + 1);
+    for (key in hols) {
+      parts = key.split('-');
+      dt    = new Date(y + 1, parseInt(parts[0], 10) - 1, parseInt(parts[1], 10));
+      days  = Math.round((dt.getTime() - todayMs) / 86400000);
+      if (days > 0 && days < bestDays) { bestDays = days; best = dt; name = hols[key]; }
     }
+  }
+  var el = document.getElementById('hol-countdown');
+  if (el) el.textContent = best ? (name + ' in ' + bestDays + 'd') : '';
+}
 
-    /* == SA HOLIDAYS == */
-    function getEaster(y) {
-      var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25);
-      var g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,ii=Math.floor(c/4),k=c%4;
-      var l=(32+2*e+2*ii-h-k)%7,m=Math.floor((a+11*h+22*l)/451);
-      var mo=Math.floor((h+l-7*m+114)/31), dy=((h+l-7*m+114)%31)+1;
-      return new Date(y, mo-1, dy);
+/* ===== DAILY QUOTE ===== */
+var QUOTES = [
+  '"The only way to do great work is to love what you do." \u2014 Steve Jobs',
+  '"It always seems impossible until it\'s done." \u2014 Mandela',
+  '"In the middle of difficulty lies opportunity." \u2014 Einstein',
+  '"An investment in knowledge pays the best interest." \u2014 Benjamin Franklin',
+  '"The future belongs to those who believe in their dreams." \u2014 Eleanor Roosevelt',
+  '"You miss 100% of the shots you don\'t take." \u2014 Wayne Gretzky',
+  '"Whether you think you can or can\'t, you\'re right." \u2014 Henry Ford',
+  '"Be the change you wish to see in the world." \u2014 Gandhi',
+  '"Not all those who wander are lost." \u2014 J.R.R. Tolkien',
+  '"Live as if you were to die tomorrow." \u2014 Gandhi',
+  '"Education is the most powerful weapon to change the world." \u2014 Mandela',
+  '"Believe you can and you\'re halfway there." \u2014 Roosevelt',
+  '"Success is not final, failure is not fatal." \u2014 Churchill',
+  '"The best time to plant a tree was 20 years ago. The second best is now." \u2014 Proverb',
+  '"Strive not to be a success, but rather to be of value." \u2014 Einstein'
+];
+function setDailyQuote() {
+  var n   = new Date();
+  var doy = Math.floor((n - new Date(n.getFullYear(), 0, 0)) / 86400000);
+  var el  = document.getElementById('quote-strip');
+  if (el) el.textContent = QUOTES[doy % QUOTES.length];
+}
+
+/* ===== DATE/DAY ARRAYS ===== */
+var DAYS_LONG  = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var MONTHS_LONG = ['January','February','March','April','May','June',
+                   'July','August','September','October','November','December'];
+var DAY_SHORT  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+/* ===== MAIN CLOCK ===== */
+var _lastDay = -1;
+function updateClock() {
+  var n   = new Date();
+  var hEl = document.getElementById('hours');
+  var mEl = document.getElementById('minutes');
+  var sEl = document.getElementById('seconds');
+  var dEl = document.getElementById('date');
+  if (hEl) hEl.textContent = pad(n.getHours());
+  if (mEl) mEl.textContent = pad(n.getMinutes());
+  if (sEl) sEl.textContent = pad(n.getSeconds());
+  if (dEl) {
+    dEl.textContent = DAYS_LONG[n.getDay()] + ', ' +
+      n.getDate() + ' ' + MONTHS_LONG[n.getMonth()] + ' ' + n.getFullYear();
+  }
+  /* Midnight rebuild: refresh calendar, quote, countdown, APIs */
+  if (_lastDay !== -1 && _lastDay !== n.getDate()) {
+    buildCalendar();
+    setDailyQuote();
+    updateHolCountdown();
+    fetchWeather();
+    fetchFX();
+  }
+  _lastDay = n.getDate();
+  updateSeoul();
+  checkAlarm(n);
+}
+
+/* ===== CALENDAR ===== */
+function buildCalendar() {
+  var n = new Date();
+  var y = n.getFullYear(), m = n.getMonth(), d = n.getDate();
+  var titleEl = document.getElementById('cal-month');
+  if (titleEl) titleEl.textContent = MONTHS_LONG[m] + ' ' + y;
+  var hols = getSAHolidays(y);
+  var cal  = document.getElementById('calendar');
+  if (!cal) return;
+  cal.innerHTML = '';
+  var firstDay    = new Date(y, m, 1).getDay();
+  var daysInMonth = new Date(y, m + 1, 0).getDate();
+  var i, div, key, cls, todayHol = '';
+  /* Leading empty cells */
+  for (i = 0; i < firstDay; i++) {
+    div = document.createElement('div');
+    div.className   = 'empty';
+    div.textContent = '.';
+    cal.appendChild(div);
+  }
+  /* Day cells */
+  for (i = 1; i <= daysInMonth; i++) {
+    div = document.createElement('div');
+    key = pad(m + 1) + '-' + pad(i);
+    cls = (i === d) ? 'today' : '';
+    if (hols[key]) {
+      cls += (cls ? ' ' : '') + 'holiday';
+      if (i === d) todayHol = hols[key];
     }
-    function getSAHolidays(year) {
-      var hols = {};
-      var fixed = [
-        [1,1,"New Year's Day"],[3,21,'Human Rights Day'],
-        [4,27,'Freedom Day'],[5,1,"Workers' Day"],[6,16,'Youth Day'],
-        [8,9,"National Women's Day"],[9,24,'Heritage Day'],
-        [12,16,'Day of Reconciliation'],[12,25,'Christmas Day'],[12,26,'Day of Goodwill']
-      ];
-      var i, dt, key, mon;
-      for (i = 0; i < fixed.length; i++) {
-        dt  = new Date(year, fixed[i][0]-1, fixed[i][1]);
-        key = pad(dt.getMonth()+1)+'-'+pad(dt.getDate());
-        hols[key] = fixed[i][2];
-        if (dt.getDay() === 0) {
-          mon = new Date(year, dt.getMonth(), dt.getDate()+1);
-          hols[pad(mon.getMonth()+1)+'-'+pad(mon.getDate())] = fixed[i][2]+' (observed)';
+    div.className   = cls.trim();
+    div.textContent = i;
+    cal.appendChild(div);
+  }
+  /* Holiday label */
+  var hn = document.getElementById('holiday-name');
+  if (!hn) return;
+  if (todayHol) {
+    hn.textContent = '\u2665 ' + todayHol;
+    hn.className   = 'holiday-name';
+  } else {
+    var next = '', ni;
+    for (ni = d + 1; ni <= daysInMonth && !next; ni++) {
+      key = pad(m + 1) + '-' + pad(ni);
+      if (hols[key]) next = ni + ': ' + hols[key];
+    }
+    hn.textContent = next ? ('Next: ' + next) : '';
+    hn.className   = 'holiday-name hol-next';
+  }
+}
+
+/* ===== WEATHER CODE MAP ===== */
+var WX_MAP = [
+  [0,  '\u2600',     'Clear'],
+  [1,  '\u26C5',     'Mainly clear'],
+  [2,  '\u26C5',     'Partly cloudy'],
+  [3,  '\u2601',     'Overcast'],
+  [45, '\uD83C\uDF27','Fog'],
+  [48, '\uD83C\uDF27','Icy fog'],
+  [51, '\uD83C\uDF26','Lt drizzle'],
+  [53, '\uD83C\uDF26','Drizzle'],
+  [55, '\uD83C\uDF26','Hvy drizzle'],
+  [61, '\uD83C\uDF27','Lt rain'],
+  [63, '\uD83C\uDF27','Rain'],
+  [65, '\uD83C\uDF27','Hvy rain'],
+  [71, '\u2744',     'Lt snow'],
+  [73, '\u2744',     'Snow'],
+  [75, '\u2744',     'Hvy snow'],
+  [80, '\uD83C\uDF27','Showers'],
+  [85, '\u2744',     'Snow shwrs'],
+  [95, '\u26C8',     'Thunderstorm'],
+  [99, '\u26C8',     'Thunderstorm']
+];
+function wxLookup(code) {
+  var r = { icon: '\u2601', desc: 'Weather' }, i;
+  for (i = 0; i < WX_MAP.length; i++) {
+    if (WX_MAP[i][0] <= code) { r.icon = WX_MAP[i][1]; r.desc = WX_MAP[i][2]; }
+  }
+  return r;
+}
+function windDir(deg) {
+  var d = ['N','NE','E','SE','S','SW','W','NW'];
+  return d[Math.round(deg / 45) % 8];
+}
+function parseHHMM(iso) {
+  if (!iso) return '--:--';
+  var p = iso.split('T');
+  return (p.length > 1) ? p[1].substring(0, 5) : '--:--';
+}
+
+/* ===== WEATHER FETCH =====
+   open-meteo.com: free, no API key, CORS open, HTTPS.
+   XHR used (no fetch) for iOS 9 compatibility. */
+var JHB_LAT = -26.2041, JHB_LON = 28.0473;
+function fetchWeather() {
+  var url = 'https://api.open-meteo.com/v1/forecast' +
+    '?latitude='  + JHB_LAT +
+    '&longitude=' + JHB_LON +
+    '&current_weather=true' +
+    '&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,windspeed_10m_max' +
+    '&timezone=Africa%2FJohannesburg' +
+    '&temperature_unit=celsius' +
+    '&forecast_days=7';
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== 4) return;
+    var descEl = document.getElementById('wx-desc');
+    if (xhr.status !== 200) {
+      if (descEl) descEl.textContent = 'Weather unavailable';
+      return;
+    }
+    try {
+      var data = JSON.parse(xhr.responseText);
+      var cw   = data.current_weather;
+      if (!cw) { if (descEl) descEl.textContent = 'Weather unavailable'; return; }
+      var wx   = wxLookup(cw.weathercode);
+      var iconEl = document.getElementById('wx-icon');
+      var tempEl = document.getElementById('wx-temp');
+      var windEl = document.getElementById('wx-wind');
+      var rngEl  = document.getElementById('wx-range');
+      var srEl   = document.getElementById('wx-sunrise');
+      var ssEl   = document.getElementById('wx-sunset');
+      if (iconEl) iconEl.textContent = wx.icon;
+      if (tempEl) tempEl.textContent = Math.round(cw.temperature) + '\u00b0C';
+      if (descEl) descEl.textContent = wx.desc + ' \u2022 Joburg';
+      if (windEl) windEl.textContent = '\u2022 ' + Math.round(cw.windspeed) + ' km/h ' + windDir(cw.winddirection);
+      var dd = data.daily;
+      if (dd && dd.temperature_2m_max && dd.temperature_2m_max.length) {
+        if (rngEl) rngEl.textContent =
+          '\u2191' + Math.round(dd.temperature_2m_max[0]) + '\u00b0' +
+          ' \u2193' + Math.round(dd.temperature_2m_min[0]) + '\u00b0';
+        if (srEl && dd.sunrise && dd.sunrise[0]) srEl.textContent = parseHHMM(dd.sunrise[0]);
+        if (ssEl && dd.sunset  && dd.sunset[0])  ssEl.textContent = parseHHMM(dd.sunset[0]);
+        /* Weekly 7-day forecast */
+        var weekly = document.getElementById('wx-weekly');
+        if (weekly && dd.weathercode) {
+          var dayEls = weekly.getElementsByClassName('wx-day');
+          var j, wxd, now2, dayDate, dnEl, diEl, dhEl, dlEl;
+          now2 = new Date();
+          for (j = 0; j < 7 && j < dayEls.length && j < dd.weathercode.length; j++) {
+            dayDate = new Date(now2.getFullYear(), now2.getMonth(), now2.getDate() + j);
+            wxd  = wxLookup(dd.weathercode[j]);
+            dnEl = dayEls[j].getElementsByClassName('wx-day-name')[0];
+            diEl = dayEls[j].getElementsByClassName('wx-day-icon')[0];
+            dhEl = dayEls[j].getElementsByClassName('wx-day-hi')[0];
+            dlEl = dayEls[j].getElementsByClassName('wx-day-lo')[0];
+            if (dnEl) dnEl.textContent = (j === 0) ? 'Today' : DAY_SHORT[dayDate.getDay()];
+            if (diEl) diEl.textContent = wxd.icon;
+            if (dhEl) dhEl.textContent = Math.round(dd.temperature_2m_max[j]) + '\u00b0';
+            if (dlEl) dlEl.textContent = Math.round(dd.temperature_2m_min[j]) + '\u00b0';
+          }
         }
       }
-      var easter  = getEaster(year);
-      var goodFri = new Date(year, easter.getMonth(), easter.getDate()-2);
-      var famDay  = new Date(year, easter.getMonth(), easter.getDate()+1);
-      hols[pad(goodFri.getMonth()+1)+'-'+pad(goodFri.getDate())] = 'Good Friday';
-      hols[pad(famDay.getMonth()+1)+'-'+pad(famDay.getDate())]   = 'Family Day';
-      return hols;
+    } catch (e) {
+      var d2 = document.getElementById('wx-desc');
+      if (d2) d2.textContent = 'Weather unavailable';
     }
+  };
+  xhr.send();
+}
 
-    /* == HOLIDAY COUNTDOWN == */
-    function updateHolCountdown() {
-      var today   = new Date();
-      var y       = today.getFullYear();
-      var todayMs = new Date(y, today.getMonth(), today.getDate()).getTime();
-      var hols    = getSAHolidays(y);
-      var best = null, bestDays = 9999, name = '';
-      var key, parts, dt, days;
-      for (key in hols) {
-        parts = key.split('-');
-        dt    = new Date(y, parseInt(parts[0],10)-1, parseInt(parts[1],10));
-        days  = Math.round((dt.getTime()-todayMs)/86400000);
-        if (days > 0 && days < bestDays) { bestDays=days; best=dt; name=hols[key]; }
-      }
-      if (!best) {
-        hols = getSAHolidays(y+1);
-        for (key in hols) {
-          parts = key.split('-');
-          dt    = new Date(y+1, parseInt(parts[0],10)-1, parseInt(parts[1],10));
-          days  = Math.round((dt.getTime()-todayMs)/86400000);
-          if (days > 0 && days < bestDays) { bestDays=days; best=dt; name=hols[key]; }
-        }
-      }
-      var el = document.getElementById('hol-countdown');
-      el.textContent = best ? (name+' in '+bestDays+'d') : '';
+/* ===== USD/ZAR EXCHANGE RATE =====
+   frankfurter.app: free, no key, HTTPS, CORS open. */
+function fetchFX() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://api.frankfurter.app/latest?from=USD&to=ZAR', true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== 4) return;
+    var el = document.getElementById('fx-rate');
+    if (!el) return;
+    if (xhr.status === 200) {
+      try {
+        var data = JSON.parse(xhr.responseText);
+        var rate = (data.rates && data.rates.ZAR) ? data.rates.ZAR : null;
+        el.textContent = (rate !== null) ? (' R' + rate.toFixed(2)) : '--';
+      } catch (e) { el.textContent = '--'; }
+    } else {
+      el.textContent = 'err';
     }
+  };
+  xhr.send();
+}
 
-    /* == DAILY QUOTE == */
-    var QUOTES = [
-      '"The only way to do great work is to love what you do." \u2014 Steve Jobs',
-      '"It always seems impossible until it\'s done." \u2014 Nelson Mandela',
-      '"In the middle of difficulty lies opportunity." \u2014 Einstein',
-      '"An investment in knowledge pays the best interest." \u2014 Benjamin Franklin',
-      '"The future belongs to those who believe in their dreams." \u2014 Eleanor Roosevelt',
-      '"You miss 100% of the shots you don\'t take." \u2014 Wayne Gretzky',
-      '"Whether you think you can or can\'t, you\'re right." \u2014 Henry Ford',
-      '"Be the change you wish to see in the world." \u2014 Gandhi',
-      '"Not all those who wander are lost." \u2014 J.R.R. Tolkien',
-      '"Live as if you were to die tomorrow. Learn as if you were to live forever." \u2014 Gandhi',
-      '"Education is the most powerful weapon you can use to change the world." \u2014 Mandela',
-      '"Believe you can and you\'re halfway there." \u2014 Theodore Roosevelt',
-      '"Success is not final, failure is not fatal." \u2014 Winston Churchill',
-      '"The best time to plant a tree was 20 years ago. The second best is now." \u2014 Proverb',
-      '"Strive not to be a success, but rather to be of value." \u2014 Einstein'
-    ];
-    function setDailyQuote() {
-      var n   = new Date();
-      var doy = Math.floor((n - new Date(n.getFullYear(),0,0)) / 86400000);
-      document.getElementById('quote-strip').textContent = QUOTES[doy % QUOTES.length];
-    }
+/* ===== STOPWATCH ===== */
+var swRunning = false, swStart = 0, swElapsed = 0, swTimer = null;
+function swUpdate() {
+  var e  = swElapsed + (Date.now() - swStart);
+  var t  = Math.floor(e / 100);
+  var el = document.getElementById('sw-display');
+  if (el) {
+    el.textContent = pad(Math.floor(t / 600)) + ':' + pad(Math.floor(t / 10) % 60) + '.' + (t % 10);
+  }
+}
+function swStartStop() {
+  unlockAudio();
+  var btn = document.getElementById('sw-start');
+  if (swRunning) {
+    swElapsed += Date.now() - swStart;
+    clearInterval(swTimer);
+    swRunning = false;
+    if (btn) { btn.textContent = 'Resume'; btn.className = 'btn btn-green'; }
+  } else {
+    swStart   = Date.now();
+    swTimer   = setInterval(swUpdate, 100);
+    swRunning = true;
+    if (btn) { btn.textContent = 'Pause'; btn.className = 'btn btn-red'; }
+  }
+}
+function swReset() {
+  clearInterval(swTimer);
+  swRunning = false;
+  swElapsed = 0;
+  var el  = document.getElementById('sw-display');
+  var btn = document.getElementById('sw-start');
+  if (el)  el.textContent  = '00:00.0';
+  if (btn) { btn.textContent = 'Start'; btn.className = 'btn btn-green'; }
+}
 
-    /* == MAIN CLOCK + MIDNIGHT TRIGGER == */
-    var _lastDay = -1;
-    function updateClock() {
-      var n = new Date();
-      document.getElementById('hours').textContent   = pad(n.getHours());
-      document.getElementById('minutes').textContent = pad(n.getMinutes());
-      document.getElementById('seconds').textContent = pad(n.getSeconds());
-      var DAYS_LONG = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-      var MONTHS    = ['January','February','March','April','May','June',
-                       'July','August','September','October','November','December'];
-      document.getElementById('date').textContent =
-        DAYS_LONG[n.getDay()] + ', ' + n.getDate() + ' ' + MONTHS[n.getMonth()] + ' ' + n.getFullYear();
-      /* Midnight rebuild */
-      if (_lastDay !== -1 && _lastDay !== n.getDate()) {
-        buildCalendar();
-        setDailyQuote();
-        updateHolCountdown();
-        fetchWeather();
-        fetchFX();
-      }
-      _lastDay = n.getDate();
-      updateSeoul();
-      checkAlarm(n);
+/* ===== ALARM =====
+   webkitAudioContext used first for iOS 9 compatibility. */
+var alH = 7, alM = 0, alActive = false, alFired = false;
+var AudioCtxClass = window.webkitAudioContext || window.AudioContext;
+var audioCtx = null;
+function unlockAudio() {
+  /* Must be called from a user gesture to satisfy iOS audio policy */
+  if (AudioCtxClass && !audioCtx) {
+    try {
+      audioCtx = new AudioCtxClass();
+      if (audioCtx.state === 'suspended' && audioCtx.resume) { audioCtx.resume(); }
+    } catch (e) { audioCtx = null; }
+  }
+}
+function alAdj(part, delta) {
+  unlockAudio();
+  var el;
+  if (part === 'h') {
+    alH = (alH + delta + 24) % 24;
+    el  = document.getElementById('al-h');
+    if (el) el.textContent = pad(alH);
+  } else {
+    alM = (alM + delta + 60) % 60;
+    el  = document.getElementById('al-m');
+    if (el) el.textContent = pad(alM);
+  }
+}
+function alToggle() {
+  unlockAudio();
+  var st = document.getElementById('al-status');
+  var sb = document.getElementById('al-set-btn');
+  if (alActive) {
+    alActive = false; alFired = false;
+    if (st) { st.textContent = 'No alarm set'; st.className = 'alarm-status'; }
+    if (sb) { sb.textContent = 'Set Alarm';    sb.className = 'btn btn-blue'; }
+  } else {
+    alActive = true; alFired = false;
+    if (st) {
+      st.textContent = '\u23f0 Alarm set for ' + pad(alH) + ':' + pad(alM);
+      st.className   = 'alarm-status alarm-active';
     }
+    if (sb) { sb.textContent = 'Cancel Alarm'; sb.className = 'btn btn-red'; }
+  }
+}
+/* Play a single beep tone at a given audio-context time offset */
+function _beepAt(startOffset) {
+  if (!audioCtx) return;
+  try {
+    var osc  = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.type              = 'sine';
+    osc.frequency.value   = 880;
+    gain.gain.value       = 0.35;
+    var t = audioCtx.currentTime + startOffset;
+    osc.start(t);
+    osc.stop(t + 0.18);
+  } catch (e) {}
+}
+function playAlarmBeeps() {
+  /* Three staggered beeps: 0s, 0.28s, 0.56s after call */
+  _beepAt(0);
+  _beepAt(0.28);
+  _beepAt(0.56);
+}
+function checkAlarm(now) {
+  if (!alActive || alFired) return;
+  if (now.getHours() === alH && now.getMinutes() === alM && now.getSeconds() < 2) {
+    alFired = true;
+    playAlarmBeeps();
+    var st = document.getElementById('al-status');
+    if (st) { st.textContent = '\u23f0 ALARM!'; st.className = 'alarm-status alarm-active ringing'; }
+    /* Auto-dismiss after 30 seconds */
+    setTimeout(function () {
+      alActive = false; alFired = false;
+      var e = document.getElementById('al-status');
+      var s = document.getElementById('al-set-btn');
+      if (e) { e.textContent = 'No alarm set'; e.className = 'alarm-status'; }
+      if (s) { s.textContent = 'Set Alarm';    s.className = 'btn btn-blue'; }
+    }, 30000);
+  }
+}
 
-    /* == CALENDAR == */
-    function buildCalendar() {
-      var n=new Date(), y=n.getFullYear(), m=n.getMonth(), d=n.getDate();
-      var MONTHS=['January','February','March','April','May','June',
-                  'July','August','September','October','November','December'];
-      document.getElementById('cal-month').textContent = MONTHS[m]+' '+y;
-      var hols=getSAHolidays(y), cal=document.getElementById('calendar');
-      cal.innerHTML='';
-      var firstDay=new Date(y,m,1).getDay(), daysInMonth=new Date(y,m+1,0).getDate();
-      var i, div, key, cls, todayHol='';
-      for (i=0; i<firstDay; i++) {
-        div=document.createElement('div'); div.className='empty'; div.textContent='.'; cal.appendChild(div);
-      }
-      for (i=1; i<=daysInMonth; i++) {
-        div=document.createElement('div');
-        key=pad(m+1)+'-'+pad(i);
-        cls=(i===d)?'today':'';
-        if (hols[key]) { cls+=(cls?' ':'')+' holiday'; if (i===d) todayHol=hols[key]; }
-        div.className=cls.trim(); div.textContent=i; cal.appendChild(div);
-      }
-      var hn=document.getElementById('holiday-name');
-      if (todayHol) {
-        hn.innerHTML='&#127881; Today: '+todayHol; hn.className='holiday-name';
-      } else {
-        var next='', ni;
-        for (ni=d+1; ni<=daysInMonth&&!next; ni++) {
-          key=pad(m+1)+'-'+pad(ni);
-          if (hols[key]) next=ni+' '+MONTHS[m]+': '+hols[key];
-        }
-        hn.textContent=next?('Next: '+next):''; hn.className='holiday-name hol-next';
-      }
-    }
+/* ===== INIT ===== */
+function init() {
+  buildCalendar();
+  setDailyQuote();
+  updateHolCountdown();
+  updateClock();          /* first tick immediately */
+  fetchWeather();
+  fetchFX();
+  setInterval(updateClock,  1000);    /* clock every second */
+  setInterval(fetchWeather, 600000);  /* weather every 10 min */
+  setInterval(fetchFX,      600000);  /* FX every 10 min */
+}
 
-    /* == WEATHER (Joburg hardcoded) == */
-    var JHB_LAT=-26.2041, JHB_LON=28.0473;
-    var WX_MAP=[
-      [0,'&#9728;','Clear sky'],[1,'&#127780;','Mainly clear'],[2,'&#9925;','Partly cloudy'],
-      [3,'&#9729;','Overcast'],[45,'&#127787;','Fog'],[48,'&#127787;','Icy fog'],
-      [51,'&#127746;','Light drizzle'],[53,'&#127746;','Drizzle'],[55,'&#127746;','Heavy drizzle'],
-      [61,'&#127783;','Light rain'],[63,'&#127783;','Rain'],[65,'&#127783;','Heavy rain'],
-      [71,'&#10052;','Light snow'],[73,'&#10052;','Snow'],[75,'&#10052;','Heavy snow'],
-      [80,'&#127783;','Rain showers'],[85,'&#10052;','Snow showers'],
-      [95,'&#9928;','Thunderstorm'],[99,'&#9928;','Thunderstorm']
-    ];
-    function wxLookup(code) {
-      var r={icon:'&#9729;',desc:'Weather'}, i;
-      for (i=0; i<WX_MAP.length; i++) { if (WX_MAP[i][0]<=code) { r.icon=WX_MAP[i][1]; r.desc=WX_MAP[i][2]; } }
-      return r;
-    }
-    function windDir(deg) { var d=['N','NE','E','SE','S','SW','W','NW']; return d[Math.round(deg/45)%8]; }
-    function parseHHMM(iso) {
-      if (!iso) return '--:--'; var p=iso.split('T'); return (p.length>1)?p[1].substring(0,5):'--:--';
-    }
-    function fetchWeather() {
-      var url='https://api.open-meteo.com/v1/forecast?latitude='+JHB_LAT+'&longitude='+JHB_LON+
-        '&current_weather=true&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset'+
-        '&timezone=Africa%2FJohannesburg&temperature_unit=celsius';
-      var xhr=new XMLHttpRequest(); xhr.open('GET',url,true);
-      xhr.onreadystatechange=function(){
-        if (xhr.readyState!==4) return;
-        if (xhr.status===200) {
-          try {
-            var data=JSON.parse(xhr.responseText), cw=data.current_weather, wx=wxLookup(cw.weathercode);
-            document.getElementById('wx-icon').innerHTML   = wx.icon;
-            document.getElementById('wx-temp').textContent = Math.round(cw.temperature)+'\u00b0C';
-            document.getElementById('wx-desc').textContent = wx.desc+' \u2022 Joburg';
-            document.getElementById('wx-wind').textContent = '\u2022 '+Math.round(cw.windspeed)+' km/h '+windDir(cw.winddirection);
-            var dd=data.daily;
-            if (dd&&dd.temperature_2m_max) {
-              document.getElementById('wx-range').textContent=
-                '\u2191'+Math.round(dd.temperature_2m_max[0])+'\u00b0 \u2193'+Math.round(dd.temperature_2m_min[0])+'\u00b0  ';
-            }
-            if (dd&&dd.sunrise&&dd.sunrise.length) {
-              document.getElementById('wx-sunrise').textContent=parseHHMM(dd.sunrise[0]);
-              document.getElementById('wx-sunset').textContent =parseHHMM(dd.sunset[0]);
-            }
-          } catch(e) { document.getElementById('wx-desc').textContent='Weather unavailable'; }
-        } else { document.getElementById('wx-desc').textContent='Weather unavailable'; }
-      };
-      xhr.send();
-    }
-
-    /* == USD/ZAR EXCHANGE RATE (frankfurter.app — free, no key, CORS OK) == */
-    function fetchFX() {
-      var xhr=new XMLHttpRequest();
-      xhr.open('GET','https://api.frankfurter.app/latest?from=USD&to=ZAR',true);
-      xhr.onreadystatechange=function(){
-        if (xhr.readyState!==4) return;
-        if (xhr.status===200) {
-          try {
-            var data=JSON.parse(xhr.responseText);
-            var rate=data.rates&&data.rates.ZAR ? data.rates.ZAR : null;
-            if (rate!==null) {
-              /* Format: R 18.47 */
-              var s=rate.toFixed(2);
-              document.getElementById('fx-rate').textContent=' R'+s;
-            } else {
-              document.getElementById('fx-rate').textContent='--';
-            }
-          } catch(e) { document.getElementById('fx-rate').textContent='--'; }
-        } else { document.getElementById('fx-rate').textContent='err'; }
-      };
-      xhr.send();
-    }
-
-    /* == STOPWATCH == */
-    var swRunning=false, swStart=0, swElapsed=0, swTimer=null;
-    function swUpdate() {
-      var e=swElapsed+(Date.now()-swStart), t=Math.floor(e/100);
-      document.getElementById('sw-display').textContent=pad(Math.floor(t/600))+':'+pad(Math.floor(t/10)%60)+'.'+(t%10);
-    }
-    function swStartStop() {
-      unlockAudio();
-      if (swRunning) {
-        swElapsed+=Date.now()-swStart; clearInterval(swTimer); swRunning=false;
-        document.getElementById('sw-start').textContent='Resume';
-        document.getElementById('sw-start').className='btn btn-green';
-      } else {
-        swStart=Date.now(); swTimer=setInterval(swUpdate,100); swRunning=true;
-        document.getElementById('sw-start').textContent='Pause';
-        document.getElementById('sw-start').className='btn btn-red';
-      }
-    }
-    function swReset() {
-      clearInterval(swTimer); swRunning=false; swElapsed=0;
-      document.getElementById('sw-display').textContent='00:00.0';
-      document.getElementById('sw-start').textContent='Start';
-      document.getElementById('sw-start').className='btn btn-green';
-    }
-
-    /* == ALARM == */
-    var alH=7, alM=0, alActive=false, alFired=false;
-    var AudioCtx=window.AudioContext||window.webkitAudioContext;
-    var audioCtx=null;
-    function unlockAudio() {
-      if (AudioCtx&&!audioCtx) {
-        try { audioCtx=new AudioCtx(); if(audioCtx.state==='suspended'&&audioCtx.resume) audioCtx.resume(); } catch(e){}
-      }
-    }
-    function alAdj(part,delta) {
-      unlockAudio();
-      if (part==='h') { alH=(alH+delta+24)%24; document.getElementById('al-h').textContent=pad(alH); }
-      else            { alM=(alM+delta+60)%60; document.getElementById('al-m').textContent=pad(alM); }
-    }
-    function alToggle() {
-      unlockAudio();
-      if (alActive) {
-        alActive=false; alFired=false;
-        document.getElementById('al-status').textContent='No alarm set';
-        document.getElementById('al-status').className='alarm-status';
-        document.getElementById('al-set-btn').textContent='Set Alarm';
-        document.getElementById('al-set-btn').className='btn btn-blue';
-      } else {
-        alActive=true; alFired=false;
-        document.getElementById('al-status').innerHTML='&#9201; Alarm set for <strong>'+pad(alH)+':'+pad(alM)+'</strong>';
-        document.getElementById('al-status').className='alarm-status alarm-active';
-        document.getElementById('al-set-btn').textContent='Cancel Alarm';
-        document.getElementById('al-set-btn').className='btn btn-red';
-      }
-    }
-    function playBeep() {
-      if (!audioCtx) return;
-      
+/* ===== BOOT =====
+   iOS 9 Safari: readyState is 'loading' when script runs in <body>
+   before DOMContentLoaded fires, or 'complete' if somehow already done.
+   We never see 'uninitialized' in practice on iOS 9, but handle it anyway. */
+if (document.readyState === 'loading' || document.readyState === 'uninitialized') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>
