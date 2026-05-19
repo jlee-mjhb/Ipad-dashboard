@@ -9,855 +9,129 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
 <style>
 *{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0;}
-html,body{
-  width:100%;height:100%;overflow:hidden;
-  background:#0a0e1a;color:#e8eaf6;
-  font-family:Helvetica,Arial,sans-serif;
-  -webkit-font-smoothing:antialiased;
-}
-.app{
-  position:absolute;top:8px;right:8px;bottom:8px;left:8px;
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:vertical;-webkit-box-direction:normal;
-  -webkit-flex-direction:column;flex-direction:column;
-}
-
-/* ======================================================
-   ROW 1: Clock (top-left, ~54%) + Weather card (top-right)
-   flex-grow so it fills remaining space above bottom row
-   ====================================================== */
-.row1{
-  -webkit-box-flex:1;-webkit-flex:1 1 auto;flex:1 1 auto;
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
-  -webkit-flex-direction:row;flex-direction:row;
-  margin-bottom:5px;
-  min-height:0;
-}
-
-/* -- Clock card (top-left) -- */
-.clock-col{
-  width:54%;
-  -webkit-box-flex:0;-webkit-flex:0 0 auto;flex:0 0 auto;
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:vertical;-webkit-box-direction:normal;
-  -webkit-flex-direction:column;flex-direction:column;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-  background:#0e1223;border:1px solid #1e2448;border-radius:12px;
-  padding:8px 6px;margin-right:5px;
-}
-.time-row{
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
-  -webkit-flex-direction:row;flex-direction:row;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-}
-.time-part{
-  background:#12172b;border:1px solid #2a3058;border-radius:10px;
-  padding:6px 10px;margin:0 2px;
-  font-size:86px;
-  font-family:'Courier New',Courier,monospace;
-  font-weight:bold;color:#c8d8ff;
-  -webkit-box-shadow:0 4px 14px rgba(0,0,0,0.7);
-  box-shadow:0 4px 14px rgba(0,0,0,0.7);
-  line-height:1;min-width:96px;text-align:center;
-}
-.time-sep{
-  font-size:60px;font-family:'Courier New',Courier,monospace;
-  font-weight:bold;color:#2e3870;line-height:1;margin:0 1px;
-  -webkit-animation:blink 1s step-end infinite;
-  animation:blink 1s step-end infinite;
-}
-.sec-part{
-  font-size:28px;font-family:'Courier New',Courier,monospace;
-  font-weight:bold;color:#4a5590;margin-left:5px;line-height:1;
-  -webkit-align-self:flex-end;align-self:flex-end;margin-bottom:6px;
-}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0e1a;color:#e8eaf6;font-family:Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;text-align:center;}
+.app{position:absolute;top:14px;right:14px;bottom:14px;left:14px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;}
+.clock-container{-webkit-flex-shrink:0;flex-shrink:0;padding-top:2px;}
+.time-row{display:inline-block;}
+.time-part{display:inline-block;background:#12172b;border:1px solid #2a3058;border-radius:14px;padding:10px 20px;margin:0 4px;min-width:170px;font-size:143px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#c8d8ff;position:relative;-webkit-box-shadow:0 0 44px rgba(100,140,255,0.30),0 10px 26px rgba(0,0,0,0.82);box-shadow:0 0 44px rgba(100,140,255,0.30),0 10px 26px rgba(0,0,0,0.82);line-height:1;}
+.time-part::after{content:'';position:absolute;top:50%;left:5%;width:90%;height:1px;background:rgba(42,48,88,0.95);margin-top:-1px;}
+.time-sep{display:inline-block;font-size:96px;font-family:'Courier New',Courier,monospace;font-weight:bold;vertical-align:top;margin-top:22px;color:#2e3870;line-height:1;-webkit-animation:blink 1s step-end infinite;animation:blink 1s step-end infinite;}
+.sec-part{display:inline-block;font-size:45px;font-family:'Courier New',Courier,monospace;font-weight:bold;vertical-align:bottom;margin-bottom:22px;margin-left:8px;color:#4a5590;line-height:1;}
 @-webkit-keyframes blink{0%,100%{opacity:1;}50%{opacity:0.15;}}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.15;}}
-.date-line{
-  font-size:12px;color:#6878b0;margin-top:5px;
-  letter-spacing:1px;text-align:center;
-}
-.tz-strip{
-  margin-top:5px;
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-}
-.tz-card{
-  background:#080c18;border:1px solid #1a2040;border-radius:7px;
-  padding:3px 10px;
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-}
-.tz-flag{font-size:14px;margin-right:5px;}
-.tz-label{font-size:9px;color:#3a4580;text-transform:uppercase;letter-spacing:1px;margin-right:6px;}
-.tz-time{font-size:16px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#8898cc;letter-spacing:1px;}
-.tz-day{font-size:9px;color:#3a4560;margin-left:5px;}
-
-/* -- Weather card (top-right) -- */
-.weather-col{
-  -webkit-box-flex:1;-webkit-flex:1 1 auto;flex:1 1 auto;
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:vertical;-webkit-box-direction:normal;
-  -webkit-flex-direction:column;flex-direction:column;
-  background:#0e1223;border:1px solid #1e2448;
-  border-radius:12px;padding:8px 10px;
-  min-height:0;
-}
-.wx-now-row{
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
-  -webkit-flex-direction:row;flex-direction:row;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  margin-bottom:3px;
-  -webkit-flex-shrink:0;flex-shrink:0;
-}
-.wx-icon{font-size:26px;margin-right:7px;line-height:1;}
-.wx-temp{font-size:28px;font-weight:bold;color:#c8d8ff;margin-right:8px;}
-.wx-meta{
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:vertical;-webkit-box-direction:normal;
-  -webkit-flex-direction:column;flex-direction:column;
-}
-.wx-desc{font-size:10px;color:#6878b0;}
-.wx-range{font-size:10px;color:#7888bb;}
-.wx-wind{font-size:9px;color:#4a5590;margin-top:1px;}
-.wx-sun{
-  font-size:9px;color:#3e4d80;margin-bottom:4px;
-  -webkit-flex-shrink:0;flex-shrink:0;
-}
-.wx-weekly{
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
-  -webkit-flex-direction:row;flex-direction:row;
-  -webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  border-top:1px solid #1a2040;padding-top:5px;
-  -webkit-flex:1 1 auto;flex:1 1 auto;
-  min-height:0;
-}
-.wx-day{
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:vertical;-webkit-box-direction:normal;
-  -webkit-flex-direction:column;flex-direction:column;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  -webkit-box-flex:1;-webkit-flex:1;flex:1;
-}
-.wx-day-name{font-size:8px;color:#3a4580;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;}
-.wx-day-icon{font-size:16px;margin-bottom:2px;line-height:1;}
-.wx-day-hi{font-size:9px;color:#c8d8ff;font-weight:bold;}
-.wx-day-lo{font-size:8px;color:#4a5590;}
-
-/* ======================================================
-   ROW 2: FX + Holiday info strip (fixed height)
-   ====================================================== */
-.info-strip{
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
-  -webkit-flex-direction:row;flex-direction:row;
-  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  -webkit-flex-shrink:0;flex-shrink:0;
-  margin-bottom:5px;
-}
-.fx-item{font-size:11px;color:#3e6040;margin:0 7px;}
-.fx-val{color:#5aaa7a;margin-left:2px;font-weight:bold;}
+.date{font-size:14px;color:#6878b0;margin-top:4px;letter-spacing:1.5px;}
+.tz-strip{margin-top:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;}
+.tz-card{background:#0e1223;border:1px solid #1a2040;border-radius:10px;padding:4px 16px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-shadow:0 2px 8px rgba(0,0,0,0.5);box-shadow:0 2px 8px rgba(0,0,0,0.5);}
+.tz-flag{font-size:16px;margin-right:6px;line-height:1;}
+.tz-label{font-size:10px;color:#3a4580;text-transform:uppercase;letter-spacing:1.5px;margin-right:8px;}
+.tz-time{font-size:20px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#8898cc;letter-spacing:1px;}
+.tz-day{font-size:9px;color:#3a4560;margin-left:7px;}
+.weather-strip{margin-top:4px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;}
+.wx-icon{font-size:18px;margin-right:5px;line-height:1;}
+.wx-temp{font-size:18px;font-weight:bold;color:#c8d8ff;margin-right:6px;}
+.wx-range{font-size:11px;color:#7888bb;margin-right:6px;}
+.wx-desc{font-size:11px;color:#6878b0;margin-right:6px;}
+.wx-wind{font-size:11px;color:#4a5590;}
+.info-strip{margin-top:3px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;}
+.sun-item{font-size:11px;color:#3e4d80;margin:0 6px;}
+.sun-val{color:#5a6aaa;margin-left:3px;}
 .sep-dot{color:#2a3050;font-size:13px;}
-.hol-item{font-size:11px;color:#3e4d80;margin:0 7px;}
-
-/* ======================================================
-   ROW 3: Alarm/Stopwatch (bottom-left, 40%) +
-           Calendar (bottom-right, 58%)
-   Fixed shorter height so clock/weather get more space.
-   ====================================================== */
-.row3{
-  height:195px;
-  -webkit-flex-shrink:0;flex-shrink:0;
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
-  -webkit-flex-direction:row;flex-direction:row;
-}
-
-/* -- Alarm/Stopwatch card (bottom-left, narrower) -- */
-.sw-al-panel{
-  width:40%;
-  -webkit-box-flex:0;-webkit-flex:0 0 auto;flex:0 0 auto;
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:vertical;-webkit-box-direction:normal;
-  -webkit-flex-direction:column;flex-direction:column;
-  background:#0e1223;border:1px solid #1e2448;
-  border-radius:12px;padding:6px;margin-right:5px;
-  overflow:hidden;
-}
-.panel-tabs{
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
-  -webkit-flex-direction:row;flex-direction:row;
-  background:#080c18;border:1px solid #1a2040;
-  border-radius:8px;padding:2px;
-  margin-bottom:4px;
-  -webkit-flex-shrink:0;flex-shrink:0;
-}
-.ptab-btn{
-  -webkit-box-flex:1;-webkit-flex:1;flex:1;
-  background:none;border:none;color:#4a5590;
-  font-size:10px;font-family:Helvetica,Arial,sans-serif;
-  padding:4px 2px;border-radius:6px;cursor:pointer;
-  letter-spacing:0.2px;-webkit-tap-highlight-color:transparent;
-}
-.ptab-btn.active{
-  background:-webkit-linear-gradient(135deg,#2a4fcc,#5030cc);
-  background:linear-gradient(135deg,#2a4fcc,#5030cc);
-  color:#fff;
-  -webkit-box-shadow:0 0 5px rgba(80,120,255,0.35);
-  box-shadow:0 0 5px rgba(80,120,255,0.35);
-}
-.panel-body{
-  -webkit-box-flex:1;-webkit-flex:1 1 auto;flex:1 1 auto;
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:vertical;-webkit-box-direction:normal;
-  -webkit-flex-direction:column;flex-direction:column;
-  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  min-height:0;overflow:hidden;
-}
-.sw-display{
-  font-size:38px;font-family:'Courier New',Courier,monospace;
-  font-weight:bold;color:#c8d8ff;letter-spacing:2px;margin-bottom:10px;
-  text-align:center;
-}
-.btn-row{
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
-  -webkit-flex-direction:row;flex-direction:row;
-  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-}
-.btn{
-  background:#12172b;border:1px solid #2a3058;border-radius:40px;
-  color:#c8d8ff;font-size:12px;font-family:Helvetica,Arial,sans-serif;
-  padding:6px 14px;margin:0 3px;cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-}
-.btn-green{background:-webkit-linear-gradient(135deg,#1a5c2a,#1d7a38);background:linear-gradient(135deg,#1a5c2a,#1d7a38);border-color:#2a9950;color:#aaffcc;}
-.btn-red{background:-webkit-linear-gradient(135deg,#661a1a,#882233);background:linear-gradient(135deg,#661a1a,#882233);border-color:#993344;color:#ffaaaa;}
-.btn-blue{background:-webkit-linear-gradient(135deg,#1a3a99,#3322aa);background:linear-gradient(135deg,#1a3a99,#3322aa);border-color:#4433bb;color:#aaccff;}
-.alarm-status{font-size:10px;color:#6878b0;margin-bottom:5px;min-height:13px;text-align:center;}
-.alarm-active{color:#ffaa44;}
-.alarm-controls{
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:horizontal;-webkit-box-direction:normal;
-  -webkit-flex-direction:row;flex-direction:row;
-  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-  margin-bottom:7px;
-}
-.al-group{
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:vertical;-webkit-box-direction:normal;
-  -webkit-flex-direction:column;flex-direction:column;
-  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
-}
-.al-label{font-size:7px;color:#4a5590;letter-spacing:1px;margin-bottom:2px;text-transform:uppercase;}
-.al-val{font-size:30px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#c8d8ff;width:58px;text-align:center;margin:2px 0;}
-.al-colon{font-size:30px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#3a4580;margin:0 2px;padding-top:12px;}
-.btn-sm{
-  background:#12172b;border:1px solid #2a3058;border-radius:5px;
-  color:#8898cc;font-size:15px;padding:1px 0;cursor:pointer;
-  -webkit-tap-highlight-color:transparent;display:block;
-  width:58px;text-align:center;line-height:1;
-  font-family:Helvetica,Arial,sans-serif;
-}
-@-webkit-keyframes ring{
-  0%,100%{-webkit-transform:translateX(0);transform:translateX(0);}
-  25%{-webkit-transform:translateX(-6px);transform:translateX(-6px);}
-  75%{-webkit-transform:translateX(6px);transform:translateX(6px);}
-}
-@keyframes ring{
-  0%,100%{transform:translateX(0);}
-  25%{transform:translateX(-6px);}
-  75%{transform:translateX(6px);}
-}
-.ringing{
-  color:#ffdd44!important;
-  -webkit-animation:ring 0.5s ease-in-out 5;
-  animation:ring 0.5s ease-in-out 5;
-}
-
-/* -- Calendar card (bottom-right, wider at 58%) -- */
-.cal-panel{
-  -webkit-box-flex:1;-webkit-flex:1 1 auto;flex:1 1 auto;
-  display:-webkit-box;display:-webkit-flex;display:flex;
-  -webkit-box-orient:vertical;-webkit-box-direction:normal;
-  -webkit-flex-direction:column;flex-direction:column;
-  background:#0e1223;border:1px solid #1e2448;
-  border-radius:12px;padding:6px 5px 4px 5px;
-  overflow:hidden;
-}
-.cal-title{
-  font-size:8px;color:#3a4580;text-transform:uppercase;
-  letter-spacing:1.5px;text-align:center;margin-bottom:3px;
-  -webkit-flex-shrink:0;flex-shrink:0;
-}
+.fx-item{font-size:11px;color:#3e6040;margin:0 10px;background:#0b1a10;border:1px solid #1a3022;border-radius:6px;padding:2px 12px;min-width:120px;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;}
+.fx-val{color:#5aaa7a;margin-left:5px;font-weight:bold;font-size:13px;}
+.quote-strip{margin-top:3px;font-size:10px;color:#28305a;font-style:italic;letter-spacing:0.3px;padding:0 20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tabs{-webkit-flex-shrink:0;flex-shrink:0;display:-webkit-box;display:-webkit-flex;display:flex;margin-top:6px;background:#0e1223;border:1px solid #1e2448;border-radius:12px;padding:4px;}
+.tab-btn{-webkit-flex:1;flex:1;background:none;border:none;color:#4a5590;font-size:13px;font-family:Helvetica,Arial,sans-serif;padding:7px 4px;border-radius:8px;cursor:pointer;letter-spacing:0.5px;-webkit-tap-highlight-color:transparent;}
+.tab-btn.active{background:-webkit-linear-gradient(315deg,#2a4fcc,#5030cc);background:linear-gradient(135deg,#2a4fcc,#5030cc);color:#fff;-webkit-box-shadow:0 0 10px rgba(80,120,255,0.4);box-shadow:0 0 10px rgba(80,120,255,0.4);}
+.panel{-webkit-flex:1;flex:1;overflow:hidden;min-height:0;margin-top:6px;}
+.tab-content{height:100%;background:#0e1223;border:1px solid #1e2448;border-radius:16px;overflow:hidden;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;}
+#tab-cal,#tab-sw,#tab-al{-webkit-flex:1;flex:1;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;padding:8px 12px;}
+#tab-cal{-webkit-box-pack:start;-webkit-justify-content:flex-start;justify-content:flex-start;-webkit-box-align:stretch;-webkit-align-items:stretch;align-items:stretch;}
+.cal-title{font-size:10px;color:#3a4580;margin-bottom:4px;text-transform:uppercase;letter-spacing:2px;text-align:center;-webkit-flex-shrink:0;flex-shrink:0;}
 .cal{font-size:0;-webkit-flex-shrink:0;flex-shrink:0;}
-.cal div{
-  display:inline-block;width:14.285%;text-align:center;
-  font-size:10px;padding:3px 0;color:#8898cc;
-  vertical-align:top;border-radius:3px;
-}
-.cal-header div{
-  color:#323a68;font-size:7px;padding-bottom:2px;
-  text-transform:uppercase;letter-spacing:0.5px;
-}
-.today{
-  background:-webkit-linear-gradient(135deg,#3a6fff,#6a4fff);
-  background:linear-gradient(135deg,#3a6fff,#6a4fff);
-  color:#fff!important;font-weight:bold;
-  -webkit-box-shadow:0 0 6px rgba(80,120,255,0.4);
-  box-shadow:0 0 6px rgba(80,120,255,0.4);
-}
-.holiday{background:rgba(255,70,70,0.12);color:#ff9090!important;}
-.today.holiday{
-  background:-webkit-linear-gradient(135deg,#cc2244,#992288);
-  background:linear-gradient(135deg,#cc2244,#992288);
-  color:#fff!important;
-}
+.cal div{display:inline-block;width:14.285%;text-align:center;font-size:12px;padding:4px 0;color:#8898cc;vertical-align:top;border-radius:5px;}
+.cal-header div{color:#323a68;font-size:9px;padding-bottom:3px;text-transform:uppercase;letter-spacing:1.5px;}
+.today{background:-webkit-linear-gradient(315deg,#3a6fff,#6a4fff);background:linear-gradient(135deg,#3a6fff,#6a4fff);color:#fff!important;font-weight:bold;-webkit-box-shadow:0 0 10px rgba(80,120,255,0.5);box-shadow:0 0 10px rgba(80,120,255,0.5);}
+.holiday{background:rgba(255,70,70,0.14);color:#ff9090!important;}
+.today.holiday{background:-webkit-linear-gradient(315deg,#cc2244,#992288);background:linear-gradient(135deg,#cc2244,#992288);color:#fff!important;}
 .empty{visibility:hidden;}
-.holiday-name{
-  font-size:7px;color:#cc7070;margin-top:2px;
-  text-align:center;min-height:10px;
-  -webkit-flex-shrink:0;flex-shrink:0;
-}
+.holiday-name{font-size:10px;color:#cc7070;margin-top:4px;text-align:center;-webkit-flex-shrink:0;flex-shrink:0;min-height:14px;}
 .hol-next{color:#4a5590;}
+.sw-display{font-size:64px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#c8d8ff;letter-spacing:4px;text-shadow:0 0 24px rgba(100,140,255,0.3);margin-bottom:28px;}
+.btn-row{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;}
+.btn{background:#12172b;border:1px solid #2a3058;border-radius:50px;color:#c8d8ff;font-size:16px;font-family:Helvetica,Arial,sans-serif;padding:12px 28px;margin:0 8px;cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-box-shadow:0 4px 12px rgba(0,0,0,0.4);box-shadow:0 4px 12px rgba(0,0,0,0.4);}
+.btn-green{background:-webkit-linear-gradient(315deg,#1a5c2a,#1d7a38);background:linear-gradient(135deg,#1a5c2a,#1d7a38);border-color:#2a9950;color:#aaffcc;}
+.btn-red{background:-webkit-linear-gradient(315deg,#661a1a,#882233);background:linear-gradient(135deg,#661a1a,#882233);border-color:#993344;color:#ffaaaa;}
+.btn-blue{background:-webkit-linear-gradient(315deg,#1a3a99,#3322aa);background:linear-gradient(135deg,#1a3a99,#3322aa);border-color:#4433bb;color:#aaccff;}
+.alarm-status{font-size:13px;color:#6878b0;margin-bottom:12px;min-height:18px;}
+.alarm-active{color:#ffaa44;}
+.alarm-controls{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-box-align:center;-webkit-align-items:center;align-items:center;margin-bottom:20px;}
+.al-group{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;flex-direction:column;-webkit-box-align:center;-webkit-align-items:center;align-items:center;}
+.al-label{font-size:10px;color:#4a5590;letter-spacing:1px;margin-bottom:6px;text-transform:uppercase;}
+.al-val{font-size:52px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#c8d8ff;width:100px;text-align:center;margin:6px 0;}
+.al-colon{font-size:52px;font-family:'Courier New',Courier,monospace;font-weight:bold;color:#3a4580;margin:0 6px;padding-top:22px;}
+.btn-sm{background:#12172b;border:1px solid #2a3058;border-radius:8px;color:#8898cc;font-size:22px;padding:4px 0;cursor:pointer;-webkit-tap-highlight-color:transparent;display:block;width:100px;text-align:center;line-height:1;font-family:Helvetica,Arial,sans-serif;}
+@-webkit-keyframes ring{0%,100%{-webkit-transform:translateX(0);}15%{-webkit-transform:translateX(-8px);}30%{-webkit-transform:translateX(8px);}45%{-webkit-transform:translateX(-6px);}60%{-webkit-transform:translateX(6px);}75%{-webkit-transform:translateX(-4px);}90%{-webkit-transform:translateX(4px);}}
+@keyframes ring{0%,100%{transform:translateX(0);}15%{transform:translateX(-8px);}30%{transform:translateX(8px);}45%{transform:translateX(-6px);}60%{transform:translateX(6px);}75%{transform:translateX(-4px);}90%{transform:translateX(4px);}}
+.ringing{color:#ffdd44!important;-webkit-animation:ring 0.6s ease-in-out 4;animation:ring 0.6s ease-in-out 4;}
+@media screen and (max-width:1024px){.time-part{min-width:152px;font-size:127px;padding:9px 16px;}.time-sep{font-size:86px;margin-top:20px;}.sec-part{font-size:39px;margin-bottom:20px;}}
+@media screen and (max-width:900px){.time-part{min-width:122px;font-size:102px;padding:9px 13px;}.time-sep{font-size:70px;margin-top:17px;}.sec-part{font-size:31px;margin-bottom:16px;}.date{font-size:12px;}.wx-temp{font-size:15px;}.wx-icon{font-size:15px;}.tz-time{font-size:17px;}.sw-display{font-size:50px;}.al-val{font-size:42px;width:82px;}.al-colon{font-size:42px;}.btn-sm{width:82px;}}
+@media screen and (max-width:600px){.app{top:8px;right:8px;bottom:8px;left:8px;}.time-part{min-width:82px;font-size:70px;padding:8px 9px;margin:0 3px;}.time-sep{font-size:45px;margin-top:11px;}.sec-part{font-size:22px;margin-bottom:10px;}.date{font-size:10px;margin-top:3px;}.wx-temp,.wx-icon{font-size:13px;}.wx-range,.wx-desc,.wx-wind{font-size:10px;}.sun-item{font-size:10px;margin:0 4px;}.fx-item{font-size:10px;min-width:90px;padding:2px 8px;margin:0 6px;}.fx-val{font-size:11px;}.tz-time{font-size:15px;}.tz-label{font-size:9px;}.tz-flag{font-size:13px;}.tab-btn{font-size:11px;padding:6px 2px;}.cal div{font-size:10px;padding:3px 0;}.cal-header div{font-size:8px;}.quote-strip{font-size:9px;padding:0 10px;}.sw-display{font-size:36px;letter-spacing:2px;margin-bottom:18px;}.al-val{font-size:34px;width:68px;margin:4px 0;}.al-colon{font-size:34px;padding-top:14px;}.btn-sm{width:68px;font-size:18px;}.btn{font-size:14px;padding:10px 18px;margin:0 4px;}}
 </style>
 </head>
 <body>
 <div class="app">
-
-  <!-- ===== ROW 1: Clock (top-left) + Weather (top-right) ===== -->
-  <div class="row1">
-
-    <!-- Clock card -->
-    <div class="clock-col">
-      <div class="time-row">
-        <div class="time-part" id="hours">--</div>
-        <div class="time-sep">:</div>
-        <div class="time-part" id="minutes">--</div>
-        <div class="sec-part" id="seconds">00</div>
-      </div>
-      <div class="date-line" id="date">Loading&#8230;</div>
-      <div class="tz-strip">
-        <div class="tz-card">
-          <span class="tz-flag">&#127472;&#127479;</span>
-          <span class="tz-label">Seoul KST</span>
-          <span class="tz-time" id="tz-seoul">--:--:--</span>
-          <span class="tz-day" id="tz-seoul-day"></span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Weather card (top-right) -->
-    <div class="weather-col">
-      <div class="wx-now-row">
-        <span class="wx-icon" id="wx-icon">&#9729;</span>
-        <span class="wx-temp" id="wx-temp">--&#176;C</span>
-        <div class="wx-meta">
-          <span class="wx-desc" id="wx-desc">Loading&#8230;</span>
-          <span class="wx-range" id="wx-range"></span>
-          <span class="wx-wind" id="wx-wind"></span>
-        </div>
-      </div>
-      <div class="wx-sun">&#9728; <span id="wx-sunrise">--:--</span>&nbsp;&nbsp;&#9790; <span id="wx-sunset">--:--</span></div>
-      <div class="wx-weekly" id="wx-weekly">
-        <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
-        <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
-        <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
-        <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
-        <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
-        <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
-        <div class="wx-day"><div class="wx-day-name">---</div><div class="wx-day-icon">&#9729;</div><div class="wx-day-hi">--</div><div class="wx-day-lo">--</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== ROW 2: FX + Holiday strip ===== -->
-  <div class="info-strip">
-    <span class="fx-item">USD/ZAR<span class="fx-val" id="fx-rate"> --</span></span>
-    <span class="sep-dot">&#183;</span>
-    <span class="hol-item" id="hol-countdown"></span>
-  </div>
-
-  <!-- ===== ROW 3: Stopwatch/Alarm (left 40%) + Calendar (right 58%) ===== -->
-  <div class="row3">
-
-    <!-- Alarm/Stopwatch card (bottom-left) -->
-    <div class="sw-al-panel">
-      <div class="panel-tabs">
-        <button class="ptab-btn active" id="btn-sw" onclick="showTab('sw')">&#9201; Stopwatch</button>
-        <button class="ptab-btn" id="btn-al" onclick="showTab('al')">&#128276; Alarm</button>
-      </div>
-      <div class="panel-body">
-        <div id="tab-sw">
-          <div class="sw-display" id="sw-display">00:00.0</div>
-          <div class="btn-row">
-            <button class="btn btn-green" id="sw-start" onclick="swStartStop()">Start</button>
-            <button class="btn btn-red" onclick="swReset()">Reset</button>
-          </div>
-        </div>
-        <div id="tab-al" style="display:none">
-          <div class="alarm-status" id="al-status">No alarm set</div>
-          <div class="alarm-controls">
-            <div class="al-group">
-              <div class="al-label">Hour</div>
-              <button class="btn-sm" onclick="alAdj('h',1)">+</button>
-              <div class="al-val" id="al-h">07</div>
-              <button class="btn-sm" onclick="alAdj('h',-1)">&#8722;</button>
-            </div>
-            <div class="al-colon">:</div>
-            <div class="al-group">
-              <div class="al-label">Min</div>
-              <button class="btn-sm" onclick="alAdj('m',1)">+</button>
-              <div class="al-val" id="al-m">00</div>
-              <button class="btn-sm" onclick="alAdj('m',-1)">&#8722;</button>
-            </div>
-          </div>
-          <button class="btn btn-blue" id="al-set-btn" onclick="alToggle()">Set Alarm</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Calendar card (bottom-right, wider) -->
-    <div class="cal-panel">
-      <div id="cal-month" class="cal-title">Calendar</div>
-      <div class="cal cal-header">
-        <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
-      </div>
-      <div id="calendar" class="cal"></div>
-      <div id="holiday-name" class="holiday-name"></div>
-    </div>
-  </div>
+<div class="clock-container">
+<div class="time-row">
+<div class="time-part" id="hours">--</div>
+<div class="time-sep">:</div>
+<div class="time-part" id="minutes">--</div>
+<div class="sec-part" id="seconds">00</div>
+</div>
+<div id="date" class="date">Loading...</div>
+<div class="tz-strip"><div class="tz-card"><span class="tz-flag">&#127472;&#127479;</span><span class="tz-label">Seoul KST</span><span class="tz-time" id="tz-seoul">--:--:--</span><span class="tz-day" id="tz-seoul-day"></span></div></div>
+<div class="weather-strip"><span class="wx-icon" id="wx-icon">&#9729;</span><span class="wx-temp" id="wx-temp">--&deg;C</span><span class="wx-range" id="wx-range"></span><span class="wx-desc" id="wx-desc">Joburg...</span><span class="wx-wind" id="wx-wind"></span></div>
+<div class="info-strip"><span class="sun-item">&#9728;<span class="sun-val" id="wx-sunrise">--:--</span></span><span class="sep-dot">&middot;</span><span class="sun-item">&#9790;<span class="sun-val" id="wx-sunset">--:--</span></span><span class="sep-dot">&middot;</span><span class="fx-item">USD/ZAR<span class="fx-val" id="fx-rate">--</span></span><span class="sep-dot">&middot;</span><span class="sun-item" id="hol-countdown"></span></div>
+<div class="quote-strip" id="quote-strip">&nbsp;</div>
+</div>
+<div class="tabs"><button class="tab-btn active" id="btn-cal" onclick="showTab('cal')">&#128197; Calendar</button><button class="tab-btn" id="btn-sw" onclick="showTab('sw')">&#9201; Stopwatch</button><button class="tab-btn" id="btn-al" onclick="showTab('al')">&#128276; Alarm</button></div>
+<div class="panel"><div class="tab-content">
+<div id="tab-cal"><div id="cal-month" class="cal-title">Calendar</div><div class="cal cal-header"><div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div></div><div id="calendar" class="cal"></div><div id="holiday-name" class="holiday-name"></div></div>
+<div id="tab-sw" style="display:none"><div class="sw-display" id="sw-display">00:00.0</div><div class="btn-row"><button class="btn btn-green" id="sw-start" onclick="swStartStop()">Start</button><button class="btn btn-red" onclick="swReset()">Reset</button></div></div>
+<div id="tab-al" style="display:none"><div class="alarm-status" id="al-status">No alarm set</div><div class="alarm-controls"><div class="al-group"><div class="al-label">Hour</div><button class="btn-sm" onclick="alAdj('h',1)">+</button><div class="al-val" id="al-h">07</div><button class="btn-sm" onclick="alAdj('h',-1)">&minus;</button></div><div class="al-colon">:</div><div class="al-group"><div class="al-label">Min</div><button class="btn-sm" onclick="alAdj('m',1)">+</button><div class="al-val" id="al-m">00</div><button class="btn-sm" onclick="alAdj('m',-1)">&minus;</button></div></div><button class="btn btn-blue" id="al-set-btn" onclick="alToggle()">Set Alarm</button></div>
+</div></div>
 </div>
 <script>
-/*
-  ES5-only. No const/let/arrow/Promise/fetch/template-literals.
-  iOS 9.3.5 UIWebView + Safari compatible.
-
-  KEY FIX — Weather & FX were blank:
-  setRequestHeader('Accept','application/json') was triggering a CORS
-  preflight OPTIONS request that iOS 9 UIWebView silently drops, so
-  onreadystatechange never fires. Fix: send plain GET with NO custom headers.
-  Also added xhr.onerror so network-level failures show a message instead
-  of leaving fields blank.
-
-  FX endpoint switched from frankfurter.app to open.er-api.com which has
-  broader TLS/cipher compatibility with iOS 9.
-*/
-
-function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-/* ===== TAB SWITCHER ===== */
-function showTab(name) {
-  var tabs = ['sw', 'al'], i, el, btn;
-  for (i = 0; i < tabs.length; i++) {
-    el  = document.getElementById('tab-'  + tabs[i]);
-    btn = document.getElementById('btn-'  + tabs[i]);
-    if (el)  el.style.display  = (tabs[i] === name) ? '' : 'none';
-    if (btn) btn.className     = 'ptab-btn' + (tabs[i] === name ? ' active' : '');
-  }
-  unlockAudio();
-}
-
-/* ===== SEOUL CLOCK (UTC+9 pure offset, no Intl) ===== */
-function updateSeoul() {
-  var now   = new Date();
-  var utcMs = now.getTime() + (now.getTimezoneOffset() * 60000);
-  var kst   = new Date(utcMs + 9 * 3600000);
-  var loc   = new Date();
-  var kd = kst.getFullYear() * 10000 + (kst.getMonth() + 1) * 100 + kst.getDate();
-  var ld = loc.getFullYear() * 10000 + (loc.getMonth()  + 1) * 100 + loc.getDate();
-  var el  = document.getElementById('tz-seoul');
-  var el2 = document.getElementById('tz-seoul-day');
-  if (el)  el.textContent  = pad(kst.getHours()) + ':' + pad(kst.getMinutes()) + ':' + pad(kst.getSeconds());
-  if (el2) el2.textContent = kd > ld ? '+1d' : (kd < ld ? '-1d' : '');
-}
-
-/* ===== SA PUBLIC HOLIDAYS ===== */
-function getEaster(y) {
-  var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4;
-  var f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3);
-  var h=(19*a+b-d-g+15)%30,ii=Math.floor(c/4),k=c%4;
-  var l=(32+2*e+2*ii-h-k)%7,m=Math.floor((a+11*h+22*l)/451);
-  var mo=Math.floor((h+l-7*m+114)/31),dy=((h+l-7*m+114)%31)+1;
-  return new Date(y,mo-1,dy);
-}
-function getSAHolidays(y) {
-  var hols={},i,dt,key,mon;
-  var fixed=[
-    [1,1,"New Year's Day"],[3,21,'Human Rights Day'],
-    [4,27,'Freedom Day'],[5,1,"Workers' Day"],[6,16,'Youth Day'],
-    [8,9,"National Women's Day"],[9,24,'Heritage Day'],
-    [12,16,'Day of Reconciliation'],[12,25,'Christmas Day'],[12,26,'Day of Goodwill']
-  ];
-  for (i=0;i<fixed.length;i++) {
-    dt=new Date(y,fixed[i][0]-1,fixed[i][1]);
-    key=pad(dt.getMonth()+1)+'-'+pad(dt.getDate());
-    hols[key]=fixed[i][2];
-    if (dt.getDay()===0) {
-      mon=new Date(y,dt.getMonth(),dt.getDate()+1);
-      hols[pad(mon.getMonth()+1)+'-'+pad(mon.getDate())]=fixed[i][2]+' (obs)';
-    }
-  }
-  var easter=getEaster(y);
-  var gf=new Date(y,easter.getMonth(),easter.getDate()-2);
-  var fd=new Date(y,easter.getMonth(),easter.getDate()+1);
-  hols[pad(gf.getMonth()+1)+'-'+pad(gf.getDate())]='Good Friday';
-  hols[pad(fd.getMonth()+1)+'-'+pad(fd.getDate())]='Family Day';
-  return hols;
-}
-
-/* ===== HOLIDAY COUNTDOWN ===== */
-function updateHolCountdown() {
-  var today=new Date(),y=today.getFullYear();
-  var todayMs=new Date(y,today.getMonth(),today.getDate()).getTime();
-  var hols=getSAHolidays(y),best=null,bestDays=9999,name='',key,parts,dt,days;
-  for (key in hols) {
-    if (!hols.hasOwnProperty(key)) continue;
-    parts=key.split('-');
-    dt=new Date(y,parseInt(parts[0],10)-1,parseInt(parts[1],10));
-    days=Math.round((dt.getTime()-todayMs)/86400000);
-    if (days>0&&days<bestDays){bestDays=days;best=dt;name=hols[key];}
-  }
-  if (!best) {
-    hols=getSAHolidays(y+1);
-    for (key in hols) {
-      if (!hols.hasOwnProperty(key)) continue;
-      parts=key.split('-');
-      dt=new Date(y+1,parseInt(parts[0],10)-1,parseInt(parts[1],10));
-      days=Math.round((dt.getTime()-todayMs)/86400000);
-      if (days>0&&days<bestDays){bestDays=days;best=dt;name=hols[key];}
-    }
-  }
-  var el=document.getElementById('hol-countdown');
-  if (el) el.textContent=best?(name+' in '+bestDays+'d'):'';
-}
-
-/* ===== DATE/DAY ARRAYS ===== */
-var DAYS_LONG=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-var MONTHS_LONG=['January','February','March','April','May','June','July','August','September','October','November','December'];
-var DAY_SHORT=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-
-/* ===== MAIN CLOCK ===== */
+function pad(n){return n<10?'0'+n:''+n;}
+function showTab(name){var tabs=['cal','sw','al'],i;for(i=0;i<tabs.length;i++){document.getElementById('tab-'+tabs[i]).style.display=(tabs[i]===name)?'':'none';document.getElementById('btn-'+tabs[i]).className='tab-btn'+(tabs[i]===name?' active':'');}unlockAudio();}
+function updateSeoul(){var now=new Date();var kst=new Date(now.getTime()+(now.getTimezoneOffset()*60000)+(9*3600000));document.getElementById('tz-seoul').textContent=pad(kst.getHours())+':'+pad(kst.getMinutes())+':'+pad(kst.getSeconds());var diff=kst.getDate()-now.getDate();document.getElementById('tz-seoul-day').textContent=(diff>0)?'+1 day':(diff<0)?'-1 day':'';}
+function getEaster(y){var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,ii=Math.floor(c/4),k=c%4,l=(32+2*e+2*ii-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),dy=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,dy);}
+function getSAHolidays(y){var hols={},i,dt,key,mon,fixed=[[1,1,"New Year's Day"],[3,21,'Human Rights Day'],[4,27,'Freedom Day'],[5,1,"Workers' Day"],[6,16,'Youth Day'],[8,9,"National Women's Day"],[9,24,'Heritage Day'],[12,16,'Day of Reconciliation'],[12,25,'Christmas Day'],[12,26,'Day of Goodwill']];for(i=0;i<fixed.length;i++){dt=new Date(y,fixed[i][0]-1,fixed[i][1]);key=pad(dt.getMonth()+1)+'-'+pad(dt.getDate());hols[key]=fixed[i][2];if(dt.getDay()===0){mon=new Date(y,dt.getMonth(),dt.getDate()+1);hols[pad(mon.getMonth()+1)+'-'+pad(mon.getDate())]=fixed[i][2]+' (obs)';}}var e=getEaster(y),gf=new Date(y,e.getMonth(),e.getDate()-2),fd=new Date(y,e.getMonth(),e.getDate()+1);hols[pad(gf.getMonth()+1)+'-'+pad(gf.getDate())]='Good Friday';hols[pad(fd.getMonth()+1)+'-'+pad(fd.getDate())]='Family Day';return hols;}
+function updateHolCountdown(){var today=new Date(),y=today.getFullYear(),todayMs=new Date(y,today.getMonth(),today.getDate()).getTime(),hols=getSAHolidays(y),bestDays=9999,name='',found=false,key,parts,dt,days;for(key in hols){parts=key.split('-');dt=new Date(y,parseInt(parts[0],10)-1,parseInt(parts[1],10));days=Math.round((dt.getTime()-todayMs)/86400000);if(days>0&&days<bestDays){bestDays=days;name=hols[key];found=true;}}if(!found){hols=getSAHolidays(y+1);for(key in hols){parts=key.split('-');dt=new Date(y+1,parseInt(parts[0],10)-1,parseInt(parts[1],10));days=Math.round((dt.getTime()-todayMs)/86400000);if(days>0&&days<bestDays){bestDays=days;name=hols[key];found=true;}}}document.getElementById('hol-countdown').textContent=found?(name+' in '+bestDays+'d'):'';}
+var QUOTES=['"The only way to do great work is to love what you do." - Steve Jobs','"It always seems impossible until it is done." - Mandela','"In the middle of difficulty lies opportunity." - Einstein','"An investment in knowledge pays the best interest." - Franklin','"The future belongs to those who believe in their dreams." - Roosevelt','"You miss 100% of the shots you do not take." - Gretzky','"Whether you think you can or cannot, you are right." - Ford','"Be the change you wish to see in the world." - Gandhi','"Not all those who wander are lost." - Tolkien','"Live as if you were to die tomorrow. Learn as if you were to live forever." - Gandhi','"Education is the most powerful weapon to change the world." - Mandela','"Believe you can and you are halfway there." - Roosevelt','"Success is not final, failure is not fatal." - Churchill','"The best time to plant a tree was 20 years ago. The second best is now." - Proverb','"Strive not to be a success, but rather to be of value." - Einstein'];
+function setDailyQuote(){var n=new Date(),doy=Math.floor((n-new Date(n.getFullYear(),0,0))/86400000);document.getElementById('quote-strip').textContent=QUOTES[doy%QUOTES.length];}
 var _lastDay=-1;
-function updateClock() {
-  var n=new Date();
-  var hEl=document.getElementById('hours');
-  var mEl=document.getElementById('minutes');
-  var sEl=document.getElementById('seconds');
-  var dEl=document.getElementById('date');
-  if (hEl) hEl.textContent=pad(n.getHours());
-  if (mEl) mEl.textContent=pad(n.getMinutes());
-  if (sEl) sEl.textContent=pad(n.getSeconds());
-  if (dEl) dEl.textContent=DAYS_LONG[n.getDay()]+', '+n.getDate()+' '+MONTHS_LONG[n.getMonth()]+' '+n.getFullYear();
-  if (_lastDay!==-1&&_lastDay!==n.getDate()) {
-    buildCalendar();updateHolCountdown();fetchWeather();fetchFX();
-  }
-  _lastDay=n.getDate();
-  updateSeoul();
-  checkAlarm(n);
-}
-
-/* ===== CALENDAR ===== */
-function buildCalendar() {
-  var n=new Date(),y=n.getFullYear(),m=n.getMonth(),d=n.getDate();
-  var titleEl=document.getElementById('cal-month');
-  if (titleEl) titleEl.textContent=MONTHS_LONG[m]+' '+y;
-  var hols=getSAHolidays(y);
-  var cal=document.getElementById('calendar');
-  if (!cal) return;
-  while (cal.firstChild){cal.removeChild(cal.firstChild);}
-  var firstDay=new Date(y,m,1).getDay();
-  var daysInMonth=new Date(y,m+1,0).getDate();
-  var i,div,key,cls,todayHol='';
-  for (i=0;i<firstDay;i++) {
-    div=document.createElement('div');
-    div.className='empty';div.textContent='.';
-    cal.appendChild(div);
-  }
-  for (i=1;i<=daysInMonth;i++) {
-    div=document.createElement('div');
-    key=pad(m+1)+'-'+pad(i);
-    cls=(i===d)?'today':'';
-    if (hols[key]){cls+=(cls?' ':')+'holiday';if(i===d){todayHol=hols[key];}}
-    div.className=cls.trim()||'';
-    div.textContent=''+i;
-    cal.appendChild(div);
-  }
-  var hn=document.getElementById('holiday-name');
-  if (!hn) return;
-  if (todayHol) {
-    hn.textContent='\u2665 '+todayHol;hn.className='holiday-name';
-  } else {
-    var next='',ni;
-    for (ni=d+1;ni<=daysInMonth&&!next;ni++) {
-      key=pad(m+1)+'-'+pad(ni);
-      if (hols[key]){next=ni+': '+hols[key];}
-    }
-    hn.textContent=next?('Next: '+next):'';hn.className='holiday-name hol-next';
-  }
-}
-
-/* ===== WEATHER CODE MAP ===== */
-var WX_MAP=[
-  [0,'\u2600','Clear'],[1,'\u26C5','Mainly clear'],[2,'\u26C5','Partly cloudy'],
-  [3,'\u2601','Overcast'],[45,'\uD83C\uDF2B','Fog'],[48,'\uD83C\uDF2B','Icy fog'],
-  [51,'\uD83C\uDF26','Lt drizzle'],[53,'\uD83C\uDF26','Drizzle'],[55,'\uD83C\uDF26','Hvy drizzle'],
-  [61,'\uD83C\uDF27','Lt rain'],[63,'\uD83C\uDF27','Rain'],[65,'\uD83C\uDF27','Hvy rain'],
-  [71,'\u2744','Lt snow'],[73,'\u2744','Snow'],[75,'\u2744','Hvy snow'],
-  [80,'\uD83C\uDF27','Showers'],[85,'\u2744','Snow shwrs'],
-  [95,'\u26C8','Storm'],[99,'\u26C8','Storm']
-];
-function wxLookup(code) {
-  var r={icon:'\u2601',desc:'Weather'},i;
-  for (i=0;i<WX_MAP.length;i++) {
-    if (WX_MAP[i][0]<=code){r.icon=WX_MAP[i][1];r.desc=WX_MAP[i][2];}
-  }
-  return r;
-}
-function windDir(deg) {
-  var d=['N','NE','E','SE','S','SW','W','NW'];
-  return d[Math.round((deg||0)/45)%8];
-}
-function parseHHMM(iso) {
-  if (!iso) return '--:--';
-  var p=iso.split('T');
-  return (p.length>1)?p[1].substring(0,5):'--:--';
-}
-
-/* ===== WEATHER FETCH =====
-   NO custom request headers — plain GET only.
-   Custom headers (even Accept) trigger CORS preflight on iOS 9 UIWebView
-   which is silently dropped, leaving onreadystatechange never called.
-*/
-var JHB_LAT=-26.2041,JHB_LON=28.0473;
-function fetchWeather() {
-  var descEl=document.getElementById('wx-desc');
-  if (descEl) descEl.textContent='Loading...';
-  var url='https://api.open-meteo.com/v1/forecast' +
-    '?latitude='+JHB_LAT+'&longitude='+JHB_LON +
-    '&current_weather=true' +
-    '&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,windspeed_10m_max' +
-    '&timezone=Africa%2FJohannesburg' +
-    '&temperature_unit=celsius&wind_speed_unit=kmh&forecast_days=7';
-  var xhr=new XMLHttpRequest();
-  xhr.open('GET',url,true);
-  /* NO setRequestHeader — avoids CORS preflight on iOS 9 UIWebView */
-  xhr.timeout=30000;
-  xhr.ontimeout=function(){
-    var el=document.getElementById('wx-desc');
-    if(el)el.textContent='Timeout';
-  };
-  xhr.onerror=function(){
-    /* Network-level failure (status 0): ATS block, SSL mismatch, no connectivity */
-    var el=document.getElementById('wx-desc');
-    if(el)el.textContent='Network err';
-  };
-  xhr.onreadystatechange=function(){
-    if(xhr.readyState!==4)return;
-    descEl=document.getElementById('wx-desc');
-    if(xhr.status!==200){
-      if(descEl)descEl.textContent='Err '+xhr.status;
-      return;
-    }
-    var data,cw,code,wx,dd,codes,weekly,dayEls,j,wxd,now2,dayDate;
-    var dnEl,diEl,dhEl,dlEl;
-    try{data=JSON.parse(xhr.responseText);}
-    catch(e){if(descEl)descEl.textContent='Parse err';return;}
-    cw=data.current_weather;
-    if(!cw){if(descEl)descEl.textContent='No data';return;}
-    code=(typeof cw.weathercode!=='undefined')?cw.weathercode:
-         ((typeof cw.weather_code!=='undefined')?cw.weather_code:0);
-    wx=wxLookup(code);
-    var iconEl=document.getElementById('wx-icon');
-    var tempEl=document.getElementById('wx-temp');
-    var windEl=document.getElementById('wx-wind');
-    var rngEl=document.getElementById('wx-range');
-    var srEl=document.getElementById('wx-sunrise');
-    var ssEl=document.getElementById('wx-sunset');
-    if(iconEl)iconEl.textContent=wx.icon;
-    if(tempEl)tempEl.textContent=Math.round(cw.temperature)+'\u00b0C';
-    if(descEl)descEl.textContent=wx.desc+' \u2022 Joburg';
-    if(windEl&&cw.windspeed!=null){
-      windEl.textContent='\u2022 '+Math.round(cw.windspeed)+' km/h '+windDir(cw.winddirection);
-    }
-    dd=data.daily;
-    if(dd){
-      if(dd.temperature_2m_max&&dd.temperature_2m_max.length&&rngEl){
-        rngEl.textContent='\u2191'+Math.round(dd.temperature_2m_max[0])+'\u00b0 \u2193'+Math.round(dd.temperature_2m_min[0])+'\u00b0';
-      }
-      if(srEl&&dd.sunrise&&dd.sunrise[0])srEl.textContent=parseHHMM(dd.sunrise[0]);
-      if(ssEl&&dd.sunset&&dd.sunset[0])ssEl.textContent=parseHHMM(dd.sunset[0]);
-      codes=dd.weather_code||dd.weathercode;
-      weekly=document.getElementById('wx-weekly');
-      if(weekly&&codes&&dd.temperature_2m_max){
-        dayEls=weekly.getElementsByClassName('wx-day');
-        now2=new Date();
-        for(j=0;j<7&&j<dayEls.length&&j<codes.length;j++){
-          dayDate=new Date(now2.getFullYear(),now2.getMonth(),now2.getDate()+j);
-          wxd=wxLookup(codes[j]);
-          dnEl=dayEls[j].getElementsByClassName('wx-day-name')[0];
-          diEl=dayEls[j].getElementsByClassName('wx-day-icon')[0];
-          dhEl=dayEls[j].getElementsByClassName('wx-day-hi')[0];
-          dlEl=dayEls[j].getElementsByClassName('wx-day-lo')[0];
-          if(dnEl)dnEl.textContent=(j===0)?'Today':DAY_SHORT[dayDate.getDay()];
-          if(diEl)diEl.textContent=wxd.icon;
-          if(dhEl)dhEl.textContent=Math.round(dd.temperature_2m_max[j])+'\u00b0';
-          if(dlEl)dlEl.textContent=Math.round(dd.temperature_2m_min[j])+'\u00b0';
-        }
-      }
-    }
-  };
-  xhr.send();
-}
-
-/* ===== USD/ZAR FX RATE =====
-   open.er-api.com — free, no key, CORS-open, broad TLS compatibility.
-   NO custom headers to avoid preflight on iOS 9 UIWebView.
-   Returns: { "rates": { "ZAR": 18.xx, ... } }
-*/
-function fetchFX() {
-  var el=document.getElementById('fx-rate');
-  if(el)el.textContent=' ...';
-  var xhr=new XMLHttpRequest();
-  xhr.open('GET','https://open.er-api.com/v6/latest/USD',true);
-  /* NO setRequestHeader */
-  xhr.timeout=30000;
-  xhr.ontimeout=function(){
-    var e=document.getElementById('fx-rate');
-    if(e)e.textContent=' --';
-  };
-  xhr.onerror=function(){
-    var e=document.getElementById('fx-rate');
-    if(e)e.textContent=' err';
-  };
-  xhr.onreadystatechange=function(){
-    if(xhr.readyState!==4)return;
-    var e=document.getElementById('fx-rate');
-    if(!e)return;
-    if(xhr.status===200){
-      var data,rate;
-      try{
-        data=JSON.parse(xhr.responseText);
-        rate=(data&&data.rates&&typeof data.rates.ZAR==='number')?data.rates.ZAR:null;
-        e.textContent=(rate!==null)?' R'+rate.toFixed(2):' --';
-      }catch(ex){e.textContent=' --';}
-    }else{
-      e.textContent=' --';
-    }
-  };
-  xhr.send();
-}
-
-/* ===== STOPWATCH ===== */
+function updateClock(){var n=new Date();document.getElementById('hours').textContent=pad(n.getHours());document.getElementById('minutes').textContent=pad(n.getMinutes());document.getElementById('seconds').textContent=pad(n.getSeconds());var DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];document.getElementById('date').textContent=DAYS[n.getDay()]+', '+n.getDate()+' '+MONTHS[n.getMonth()]+' '+n.getFullYear();if(_lastDay!==-1&&_lastDay!==n.getDate()){buildCalendar();setDailyQuote();updateHolCountdown();fetchWeather();fetchFX();}_lastDay=n.getDate();updateSeoul();checkAlarm(n);}
+function buildCalendar(){var n=new Date(),y=n.getFullYear(),m=n.getMonth(),d=n.getDate(),MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];document.getElementById('cal-month').textContent=MONTHS[m]+' '+y;var hols=getSAHolidays(y),cal=document.getElementById('calendar');cal.innerHTML='';var firstDay=new Date(y,m,1).getDay(),daysInMonth=new Date(y,m+1,0).getDate(),i,div,key,cls,todayHol='';for(i=0;i<firstDay;i++){div=document.createElement('div');div.className='empty';div.textContent='.';cal.appendChild(div);}for(i=1;i<=daysInMonth;i++){div=document.createElement('div');key=pad(m+1)+'-'+pad(i);cls=(i===d)?'today':'';if(hols[key]){cls+=(cls?' ':'')+' holiday';if(i===d)todayHol=hols[key];}div.className=cls.trim();div.textContent=i;cal.appendChild(div);}var hn=document.getElementById('holiday-name');if(todayHol){hn.innerHTML='&#127881; Today: '+todayHol;hn.className='holiday-name';}else{var next='',ni;for(ni=d+1;ni<=daysInMonth&&!next;ni++){key=pad(m+1)+'-'+pad(ni);if(hols[key])next=ni+' '+MONTHS[m]+': '+hols[key];}hn.textContent=next?'Next: '+next:'';hn.className='holiday-name hol-next';}}
+var WX_MAP=[[0,'&#9728;','Clear'],[1,'&#127780;','Mainly clear'],[2,'&#9925;','Partly cloudy'],[3,'&#9729;','Overcast'],[45,'&#127787;','Fog'],[48,'&#127787;','Icy fog'],[51,'&#127746;','Lt drizzle'],[53,'&#127746;','Drizzle'],[55,'&#127746;','Hvy drizzle'],[61,'&#127783;','Lt rain'],[63,'&#127783;','Rain'],[65,'&#127783;','Hvy rain'],[71,'&#10052;','Lt snow'],[73,'&#10052;','Snow'],[75,'&#10052;','Hvy snow'],[80,'&#127783;','Showers'],[85,'&#10052;','Snow shwrs'],[95,'&#9928;','Storm'],[99,'&#9928;','Storm']];
+function wxLookup(c){var r={icon:'&#9729;',desc:'Weather'},i;for(i=0;i<WX_MAP.length;i++){if(WX_MAP[i][0]<=c){r.icon=WX_MAP[i][1];r.desc=WX_MAP[i][2];}}return r;}
+function windDir(d){return ['N','NE','E','SE','S','SW','W','NW'][Math.round((d||0)/45)%8];}
+function parseHHMM(s){if(!s)return '--:--';var p=s.split('T');return p.length>1?p[1].substring(0,5):'--:--';}
+function fetchWeather(){var xhr=new XMLHttpRequest();xhr.open('GET','https://api.open-meteo.com/v1/forecast?latitude=-26.2041&longitude=28.0473&current_weather=true&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=Africa%2FJohannesburg&temperature_unit=celsius',true);xhr.onreadystatechange=function(){if(xhr.readyState!==4)return;if(xhr.status===200){try{var data=JSON.parse(xhr.responseText),cw=data.current_weather,wx=wxLookup(cw.weathercode);document.getElementById('wx-icon').innerHTML=wx.icon;document.getElementById('wx-temp').textContent=Math.round(cw.temperature)+'\u00b0C';document.getElementById('wx-desc').textContent=wx.desc+' \u2022 Joburg';document.getElementById('wx-wind').textContent='\u2022 '+Math.round(cw.windspeed)+' km/h '+windDir(cw.winddirection);var dd=data.daily;if(dd&&dd.temperature_2m_max){document.getElementById('wx-range').textContent='\u2191'+Math.round(dd.temperature_2m_max[0])+'\u00b0 \u2193'+Math.round(dd.temperature_2m_min[0])+'\u00b0';}if(dd&&dd.sunrise&&dd.sunrise[0]){document.getElementById('wx-sunrise').textContent=parseHHMM(dd.sunrise[0]);document.getElementById('wx-sunset').textContent=parseHHMM(dd.sunset[0]);}}catch(e){document.getElementById('wx-desc').textContent='Weather error';}}else{document.getElementById('wx-desc').textContent='Weather unavailable';}};xhr.send();}
+function fetchFX(){var xhr=new XMLHttpRequest();xhr.open('GET','https://api.frankfurter.app/latest?from=USD&to=ZAR',true);xhr.onreadystatechange=function(){if(xhr.readyState!==4)return;if(xhr.status===200){try{var d=JSON.parse(xhr.responseText),r=(d.rates&&d.rates.ZAR)?d.rates.ZAR:null;document.getElementById('fx-rate').textContent=r!==null?' R'+r.toFixed(2):'--';}catch(e){document.getElementById('fx-rate').textContent='--';}}else{document.getElementById('fx-rate').textContent='--';}};xhr.send();}
 var swRunning=false,swStart=0,swElapsed=0,swTimer=null;
-function swUpdate(){
-  var e=swElapsed+(Date.now()-swStart),t=Math.floor(e/100);
-  var el=document.getElementById('sw-display');
-  if(el)el.textContent=pad(Math.floor(t/600))+':'+pad(Math.floor(t/10)%60)+'.'+(t%10);
-}
-function swStartStop(){
-  unlockAudio();
-  var btn=document.getElementById('sw-start');
-  if(swRunning){
-    swElapsed+=Date.now()-swStart;clearInterval(swTimer);swRunning=false;
-    if(btn){btn.textContent='Resume';btn.className='btn btn-green';}
-  }else{
-    swStart=Date.now();swTimer=setInterval(swUpdate,100);swRunning=true;
-    if(btn){btn.textContent='Pause';btn.className='btn btn-red';}
-  }
-}
-function swReset(){
-  clearInterval(swTimer);swRunning=false;swElapsed=0;
-  var el=document.getElementById('sw-display'),btn=document.getElementById('sw-start');
-  if(el)el.textContent='00:00.0';
-  if(btn){btn.textContent='Start';btn.className='btn btn-green';}
-}
-
-/* ===== ALARM (webkitAudioContext for iOS 9) ===== */
+function swUpdate(){var e=swElapsed+(Date.now()-swStart),t=Math.floor(e/100);document.getElementById('sw-display').textContent=pad(Math.floor(t/600))+':'+pad(Math.floor(t/10)%60)+'.'+(t%10);}
+function swStartStop(){unlockAudio();var btn=document.getElementById('sw-start');if(swRunning){swElapsed+=Date.now()-swStart;clearInterval(swTimer);swRunning=false;btn.textContent='Resume';btn.className='btn btn-green';}else{swStart=Date.now();swTimer=setInterval(swUpdate,100);swRunning=true;btn.textContent='Pause';btn.className='btn btn-red';}}
+function swReset(){clearInterval(swTimer);swRunning=false;swElapsed=0;document.getElementById('sw-display').textContent='00:00.0';var btn=document.getElementById('sw-start');btn.textContent='Start';btn.className='btn btn-green';}
 var alH=7,alM=0,alActive=false,alFired=false;
-var AudioCtxClass=window.webkitAudioContext||window.AudioContext||null;
+var AudioCtx=window.webkitAudioContext||window.AudioContext||null;
 var audioCtx=null;
-function unlockAudio(){
-  if(AudioCtxClass&&!audioCtx){
-    try{
-      audioCtx=new AudioCtxClass();
-      if(audioCtx.state==='suspended'&&audioCtx.resume){audioCtx.resume();}
-    }catch(e){audioCtx=null;}
-  }
-}
-function alAdj(part,delta){
-  unlockAudio();
-  var el;
-  if(part==='h'){alH=(alH+delta+24)%24;el=document.getElementById('al-h');if(el)el.textContent=pad(alH);}
-  else{alM=(alM+delta+60)%60;el=document.getElementById('al-m');if(el)el.textContent=pad(alM);}
-}
-function alToggle(){
-  unlockAudio();
-  var st=document.getElementById('al-status'),sb=document.getElementById('al-set-btn');
-  if(alActive){
-    alActive=false;alFired=false;
-    if(st){st.textContent='No alarm set';st.className='alarm-status';}
-    if(sb){sb.textContent='Set Alarm';sb.className='btn btn-blue';}
-  }else{
-    alActive=true;alFired=false;
-    if(st){st.textContent='\u23f0 Set: '+pad(alH)+':'+pad(alM);st.className='alarm-status alarm-active';}
-    if(sb){sb.textContent='Cancel';sb.className='btn btn-red';}
-  }
-}
-function _beepAt(offset){
-  if(!audioCtx)return;
-  try{
-    var osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
-    osc.connect(gain);gain.connect(audioCtx.destination);
-    osc.type='sine';osc.frequency.value=880;gain.gain.value=0.35;
-    var t=audioCtx.currentTime+offset;
-    osc.start(t);osc.stop(t+0.18);
-  }catch(e){}
-}
-function playAlarmBeeps(){_beepAt(0);_beepAt(0.28);_beepAt(0.56);}
-function checkAlarm(now){
-  if(!alActive||alFired)return;
-  if(now.getHours()===alH&&now.getMinutes()===alM&&now.getSeconds()<2){
-    alFired=true;
-    playAlarmBeeps();
-    var st=document.getElementById('al-status');
-    if(st){st.textContent='\u23f0 ALARM!';st.className='alarm-status alarm-active ringing';}
-    setTimeout(function(){
-      alActive=false;alFired=false;
-      var e=document.getElementById('al-status'),s=document.getElementById('al-set-btn');
-      if(e){e.textContent='No alarm set';e.className='alarm-status';}
-      if(s){s.textContent='Set Alarm';s.className='btn btn-blue';}
-    },30000);
-  }
-}
-
-/* ===== INIT ===== */
-function init(){
-  buildCalendar();
-  updateHolCountdown();
-  updateClock();
-  fetchWeather();
-  fetchFX();
-  setInterval(updateClock,1000);
-  setInterval(fetchWeather,600000);
-  setInterval(fetchFX,600000);
-}
-
-if(document.readyState==='loading'||document.readyState==='uninitialized'){
-  document.addEventListener('DOMContentLoaded',init);
-}else{
-  init();
-}
+function unlockAudio(){if(AudioCtx&&!audioCtx){try{audioCtx=new AudioCtx();if(audioCtx.state==='suspended'&&audioCtx.resume)audioCtx.resume();}catch(e){audioCtx=null;}}}
+function alAdj(part,delta){unlockAudio();if(part==='h'){alH=(alH+delta+24)%24;document.getElementById('al-h').textContent=pad(alH);}else{alM=(alM+delta+60)%60;document.getElementById('al-m').textContent=pad(alM);}}
+function alToggle(){unlockAudio();var st=document.getElementById('al-status'),sb=document.getElementById('al-set-btn');if(alActive){alActive=false;alFired=false;st.textContent='No alarm set';st.className='alarm-status';sb.textContent='Set Alarm';sb.className='btn btn-blue';}else{alActive=true;alFired=false;st.innerHTML='&#9201; Alarm set for <strong>'+pad(alH)+':'+pad(alM)+'</strong>';st.className='alarm-status alarm-active';sb.textContent='Cancel Alarm';sb.className='btn btn-red';}}
+function playBeep(){if(!audioCtx)return;var i,osc,gain,t;var freqs=[880,1046,880];for(i=0;i<3;i++){try{osc=audioCtx.createOscillator();gain=audioCtx.createGain();osc.connect(gain);gain.connect(audioCtx.destination);osc.type='sine';osc.frequency.value=freqs[i];t=audioCtx.currentTime+(i*0.55);gain.gain.setValueAtTime(0.4,t);gain.gain.exponentialRampToValueAtTime(0.001,t+0.45);osc.start(t);osc.stop(t+0.45);}catch(e){}}}
+function checkAlarm(now){if(!alActive||alFired)return;if(now.getHours()===alH&&now.getMinutes()===alM){alFired=true;playBeep();var st=document.getElementById('al-status'),sb=document.getElementById('al-set-btn');st.innerHTML='&#128276; ALARM! '+pad(alH)+':'+pad(alM);st.className='alarm-status alarm-active ringing';setTimeout(function(){alActive=false;alFired=false;st.textContent='No alarm set';st.className='alarm-status';sb.textContent='Set Alarm';sb.className='btn btn-blue';},90000);}}
+function init(){updateClock();buildCalendar();setDailyQuote();updateHolCountdown();fetchWeather();fetchFX();setInterval(updateClock,1000);setInterval(fetchWeather,3*60*60*1000);setInterval(fetchFX,4*60*60*1000);}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
 </script>
 </body>
 </html>
