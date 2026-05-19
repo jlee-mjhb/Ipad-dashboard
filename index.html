@@ -7,248 +7,245 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="format-detection" content="telephone=no">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
   <style>
-    * {
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-    }
-
+    * { -webkit-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #0a0e1a;
-      color: #e8eaf6;
+      width: 100%; height: 100%; overflow: hidden;
+      background: #0a0e1a; color: #e8eaf6;
       font-family: Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      text-align: center;
+      -webkit-font-smoothing: antialiased; text-align: center;
     }
-
     .app {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      bottom: 15px;
-      left: 15px;
+      position: absolute; top: 15px; right: 15px; bottom: 15px; left: 15px;
+      display: -webkit-box; display: -webkit-flex; display: flex;
+      -webkit-box-orient: vertical; -webkit-box-direction: normal;
+      -webkit-flex-direction: column; flex-direction: column;
     }
 
-    /* ── CLOCK ── */
-    .clock-container {
-      height: 230px;
-      padding-top: 8px;
-    }
-
-    .time-row {
-      display: inline-block;
-    }
-
+    /* CLOCK */
+    .clock-container { -webkit-flex-shrink: 0; flex-shrink: 0; padding-top: 6px; }
+    .time-row { display: inline-block; }
     .time-part {
-      display: inline-block;
-      background: #12172b;
-      border: 1px solid #2a3058;
-      border-radius: 14px;
-      padding: 16px 18px;
-      margin: 0 5px;
-      min-width: 110px;
-      font-size: 88px;
-      font-family: 'Courier New', Courier, monospace;
-      font-weight: bold;
-      color: #c8d8ff;
-      position: relative;
-      -webkit-box-shadow: 0 0 28px rgba(100,140,255,0.25), 0 8px 20px rgba(0,0,0,0.7);
-      box-shadow: 0 0 28px rgba(100,140,255,0.25), 0 8px 20px rgba(0,0,0,0.7);
+      display: inline-block; background: #12172b; border: 1px solid #2a3058;
+      border-radius: 14px; padding: 16px 20px; margin: 0 5px; min-width: 148px;
+      font-size: 120px; font-family: 'Courier New', Courier, monospace; font-weight: bold;
+      color: #c8d8ff; position: relative;
+      -webkit-box-shadow: 0 0 32px rgba(100,140,255,0.28), 0 10px 24px rgba(0,0,0,0.75);
+      box-shadow: 0 0 32px rgba(100,140,255,0.28), 0 10px 24px rgba(0,0,0,0.75);
       line-height: 1;
     }
-
     .time-part::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 5%;
-      width: 90%;
-      height: 1px;
-      background: rgba(42,48,88,0.9);
-      margin-top: -1px;
+      content: ''; position: absolute; top: 50%; left: 5%; width: 90%; height: 1px;
+      background: rgba(42,48,88,0.9); margin-top: -1px;
     }
-
     .time-sep {
-      display: inline-block;
-      font-size: 64px;
-      font-family: 'Courier New', Courier, monospace;
-      font-weight: bold;
-      vertical-align: top;
-      margin-top: 18px;
-      color: #3a4580;
-      line-height: 1;
-      -webkit-animation: blink 1s step-end infinite;
-      animation: blink 1s step-end infinite;
+      display: inline-block; font-size: 80px; font-family: 'Courier New', Courier, monospace;
+      font-weight: bold; vertical-align: top; margin-top: 22px; color: #3a4580; line-height: 1;
+      -webkit-animation: blink 1s step-end infinite; animation: blink 1s step-end infinite;
     }
-
     .sec-part {
-      display: inline-block;
-      font-size: 34px;
-      font-family: 'Courier New', Courier, monospace;
-      font-weight: bold;
-      vertical-align: bottom;
-      margin-bottom: 18px;
-      margin-left: 8px;
-      color: #4a5590;
-      line-height: 1;
+      display: inline-block; font-size: 38px; font-family: 'Courier New', Courier, monospace;
+      font-weight: bold; vertical-align: bottom; margin-bottom: 20px; margin-left: 10px;
+      color: #4a5590; line-height: 1;
     }
+    @-webkit-keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+    .date { font-size: 17px; color: #6878b0; margin-top: 10px; letter-spacing: 1.5px; }
 
-    @-webkit-keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.2; }
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.2; }
-    }
-
-    .date {
-      font-size: 18px;
-      color: #6878b0;
-      margin-top: 14px;
-      letter-spacing: 1.5px;
-    }
-
-    /* ── WEATHER STRIP ── */
+    /* WEATHER */
     .weather-strip {
-      margin-top: 12px;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-box-pack: center;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-box-align: center;
-      -webkit-align-items: center;
-      align-items: center;
-      gap: 0;
+      margin-top: 8px;
+      display: -webkit-box; display: -webkit-flex; display: flex;
+      -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
+      -webkit-box-align: center; -webkit-align-items: center; align-items: center;
+    }
+    .wx-icon { font-size: 24px; margin-right: 6px; line-height: 1; }
+    .wx-temp { font-size: 24px; font-weight: bold; color: #c8d8ff; margin-right: 8px; }
+    .wx-range { font-size: 13px; color: #7888bb; margin-right: 8px; }
+    .wx-desc  { font-size: 13px; color: #6878b0; }
+
+    /* TABS */
+    .tabs {
+      -webkit-flex-shrink: 0; flex-shrink: 0;
+      display: -webkit-box; display: -webkit-flex; display: flex;
+      margin-top: 10px; background: #0e1223; border: 1px solid #1e2448;
+      border-radius: 12px; padding: 4px;
+    }
+    .tab-btn {
+      -webkit-flex: 1; flex: 1;
+      background: none; border: none; color: #4a5590; font-size: 13px;
+      font-family: Helvetica, Arial, sans-serif; padding: 8px 4px;
+      border-radius: 8px; cursor: pointer; letter-spacing: 0.5px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #2a4fcc, #5030cc); color: #fff;
+      -webkit-box-shadow: 0 0 10px rgba(80,120,255,0.4); box-shadow: 0 0 10px rgba(80,120,255,0.4);
     }
 
-    .wx-icon {
-      font-size: 28px;
-      margin-right: 8px;
-      line-height: 1;
+    /* PANEL */
+    .panel { -webkit-flex: 1; flex: 1; overflow: hidden; min-height: 0; margin-top: 8px; }
+    .tab-content {
+      height: 100%; background: #0e1223; border: 1px solid #1e2448;
+      border-radius: 16px; overflow: hidden;
+      display: -webkit-box; display: -webkit-flex; display: flex;
+      -webkit-box-orient: vertical; -webkit-box-direction: normal;
+      -webkit-flex-direction: column; flex-direction: column;
     }
 
-    .wx-temp {
-      font-size: 28px;
-      font-weight: bold;
-      color: #c8d8ff;
-      margin-right: 10px;
+    /* SHARED TAB PANELS */
+    #tab-cal, #tab-sw, #tab-al {
+      -webkit-flex: 1; flex: 1;
+      display: -webkit-box; display: -webkit-flex; display: flex;
+      -webkit-box-orient: vertical; -webkit-box-direction: normal;
+      -webkit-flex-direction: column; flex-direction: column;
+      -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
+      -webkit-box-align: center; -webkit-align-items: center; align-items: center;
+      padding: 10px 14px;
+    }
+    #tab-cal {
+      -webkit-box-pack: start; -webkit-justify-content: flex-start; justify-content: flex-start;
+      -webkit-box-align: stretch; -webkit-align-items: stretch; align-items: stretch;
     }
 
-    .wx-desc {
-      font-size: 14px;
-      color: #6878b0;
-      letter-spacing: 0.5px;
+    /* CALENDAR */
+    .cal-title {
+      font-size: 11px; color: #4a5590; margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 2px; text-align: center;
+      -webkit-flex-shrink: 0; flex-shrink: 0;
     }
-
-    /* ── BOTTOM PANEL ── */
-    .panel {
-      position: absolute;
-      top: 310px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 0 4px;
-    }
-
-    .card-inner {
-      height: 100%;
-      background: #0e1223;
-      border: 1px solid #1e2448;
-      border-radius: 16px;
-      padding: 16px;
-      overflow: hidden;
-      text-align: left;
-      -webkit-box-shadow: inset 0 1px 0 rgba(100,140,255,0.08), 0 4px 24px rgba(0,0,0,0.5);
-      box-shadow: inset 0 1px 0 rgba(100,140,255,0.08), 0 4px 24px rgba(0,0,0,0.5);
-    }
-
-    .title {
-      font-size: 13px;
-      color: #4a5590;
-      margin-bottom: 14px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-align: center;
-    }
-
-    /* ── CALENDAR ── */
-    .cal {
-      font-size: 0;
-    }
-
+    .cal { font-size: 0; -webkit-flex-shrink: 0; flex-shrink: 0; }
     .cal div {
-      display: inline-block;
-      width: 14.285%;
-      text-align: center;
-      font-size: 15px;
-      padding: 9px 0;
-      color: #9aa4d8;
-      vertical-align: top;
-      border-radius: 8px;
+      display: inline-block; width: 14.285%; text-align: center; font-size: 13px;
+      padding: 5px 0; color: #9aa4d8; vertical-align: top; border-radius: 6px;
     }
-
     .cal-header div {
-      color: #3a4570;
-      font-size: 11px;
-      padding-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
+      color: #3a4570; font-size: 10px; padding-bottom: 4px;
+      text-transform: uppercase; letter-spacing: 1.5px;
     }
-
     .today {
-      background: linear-gradient(135deg, #3a6fff, #6a4fff);
-      color: #fff !important;
+      background: linear-gradient(135deg, #3a6fff, #6a4fff); color: #fff !important;
       font-weight: bold;
-      -webkit-box-shadow: 0 0 12px rgba(80,120,255,0.5);
-      box-shadow: 0 0 12px rgba(80,120,255,0.5);
+      -webkit-box-shadow: 0 0 10px rgba(80,120,255,0.5); box-shadow: 0 0 10px rgba(80,120,255,0.5);
+    }
+    .holiday { background: rgba(255,70,70,0.18); color: #ff9999 !important; }
+    .today.holiday {
+      background: linear-gradient(135deg, #cc2244, #992288);
+      color: #fff !important;
+    }
+    .empty { visibility: hidden; }
+    .holiday-name {
+      font-size: 11px; color: #ff8888; margin-top: 6px; text-align: center;
+      -webkit-flex-shrink: 0; flex-shrink: 0; min-height: 16px;
     }
 
-    .empty {
-      visibility: hidden;
+    /* STOPWATCH */
+    .sw-display {
+      font-size: 64px; font-family: 'Courier New', Courier, monospace; font-weight: bold;
+      color: #c8d8ff; letter-spacing: 4px;
+      text-shadow: 0 0 24px rgba(100,140,255,0.3); margin-bottom: 28px;
+    }
+    .btn-row {
+      display: -webkit-box; display: -webkit-flex; display: flex;
+      -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
+    }
+    .btn {
+      background: #12172b; border: 1px solid #2a3058; border-radius: 50px;
+      color: #c8d8ff; font-size: 16px; font-family: Helvetica, Arial, sans-serif;
+      padding: 12px 28px; margin: 0 8px; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-box-shadow: 0 4px 12px rgba(0,0,0,0.4); box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .btn-green { background: linear-gradient(135deg,#1a5c2a,#1d7a38); border-color:#2a9950; color:#aaffcc; }
+    .btn-red   { background: linear-gradient(135deg,#661a1a,#882233); border-color:#993344; color:#ffaaaa; }
+    .btn-blue  { background: linear-gradient(135deg,#1a3a99,#3322aa); border-color:#4433bb; color:#aaccff; }
+
+    /* ALARM */
+    .alarm-status { font-size: 13px; color: #6878b0; margin-bottom: 12px; min-height: 18px; }
+    .alarm-active { color: #ffaa44; }
+    .alarm-controls {
+      display: -webkit-box; display: -webkit-flex; display: flex;
+      -webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;
+      -webkit-box-align: center; -webkit-align-items: center; align-items: center;
+      margin-bottom: 20px;
+    }
+    .al-group {
+      display: -webkit-box; display: -webkit-flex; display: flex;
+      -webkit-box-orient: vertical; -webkit-box-direction: normal;
+      -webkit-flex-direction: column; flex-direction: column;
+      -webkit-box-align: center; -webkit-align-items: center; align-items: center;
+    }
+    .al-label { font-size: 10px; color: #4a5590; letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase; }
+    .al-val {
+      font-size: 52px; font-family: 'Courier New', Courier, monospace; font-weight: bold;
+      color: #c8d8ff; width: 100px; text-align: center; margin: 6px 0;
+    }
+    .al-colon {
+      font-size: 52px; font-family: 'Courier New', Courier, monospace;
+      font-weight: bold; color: #3a4580; margin: 0 6px; padding-top: 22px;
+    }
+    .btn-sm {
+      background: #12172b; border: 1px solid #2a3058; border-radius: 8px;
+      color: #8898cc; font-size: 22px; padding: 4px 0; cursor: pointer;
+      -webkit-tap-highlight-color: transparent; display: block;
+      width: 100px; text-align: center; line-height: 1;
+      font-family: Helvetica, Arial, sans-serif;
     }
 
-    /* ── RESPONSIVE ── */
+    @-webkit-keyframes ring {
+      0%,100%{-webkit-transform:translateX(0);}
+      15%{-webkit-transform:translateX(-8px);}
+      30%{-webkit-transform:translateX(8px);}
+      45%{-webkit-transform:translateX(-6px);}
+      60%{-webkit-transform:translateX(6px);}
+      75%{-webkit-transform:translateX(-4px);}
+      90%{-webkit-transform:translateX(4px);}
+    }
+    @keyframes ring {
+      0%,100%{transform:translateX(0);}
+      15%{transform:translateX(-8px);}
+      30%{transform:translateX(8px);}
+      45%{transform:translateX(-6px);}
+      60%{transform:translateX(6px);}
+      75%{transform:translateX(-4px);}
+      90%{transform:translateX(4px);}
+    }
+    .ringing {
+      color: #ffdd44 !important;
+      -webkit-animation: ring 0.6s ease-in-out 4; animation: ring 0.6s ease-in-out 4;
+    }
+
+    /* RESPONSIVE */
     @media screen and (max-width: 900px) {
-      .clock-container { height: 200px; }
-      .time-part { min-width: 90px; font-size: 70px; padding: 13px 14px; }
-      .time-sep { font-size: 50px; margin-top: 15px; }
-      .sec-part { font-size: 26px; margin-bottom: 14px; }
-      .date { font-size: 15px; }
-      .wx-temp { font-size: 22px; }
-      .wx-icon { font-size: 22px; }
-      .panel { top: 278px; }
+      .time-part { min-width: 118px; font-size: 96px; padding: 14px 16px; }
+      .time-sep { font-size: 64px; margin-top: 18px; }
+      .sec-part { font-size: 30px; margin-bottom: 16px; }
+      .date { font-size: 14px; }
+      .wx-temp { font-size: 20px; } .wx-icon { font-size: 20px; }
+      .sw-display { font-size: 50px; }
+      .al-val { font-size: 42px; width: 82px; } .al-colon { font-size: 42px; } .btn-sm { width: 82px; }
     }
-
     @media screen and (max-width: 600px) {
       .app { top: 10px; right: 10px; bottom: 10px; left: 10px; }
-      .clock-container { height: 165px; }
-      .time-part { min-width: 70px; font-size: 54px; padding: 11px 10px; margin: 0 3px; }
-      .time-sep { font-size: 38px; margin-top: 12px; }
-      .sec-part { font-size: 20px; margin-bottom: 10px; }
-      .date { font-size: 12px; margin-top: 10px; }
-      .wx-temp { font-size: 18px; }
-      .wx-icon { font-size: 18px; }
-      .wx-desc { font-size: 12px; }
-      .panel { top: 238px; padding: 0 2px; }
-      .title { font-size: 11px; margin-bottom: 8px; }
-      .cal div { font-size: 12px; padding: 7px 0; }
+      .time-part { min-width: 80px; font-size: 68px; padding: 11px 10px; margin: 0 3px; }
+      .time-sep { font-size: 44px; margin-top: 14px; }
+      .sec-part { font-size: 22px; margin-bottom: 12px; }
+      .date { font-size: 12px; margin-top: 6px; }
+      .wx-temp { font-size: 17px; } .wx-icon { font-size: 17px; } .wx-range { font-size: 11px; } .wx-desc { font-size: 11px; }
+      .tab-btn { font-size: 11px; padding: 6px 2px; }
+      .cal div { font-size: 11px; padding: 4px 0; }
       .cal-header div { font-size: 9px; }
+      .sw-display { font-size: 38px; letter-spacing: 2px; margin-bottom: 20px; }
+      .al-val { font-size: 34px; width: 68px; margin: 4px 0; } .al-colon { font-size: 34px; padding-top: 14px; } .btn-sm { width: 68px; font-size: 18px; }
+      .btn { font-size: 14px; padding: 10px 18px; margin: 0 4px; }
+      .al-label { font-size: 9px; }
     }
   </style>
 </head>
-
 <body>
   <div class="app">
 
+    <!-- CLOCK -->
     <div class="clock-container">
       <div class="time-row">
         <div class="time-part" id="hours">--</div>
@@ -257,168 +254,314 @@
         <div class="sec-part" id="seconds">00</div>
       </div>
       <div id="date" class="date">Loading&hellip;</div>
-
-      <div class="weather-strip" id="weather-strip">
+      <div class="weather-strip">
         <span class="wx-icon" id="wx-icon">&#9729;</span>
         <span class="wx-temp" id="wx-temp">&ndash;&ndash;&deg;C</span>
-        <span class="wx-desc" id="wx-desc">Fetching weather&hellip;</span>
+        <span class="wx-range" id="wx-range"></span>
+        <span class="wx-desc"  id="wx-desc">Johannesburg&hellip;</span>
       </div>
     </div>
 
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab-btn active" id="btn-cal" onclick="showTab('cal')">&#128197; Calendar</button>
+      <button class="tab-btn"        id="btn-sw"  onclick="showTab('sw')">&#9201; Stopwatch</button>
+      <button class="tab-btn"        id="btn-al"  onclick="showTab('al')">&#128276; Alarm</button>
+    </div>
+
+    <!-- PANEL -->
     <div class="panel">
-      <div class="card-inner">
-        <div id="month" class="title">Calendar</div>
-        <div class="cal cal-header">
-          <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+      <div class="tab-content">
+
+        <!-- CALENDAR TAB -->
+        <div id="tab-cal">
+          <div id="cal-month" class="cal-title">Calendar</div>
+          <div class="cal cal-header">
+            <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+          </div>
+          <div id="calendar" class="cal"></div>
+          <div id="holiday-name" class="holiday-name"></div>
         </div>
-        <div id="calendar" class="cal"></div>
+
+        <!-- STOPWATCH TAB -->
+        <div id="tab-sw" style="display:none">
+          <div class="sw-display" id="sw-display">00:00.0</div>
+          <div class="btn-row">
+            <button class="btn btn-green" id="sw-start" onclick="swStartStop()">Start</button>
+            <button class="btn btn-red"   onclick="swReset()">Reset</button>
+          </div>
+        </div>
+
+        <!-- ALARM TAB -->
+        <div id="tab-al" style="display:none">
+          <div class="alarm-status" id="al-status">No alarm set</div>
+          <div class="alarm-controls">
+            <div class="al-group">
+              <div class="al-label">Hour</div>
+              <button class="btn-sm" onclick="alAdj('h',1)">+</button>
+              <div class="al-val" id="al-h">07</div>
+              <button class="btn-sm" onclick="alAdj('h',-1)">&minus;</button>
+            </div>
+            <div class="al-colon">:</div>
+            <div class="al-group">
+              <div class="al-label">Min</div>
+              <button class="btn-sm" onclick="alAdj('m',1)">+</button>
+              <div class="al-val" id="al-m">00</div>
+              <button class="btn-sm" onclick="alAdj('m',-1)">&minus;</button>
+            </div>
+          </div>
+          <button class="btn btn-blue" id="al-set-btn" onclick="alToggle()">Set Alarm</button>
+        </div>
+
       </div>
     </div>
-
   </div>
 
   <script>
-    /* ── helpers ── */
+    /* HELPERS */
     function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
-    /* ── clock ── */
+    /* TABS */
+    function showTab(name) {
+      var tabs = ['cal','sw','al'], i;
+      for (i = 0; i < tabs.length; i++) {
+        document.getElementById('tab-' + tabs[i]).style.display = (tabs[i] === name) ? '' : 'none';
+        document.getElementById('btn-' + tabs[i]).className = 'tab-btn' + (tabs[i] === name ? ' active' : '');
+      }
+      unlockAudio();
+    }
+
+    /* CLOCK */
     function updateClock() {
       var n = new Date();
       document.getElementById('hours').textContent   = pad(n.getHours());
       document.getElementById('minutes').textContent = pad(n.getMinutes());
       document.getElementById('seconds').textContent = pad(n.getSeconds());
-
       var days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-      var months = ['January','February','March','April','May','June',
-                    'July','August','September','October','November','December'];
-      document.getElementById('date').textContent =
-        days[n.getDay()] + ', ' + n.getDate() + ' ' + months[n.getMonth()] + ' ' + n.getFullYear();
+      var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      document.getElementById('date').textContent = days[n.getDay()] + ', ' + n.getDate() + ' ' + months[n.getMonth()] + ' ' + n.getFullYear();
+      checkAlarm(n);
     }
 
-    /* ── calendar ── */
-    function buildCalendar() {
-      var n = new Date();
-      var y = n.getFullYear();
-      var m = n.getMonth();
-      var d = n.getDate();
-      var months = ['January','February','March','April','May','June',
-                    'July','August','September','October','November','December'];
-      document.getElementById('month').textContent = months[m] + ' ' + y;
-      var cal = document.getElementById('calendar');
-      cal.innerHTML = '';
-      var firstDay    = new Date(y, m, 1).getDay();
-      var daysInMonth = new Date(y, m + 1, 0).getDate();
-      var i, div;
-      for (i = 0; i < firstDay; i++) {
-        div = document.createElement('div');
-        div.className = 'empty';
-        div.textContent = '.';
-        cal.appendChild(div);
-      }
-      for (i = 1; i <= daysInMonth; i++) {
-        div = document.createElement('div');
-        if (i === d) { div.className = 'today'; }
-        div.textContent = i;
-        cal.appendChild(div);
-      }
+    /* SA HOLIDAYS */
+    function getEaster(year) {
+      var a=year%19, b=Math.floor(year/100), c=year%100;
+      var d=Math.floor(b/4), e=b%4, f=Math.floor((b+8)/25);
+      var g=Math.floor((b-f+1)/3);
+      var h=(19*a+b-d-g+15)%30;
+      var ii=Math.floor(c/4), k=c%4;
+      var l=(32+2*e+2*ii-h-k)%7;
+      var m=Math.floor((a+11*h+22*l)/451);
+      var mo=Math.floor((h+l-7*m+114)/31);
+      var dy=((h+l-7*m+114)%31)+1;
+      return new Date(year, mo-1, dy);
     }
 
-    /* ── weather ── */
-    /* WMO weather-code → emoji + label */
-    var WX_MAP = [
-      [0,   '&#9728;',  'Clear sky'],
-      [1,   '&#127780;','Mainly clear'],
-      [2,   '&#9925;',  'Partly cloudy'],
-      [3,   '&#9729;',  'Overcast'],
-      [45,  '&#127787;','Fog'],
-      [48,  '&#127787;','Icy fog'],
-      [51,  '&#127746;','Light drizzle'],
-      [53,  '&#127746;','Drizzle'],
-      [55,  '&#127746;','Heavy drizzle'],
-      [61,  '&#127783;','Light rain'],
-      [63,  '&#127783;','Rain'],
-      [65,  '&#127783;','Heavy rain'],
-      [71,  '&#10052;', 'Light snow'],
-      [73,  '&#10052;', 'Snow'],
-      [75,  '&#10052;', 'Heavy snow'],
-      [80,  '&#127783;','Rain showers'],
-      [85,  '&#10052;', 'Snow showers'],
-      [95,  '&#9928;',  'Thunderstorm'],
-      [99,  '&#9928;',  'Thunderstorm']
-    ];
-
-    function wxLookup(code) {
-      var result = { icon: '&#127760;', desc: 'Weather' };
-      var i;
-      for (i = 0; i < WX_MAP.length; i++) {
-        if (WX_MAP[i][0] <= code) {
-          result.icon = WX_MAP[i][1];
-          result.desc = WX_MAP[i][2];
+    function getSAHolidays(year) {
+      var hols = {};
+      var fixed = [
+        [1,1,"New Year's Day"],[3,21,'Human Rights Day'],
+        [4,27,'Freedom Day'],[5,1,"Workers' Day"],
+        [6,16,'Youth Day'],[8,9,"National Women's Day"],
+        [9,24,'Heritage Day'],[12,16,'Day of Reconciliation'],
+        [12,25,'Christmas Day'],[12,26,'Day of Goodwill']
+      ];
+      var i, dt, key, mon;
+      for (i = 0; i < fixed.length; i++) {
+        dt  = new Date(year, fixed[i][0]-1, fixed[i][1]);
+        key = pad(dt.getMonth()+1)+'-'+pad(dt.getDate());
+        hols[key] = fixed[i][2];
+        if (dt.getDay() === 0) { /* Sunday -> Monday observed */
+          mon = new Date(year, dt.getMonth(), dt.getDate()+1);
+          hols[pad(mon.getMonth()+1)+'-'+pad(mon.getDate())] = fixed[i][2]+' (observed)';
         }
       }
-      return result;
+      var easter  = getEaster(year);
+      var goodFri = new Date(year, easter.getMonth(), easter.getDate()-2);
+      var famDay  = new Date(year, easter.getMonth(), easter.getDate()+1);
+      hols[pad(goodFri.getMonth()+1)+'-'+pad(goodFri.getDate())] = 'Good Friday';
+      hols[pad(famDay.getMonth()+1)+'-'+pad(famDay.getDate())]   = 'Family Day';
+      return hols;
     }
 
-    function setWeather(temp, code) {
-      var wx = wxLookup(code);
-      document.getElementById('wx-icon').innerHTML  = wx.icon;
-      document.getElementById('wx-temp').textContent = Math.round(temp) + '\u00b0C';
-      document.getElementById('wx-desc').textContent = wx.desc;
+    /* CALENDAR */
+    function buildCalendar() {
+      var n=new Date(), y=n.getFullYear(), m=n.getMonth(), d=n.getDate();
+      var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+      document.getElementById('cal-month').textContent = months[m]+' '+y;
+      var hols = getSAHolidays(y);
+      var cal  = document.getElementById('calendar');
+      cal.innerHTML = '';
+      var firstDay    = new Date(y,m,1).getDay();
+      var daysInMonth = new Date(y,m+1,0).getDate();
+      var i, div, key, cls, todayHol='';
+      for (i=0; i<firstDay; i++) {
+        div=document.createElement('div'); div.className='empty'; div.textContent='.'; cal.appendChild(div);
+      }
+      for (i=1; i<=daysInMonth; i++) {
+        div=document.createElement('div');
+        key=pad(m+1)+'-'+pad(i);
+        cls=(i===d)?'today':'';
+        if (hols[key]) { cls+=(cls?' ':')+'holiday'; if (i===d) todayHol=hols[key]; }
+        div.className=cls.trim(); div.textContent=i; cal.appendChild(div);
+      }
+      var hn=document.getElementById('holiday-name');
+      if (todayHol) {
+        hn.innerHTML='&#127881; Today: '+todayHol;
+      } else {
+        var next='';
+        for (i=d+1; i<=daysInMonth&&!next; i++) {
+          key=pad(m+1)+'-'+pad(i);
+          if (hols[key]) next=i+' '+months[m]+': '+hols[key];
+        }
+        hn.textContent=next?('Next: '+next):'';
+      }
     }
 
-    function fetchWeatherForCoords(lat, lon) {
-      var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat +
-                '&longitude=' + lon +
-                '&current_weather=true&temperature_unit=celsius';
-      /* XHR — no fetch() to keep iOS 9 compat */
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', url, true);
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            try {
-              var data = JSON.parse(xhr.responseText);
-              setWeather(data.current_weather.temperature,
-                         data.current_weather.weathercode);
-            } catch (e) {
-              document.getElementById('wx-desc').textContent = 'Weather unavailable';
-            }
-          } else {
-            document.getElementById('wx-desc').textContent = 'Weather unavailable';
+    /* WEATHER - Johannesburg ZA */
+    var JHB_LAT=-26.2041, JHB_LON=28.0473;
+    var WX_MAP=[
+      [0,'&#9728;','Clear sky'],[1,'&#127780;','Mainly clear'],
+      [2,'&#9925;','Partly cloudy'],[3,'&#9729;','Overcast'],
+      [45,'&#127787;','Fog'],[48,'&#127787;','Icy fog'],
+      [51,'&#127746;','Light drizzle'],[53,'&#127746;','Drizzle'],[55,'&#127746;','Heavy drizzle'],
+      [61,'&#127783;','Light rain'],[63,'&#127783;','Rain'],[65,'&#127783;','Heavy rain'],
+      [71,'&#10052;','Light snow'],[73,'&#10052;','Snow'],[75,'&#10052;','Heavy snow'],
+      [80,'&#127783;','Rain showers'],[85,'&#10052;','Snow showers'],
+      [95,'&#9928;','Thunderstorm'],[99,'&#9928;','Thunderstorm']
+    ];
+    function wxLookup(code) {
+      var r={icon:'&#127760;',desc:'Weather'}, i;
+      for (i=0; i<WX_MAP.length; i++) {
+        if (WX_MAP[i][0]<=code) { r.icon=WX_MAP[i][1]; r.desc=WX_MAP[i][2]; }
+      }
+      return r;
+    }
+    function fetchWeather() {
+      var url='https://api.open-meteo.com/v1/forecast?latitude='+JHB_LAT+
+              '&longitude='+JHB_LON+'&current_weather=true'+
+              '&daily=temperature_2m_max,temperature_2m_min'+
+              '&timezone=Africa%2FJohannesburg&temperature_unit=celsius';
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET',url,true);
+      xhr.onreadystatechange=function(){
+        if (xhr.readyState===4&&xhr.status===200) {
+          try {
+            var data=JSON.parse(xhr.responseText);
+            var wx=wxLookup(data.current_weather.weathercode);
+            document.getElementById('wx-icon').innerHTML   = wx.icon;
+            document.getElementById('wx-temp').textContent = Math.round(data.current_weather.temperature)+'\u00b0C';
+            var hi=data.daily&&data.daily.temperature_2m_max?Math.round(data.daily.temperature_2m_max[0]):null;
+            var lo=data.daily&&data.daily.temperature_2m_min?Math.round(data.daily.temperature_2m_min[0]):null;
+            document.getElementById('wx-range').textContent=(hi!==null&&lo!==null)?('\u2191'+hi+'\u00b0 \u2193'+lo+'\u00b0  '):'';
+            document.getElementById('wx-desc').textContent=wx.desc+' \u2022 Johannesburg';
+          } catch(e) {
+            document.getElementById('wx-desc').textContent='Weather unavailable';
           }
         }
       };
       xhr.send();
     }
 
-    function initWeather() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          function(pos) {
-            fetchWeatherForCoords(
-              pos.coords.latitude,
-              pos.coords.longitude
-            );
-          },
-          function() {
-            /* Denied or unavailable — fall back to a neutral default */
-            document.getElementById('wx-icon').innerHTML = '&#9729;';
-            document.getElementById('wx-temp').textContent = '--\u00b0C';
-            document.getElementById('wx-desc').textContent = 'Location unavailable';
-          },
-          { timeout: 8000 }
-        );
+    /* STOPWATCH */
+    var swRunning=false, swStart=0, swElapsed=0, swTimer=null;
+    function swUpdate() {
+      var e=swElapsed+(Date.now()-swStart);
+      var t=Math.floor(e/100);
+      document.getElementById('sw-display').textContent=
+        pad(Math.floor(t/600))+':'+pad(Math.floor(t/10)%60)+'.'+(t%10);
+    }
+    function swStartStop() {
+      unlockAudio();
+      if (swRunning) {
+        swElapsed+=Date.now()-swStart; clearInterval(swTimer); swRunning=false;
+        document.getElementById('sw-start').textContent='Resume';
+        document.getElementById('sw-start').className='btn btn-green';
       } else {
-        document.getElementById('wx-desc').textContent = 'Geolocation not supported';
+        swStart=Date.now(); swTimer=setInterval(swUpdate,100); swRunning=true;
+        document.getElementById('sw-start').textContent='Pause';
+        document.getElementById('sw-start').className='btn btn-red';
+      }
+    }
+    function swReset() {
+      clearInterval(swTimer); swRunning=false; swElapsed=0;
+      document.getElementById('sw-display').textContent='00:00.0';
+      document.getElementById('sw-start').textContent='Start';
+      document.getElementById('sw-start').className='btn btn-green';
+    }
+
+    /* ALARM */
+    var alH=7, alM=0, alActive=false, alFired=false;
+    var AudioCtx=window.AudioContext||window.webkitAudioContext;
+    var audioCtx=null;
+    function unlockAudio() {
+      if (AudioCtx&&!audioCtx) {
+        try {
+          audioCtx=new AudioCtx();
+          if (audioCtx.state==='suspended'&&audioCtx.resume) audioCtx.resume();
+        } catch(e) {}
+      }
+    }
+    function alAdj(part,delta) {
+      unlockAudio();
+      if (part==='h') { alH=(alH+delta+24)%24; document.getElementById('al-h').textContent=pad(alH); }
+      else            { alM=(alM+delta+60)%60; document.getElementById('al-m').textContent=pad(alM); }
+    }
+    function alToggle() {
+      unlockAudio();
+      if (alActive) {
+        alActive=false; alFired=false;
+        document.getElementById('al-status').textContent='No alarm set';
+        document.getElementById('al-status').className='alarm-status';
+        document.getElementById('al-set-btn').textContent='Set Alarm';
+        document.getElementById('al-set-btn').className='btn btn-blue';
+      } else {
+        alActive=true; alFired=false;
+        document.getElementById('al-status').innerHTML='&#9201; Alarm set for <strong>'+pad(alH)+':'+pad(alM)+'</strong>';
+        document.getElementById('al-status').className='alarm-status alarm-active';
+        document.getElementById('al-set-btn').textContent='Cancel Alarm';
+        document.getElementById('al-set-btn').className='btn btn-red';
+      }
+    }
+    function playBeep() {
+      if (!audioCtx) return;
+      var freqs=[880,1046,880], i;
+      for (i=0; i<3; i++) {
+        (function(idx){
+          var osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
+          osc.connect(gain); gain.connect(audioCtx.destination);
+          osc.frequency.value=freqs[idx]; osc.type='sine';
+          var t=audioCtx.currentTime+idx*0.55;
+          gain.gain.setValueAtTime(0.4,t);
+          gain.gain.exponentialRampToValueAtTime(0.001,t+0.45);
+          osc.start(t); osc.stop(t+0.45);
+        })(i);
+      }
+    }
+    function checkAlarm(now) {
+      if (!alActive||alFired) return;
+      if (now.getHours()===alH&&now.getMinutes()===alM) {
+        alFired=true;
+        playBeep();
+        var el=document.getElementById('al-status');
+        el.innerHTML='&#128276; ALARM! '+pad(alH)+':'+pad(alM);
+        el.className='alarm-status ringing';
+        setTimeout(function(){
+          alActive=alFired=false;
+          el.textContent='No alarm set'; el.className='alarm-status';
+          document.getElementById('al-set-btn').textContent='Set Alarm';
+          document.getElementById('al-set-btn').className='btn btn-blue';
+        },90000);
       }
     }
 
-    /* ── boot ── */
+    /* BOOT */
     updateClock();
     buildCalendar();
-    initWeather();
-
-    setInterval(updateClock, 1000);
+    fetchWeather();
+    setInterval(updateClock,   1000);
+    setInterval(buildCalendar, 6*60*60*1000);
+    setInterval(fetchWeather,  3*60*60*1000);
   </script>
 </body>
 </html>
